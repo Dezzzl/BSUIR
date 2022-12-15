@@ -1,0 +1,10 @@
+﻿  Source.cpp
+C:\Users\danil\source\repos\Project4\Project4\Source.cpp(48,22): warning C4244: =: преобразование "float" в "int", возможна потеря данных
+C:\Users\danil\source\repos\Project4\Project4\Source.cpp(53,27): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
+C:\Users\danil\source\repos\Project4\Project4\Source.cpp(71,20): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+C:\Users\danil\source\repos\Project4\Project4\Source.cpp(80,19): warning C4244: =: преобразование "float" в "int", возможна потеря данных
+C:\Users\danil\source\repos\Project4\Project4\Source.cpp(82,20): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+C:\Users\danil\source\repos\Project4\Project4\Source.cpp(91,13): warning C4244: =: преобразование "double" в "float", возможна потеря данных
+C:\Users\danil\source\repos\Project4\Project4\Source.cpp(99,27): warning C4244: =: преобразование "float" в "int", возможна потеря данных
+C:\Users\danil\source\repos\Project4\Project4\Source.cpp(117,27): warning C4244: =: преобразование "float" в "int", возможна потеря данных
+C:\Users\danil\source\repos\Project4\Project4\Source.cpp(36): error C4700: использована неинициализированная локальная переменная "n"

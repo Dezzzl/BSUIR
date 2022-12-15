@@ -1,0 +1,3 @@
+Asus
+DESKTOP-H6PMARM 
+1 но€бр€ 2022 г.  1:00:26

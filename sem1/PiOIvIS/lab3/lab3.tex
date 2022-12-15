@@ -1,0 +1,171 @@
+\documentclass[10pt,twocolumn]{article}
+
+\usepackage[pdftex]{graphicx}
+\usepackage{enumitem}
+\usepackage{indentfirst}
+\usepackage{ledmac}
+
+\setlist{nolistsep}
+\pagenumbering{arabic}
+\hoffset=0in  
+\voffset=-1in
+
+\setlength{\columnwidth}{5in}
+\setlength{\columnsep}{0.30in}
+\setlength{\textheight}{9in}
+
+\renewcommand{\thesection}{\Roman{section}}
+\setcounter{page}{212}
+
+\begin{document}
+\small
+{\setlength{\parindent}{0in} assumptions. When forming an ontology of a subject
+domain based on one of the specified top-level ontologies,
+it can be more easily integrated with other subject
+ontologies. The problem is that there are quite a lot
+of top-level ontologies and giving preference to one of
+them becomes a certain search problem that requires a
+lot of time and effort. In addition, some of them do not
+have open access and are also badly compatible with the
+semantic Web.}
+
+
+The ISO 15926 ontology [17] is considered separately.
+This standard is not only a top-level ontology but also
+a thesaurus of the processing industry, including the
+structure of retention and access to the ontological base.
+Standardization is implemented by using well-defined
+templates for technical and operational information, that
+include classes and relations of the invariant and temporal
+parts of the ontology. The advantages of this ontological
+model are the typification and identification of data located on the Internet; information is stored in RDF-triplets,
+access to triplet storages occurs using the SPARQL query
+language, etc. When creating this model, the developers
+tried to cover all aspects of requests that may arise
+in manufacturing. As a result, the model has hundreds
+of nested classes and attributes at the lower levels of
+production (description of technological equipment), most
+of which may not be used in practice. The temporal part
+increases the complexity of the model several times.
+
+
+Thus, the ontology according to the ISO 15926 standard
+is most suitable for the specified problem. However, it
+should be noted that, taking into account the need for
+a common equipment and ISA-88 knowledge base, it
+was decided to implement the equipment knowledge base
+using OSTIS. In addition, there are restrictions in the
+ISO 15926 standard that are not present in the OSTIS
+Technology.
+
+\vspace{5mm}
+\beginnumbering
+\pstart\vfill\noindent\normalsize\leftskip=3mm\rightskip=3mm\sc
+IV. About ISA-88 and the criteria for
+\pend
+\pstart\vfill\noindent\normalsize\leftskip=3mm\rightskip=3mm\sc
+the decomposition of technology and
+\pend
+\pstart\vfill\noindent\normalsize\centering\sc
+equipment
+\pend
+\endnumbering
+\vspace{5mm}
+
+As already noted above, when creating the equipment
+hierarchy, an engineer faces a number of problems related
+to the need to take into account many factors. The larger
+the technological scheme in terms of the amount of
+equipment and the more connectivities it has, the more
+difficult it is to allocate logically related equipment in it.
+The difficulty also lies in the fact that the standards do not
+and cannot have all the criteria for allocation. Therefore,
+this problem should be considered both from the point
+of view of the limitations and functional requirements
+of the ISA-88 standard and from the point of view of
+experience from best practices. Both can be put into the
+knowledge base [18].
+ 
+ 
+To begin with, let us highlight clear restrictions, using
+which it is quite easy to determine whether the equipment
+belongs to one of the hierarchy levels. According to ISA-88, these levels are:
+\vspace{0.9mm}
+\begin{enumerate}
+\setlength\itemsep{0em}
+\item[1)] the level of the process cells;
+\item[2)] the level of units;
+\item[3)] the level of equipment modules;
+\item[4)] the level of control modules.
+\end{enumerate}
+\vspace{0.9mm}
+
+
+According to the standard, “a process cell is a logical
+grouping of special equipment that includes the equipment
+required for production of one, or more batches”. Exactly
+from the point of view of batch production, the process
+cell is distinguished. If the entire batch of semi-products
+is not developed in the framework of the process cell,
+the equipment that is needed for this should be included.
+Within one process cell, there may be several connected
+elements of special equipment capable of producing several
+batches in parallel. If batches cannot be separated, they
+remain within the same process cell. In addition, the
+process cell must contain at least one unit. 
+
+
+The allocation of units is a little less obvious. There
+are several clear criteria:
+\vspace{0.9mm}
+\begin{enumerate}
+\setlength\itemsep{0em}
+\item[1)] one unit cannot contain several batches;
+
+\item[2)] each technological action occurs immediately (simultaneously) with all the material within one unit;
+\item[3)] the technological operation begins and ends within
+the same unit.
+\end{enumerate}
+\vspace{0.9mm}
+Even less obvious conditions for choosing and combining are the statements:
+\vspace{0.9mm}
+\begin{itemize}
+\setlength\itemsep{0em}
+\item the unit can include all the equipment and control
+modules involved in technological actions;
+\item the unit can work with part of the batch.
+\end{itemize}
+\vspace{0.9mm}
+
+
+All equipment, except for the control module, can
+implement procedural control. That is, from the point
+of view of technology, it contains some procedural elements that perform a technological operation, separating
+itself from the method of its implementation. There are
+operational directives, for example, “heat to the required
+temperature”, as opposed to the directives “open valve
+1” or “if TE101 $>$ 23, close the valve”. The last control
+directive refers to equipment, not technology, and is called
+“basic control” in the standard. This is the main criterion
+that determines the principle of allocating the control
+module – this equipment does not contain procedural
+control. In addition, this part of the hierarchy enables
+real interaction with concrete equipment, while the other
+levels are more role groups. Therefore, the level of control
+modules cannot be omitted in the hierarchy.
+
+
+The concept of procedural control per se is also not
+clear enough. It is difficult to formalize it as well as to
+define in an ontology. However, according to the standard,
+there are certain features inherent in it, in contrast to the
+basic control, such as visibility at the recipe level, a
+characteristic state engine, abstraction from equipment,
+etc.
+
+
+As for the control module, there is one indirect but
+very useful property as a selection criterion  $-$  this
+type of equipment is shown in the P\&ID-schemes as
+instrumentation. According to the standard, the control
+\end{document}

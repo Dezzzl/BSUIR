@@ -1,0 +1,4 @@
+﻿  lvl2.cpp
+C:\Users\danil\source\repos\lab6\lab6\lvl2.cpp(9,20): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\danil\source\repos\lab6\lab6\lvl2.cpp(22,19): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+  lab6.vcxproj -> C:\Users\danil\source\repos\lab6\x64\Debug\lab6.exe

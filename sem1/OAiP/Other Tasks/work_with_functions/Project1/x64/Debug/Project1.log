@@ -1,0 +1,5 @@
+﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(517,5): warning MSB8028: промежуточный каталог (x64\Debug\) содержит файлы, которые используются совместно с другим проектом (Project1.vcxproj).  Это может привести к ошибкам очистки и перестроения.
+  Source.cpp
+C:\Users\danil\source\repos\Project1\Project1\Source.cpp(6,15): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
+C:\Users\danil\source\repos\Project1\Project1\Source.cpp(50,19): warning C4101: j: неиспользованная локальная переменная
+  Project1.vcxproj -> C:\Users\danil\source\repos\Project1\x64\Debug\Lab5_2_Artem.exe

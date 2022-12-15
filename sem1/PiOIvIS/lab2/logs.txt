@@ -1,0 +1,531 @@
+
+danil@DESKTOP-CIO0B6Q MINGW64 / (main)
+$ cd d:
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d
+$ mkdir laba22
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d
+$ cd laba22
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22
+$ git init
+hint: Using 'master' as the name for the initial branch. This default branch name
+hint: is subject to change. To configure the initial branch name to use in all
+hint: of your new repositories, which will suppress this warning, call:
+hint:
+hint:   git config --global init.defaultBranch <name>
+hint:
+hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+hint: 'development'. The just-created branch can be renamed via this command:
+hint:
+hint:   git branch -m <name>
+Initialized empty Git repository in D:/laba22/.git/
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (master)
+$ git status
+On branch master
+
+No commits yet
+
+nothing to commit (create/copy files and use "git add" to track)
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (master)
+$ touch 1.txt
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (master)
+$ git add 1.txt
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (master)
+$ git commit -m "init commit"
+[master (root-commit) 7e3990c] init commit
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 1.txt
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (master)
+$ touch 2.txt
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (master)
+$ git add .
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (master)
+$ git commit -m "first"
+[master e236089] first
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 2.txt
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (master)
+$ git log
+commit e2360891c7933adfd71b6e32e00eed8c0f893e32 (HEAD -> master)
+Author: dazle <vovasamuta123@gmail.com>
+Date:   Thu Nov 3 14:15:31 2022 +0300
+
+    first
+
+commit 7e3990c082e58c4cde7dd3f93f51fecc83836a8e
+Author: dazle <vovasamuta123@gmail.com>
+Date:   Thu Nov 3 14:14:35 2022 +0300
+
+    init commit
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (master)
+$ git config --list
+core.symlinks=false
+core.autocrlf=true
+core.fscache=true
+color.diff=auto
+color.status=auto
+color.branch=auto
+color.interactive=true
+help.format=html
+diff.astextplain.textconv=astextplain
+rebase.autosquash=true
+filter.lfs.clean=git-lfs clean -- %f
+filter.lfs.smudge=git-lfs smudge -- %f
+filter.lfs.process=git-lfs filter-process
+filter.lfs.required=true
+credential.helper=!"D:/git/mingw64/libexec/git-core/git-credential-manager-core.exe"
+filter.lfs.clean=git-lfs clean -- %f
+filter.lfs.smudge=git-lfs smudge -- %f
+filter.lfs.process=git-lfs filter-process
+filter.lfs.required=true
+user.name=dazle
+user.email=vovasamuta123@gmail.com
+core.autocrlf=true
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (master)
+$ touch 3.txt
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (master)
+$ git add 3.txt
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (master)
+$ git status
+On branch master
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        new file:   3.txt
+
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (master)
+$ git rm --cached 3.txt
+rm '3.txt'
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (master)
+$ git status
+On branch master
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        3.txt
+
+nothing added to commit but untracked files present (use "git add" to track)
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (master)
+$ echo "123" > 3.txt
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (master)
+$ git diff 3.txt
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (master)
+$ git add .
+warning: LF will be replaced by CRLF in 3.txt.
+The file will have its original line endings in your working directory
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (master)
+$ git diff 3.txt
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (master)
+$ git commit -m "second"
+[master 298363f] second
+ 1 file changed, 1 insertion(+)
+ create mode 100644 3.txt
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (master)
+$ git diff 3.txt
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (master)
+$ git log -p 3.txt
+commit 298363f4c100c7cc7098998b2f148f14c9682853 (HEAD -> master)
+Author: dazle <vovasamuta123@gmail.com>
+Date:   Thu Nov 3 14:18:51 2022 +0300
+
+    second
+
+diff --git a/3.txt b/3.txt
+new file mode 100644
+index 0000000..190a180
+--- /dev/null
++++ b/3.txt
+@@ -0,0 +1 @@
++123
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (master)
+$ gitk
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (master)
+$ touch 4.txt
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (master)
+$ git add .
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (master)
+$ vim 3.txt
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (master)
+$ git status
+On branch master
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        new file:   4.txt
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   3.txt
+
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (master)
+$ git add .
+warning: LF will be replaced by CRLF in 3.txt.
+The file will have its original line endings in your working directory
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (master)
+$ git commit -m "4"
+[master 64a04d7] 4
+ 2 files changed, 2 insertions(+)
+ create mode 100644 4.txt
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (master)
+$ git config --global user.name "dan"
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (master)
+$ git branch
+* master
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (master)
+$ git branch test
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (master)
+$ git checkout test
+Switched to branch 'test'
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (test)
+$ git checkout -b bagfix
+Switched to a new branch 'bagfix'
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (bagfix)
+$ git checkout master
+Switched to branch 'master'
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (master)
+$ git branch -d bagfix
+Deleted branch bagfix (was 64a04d7).
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (master)
+$ gitk --all
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (master)
+$ vim 3.txt
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (master)
+$ git add .
+warning: LF will be replaced by CRLF in 3.txt.
+The file will have its original line endings in your working directory
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (master)
+$ git commit -m "5"
+[master c80eb6b] 5
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (master)
+$ git checkout test
+Switched to branch 'test'
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (test)
+$ vim 3.txt
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (test)
+$ git checkout master
+error: Your local changes to the following files would be overwritten by checkout:
+        3.txt
+Please commit your changes or stash them before you switch branches.
+Aborting
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (test)
+$ git add .
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (test)
+$ git commit -m "6"
+[test c41eade] 6
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (test)
+$ git checkout test
+Already on 'test'
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (test)
+$ git checkout master
+Switched to branch 'master'
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (master)
+$ git merge test
+Auto-merging 3.txt
+CONFLICT (content): Merge conflict in 3.txt
+Automatic merge failed; fix conflicts and then commit the result.
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (master|MERGING)
+$ git status
+On branch master
+You have unmerged paths.
+  (fix conflicts and run "git commit")
+  (use "git merge --abort" to abort the merge)
+
+Unmerged paths:
+  (use "git add <file>..." to mark resolution)
+        both modified:   3.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (master|MERGING)
+$ vim 3.txt
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (master|MERGING)
+$ git add .
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (master|MERGING)
+$ git merge --continue
+[master 9d62ae5] Merge branch 'test'
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (master)
+$ gitk --all
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (master)
+$ git branch bag
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (master)
+$ ls
+1.txt  2.txt  3.txt  4.txt
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (master)
+$ vim 4.txt
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (master)
+$ git add .
+warning: LF will be replaced by CRLF in 4.txt.
+The file will have its original line endings in your working directory
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (master)
+$ git commit -m "7"
+[master 42d89b2] 7
+ 1 file changed, 1 insertion(+)
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (master)
+$ git checkout bag
+Switched to branch 'bag'
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (bag)
+$ vim 4.txt
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (bag)
+$ git add .
+warning: LF will be replaced by CRLF in 4.txt.
+The file will have its original line endings in your working directory
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (bag)
+$ git commit -m "8"
+[bag e014d9a] 8
+ 1 file changed, 2 insertions(+)
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (bag)
+$ git rebase master
+error: could not apply e014d9a... 8
+Resolve all conflicts manually, mark them as resolved with
+"git add/rm <conflicted_files>", then run "git rebase --continue".
+You can instead skip this commit: run "git rebase --skip".
+To abort and get back to the state before "git rebase", run "git rebase --abort".
+Could not apply e014d9a... 8
+Auto-merging 4.txt
+CONFLICT (content): Merge conflict in 4.txt
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (bag|REBASE 1/1)
+$ git status
+interactive rebase in progress; onto 42d89b2
+Last command done (1 command done):
+   pick e014d9a 8
+No commands remaining.
+You are currently rebasing branch 'bag' on '42d89b2'.
+  (fix conflicts and then run "git rebase --continue")
+  (use "git rebase --skip" to skip this patch)
+  (use "git rebase --abort" to check out the original branch)
+
+Unmerged paths:
+  (use "git restore --staged <file>..." to unstage)
+  (use "git add <file>..." to mark resolution)
+        both modified:   4.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (bag|REBASE 1/1)
+$ vim 4.txt
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (bag|REBASE 1/1)
+$ git add .
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (bag|REBASE 1/1)
+$ git rebase --continue
+[detached HEAD 8f011ec] rebased
+ 1 file changed, 1 insertion(+)
+Successfully rebased and updated refs/heads/bag.
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (bag)
+$ git log
+commit 8f011ecc58ed57ca2e365e8ba09f429ec53c7518 (HEAD -> bag)
+Author: dan <vovasamuta123@gmail.com>
+Date:   Thu Nov 3 14:29:53 2022 +0300
+
+    rebased
+
+commit 42d89b239d123d2b181a988c5e8a5a620a08fe94 (master)
+Author: dan <vovasamuta123@gmail.com>
+Date:   Thu Nov 3 14:29:07 2022 +0300
+
+    7
+
+commit 9d62ae51b571b5e97ebf7d9cedcab3a3ec62ad5c
+Merge: c80eb6b c41eade
+Author: dan <vovasamuta123@gmail.com>
+Date:   Thu Nov 3 14:26:57 2022 +0300
+
+    Merge branch 'test'
+
+commit c41eadec7dfbd53d22740cbebb7bcdc8345accaf (test)
+Author: dan <vovasamuta123@gmail.com>
+Date:   Thu Nov 3 14:25:21 2022 +0300
+
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (bag)
+$ git checkout master
+Switched to branch 'master'
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (master)
+$ git reset --hard ^C
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (master)
+$ git reset --hard 8f011ecc58
+HEAD is now at 8f011ec rebased
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (master)
+$ gitk --all
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (master)
+$ git log
+commit 8f011ecc58ed57ca2e365e8ba09f429ec53c7518 (HEAD -> master, bag)
+Author: dan <vovasamuta123@gmail.com>
+Date:   Thu Nov 3 14:29:53 2022 +0300
+
+    rebased
+
+commit 42d89b239d123d2b181a988c5e8a5a620a08fe94
+Author: dan <vovasamuta123@gmail.com>
+Date:   Thu Nov 3 14:29:07 2022 +0300
+
+    7
+
+commit 9d62ae51b571b5e97ebf7d9cedcab3a3ec62ad5c
+Merge: c80eb6b c41eade
+Author: dan <vovasamuta123@gmail.com>
+Date:   Thu Nov 3 14:26:57 2022 +0300
+
+    Merge branch 'test'
+
+commit c41eadec7dfbd53d22740cbebb7bcdc8345accaf (test)
+Author: dan <vovasamuta123@gmail.com>
+Date:   Thu Nov 3 14:25:21 2022 +0300
+
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (master)
+$ git log
+commit 8f011ecc58ed57ca2e365e8ba09f429ec53c7518 (HEAD -> master, bag)
+Author: dan <vovasamuta123@gmail.com>
+Date:   Thu Nov 3 14:29:53 2022 +0300
+
+    rebased
+
+commit 42d89b239d123d2b181a988c5e8a5a620a08fe94
+Author: dan <vovasamuta123@gmail.com>
+Date:   Thu Nov 3 14:29:07 2022 +0300
+
+    7
+
+commit 9d62ae51b571b5e97ebf7d9cedcab3a3ec62ad5c
+Merge: c80eb6b c41eade
+Author: dan <vovasamuta123@gmail.com>
+Date:   Thu Nov 3 14:26:57 2022 +0300
+
+    Merge branch 'test'
+
+commit c41eadec7dfbd53d22740cbebb7bcdc8345accaf (test)
+Author: dan <vovasamuta123@gmail.com>
+Date:   Thu Nov 3 14:25:21 2022 +0300
+
+    6
+
+commit c80eb6bb07a6de6bfd006c85c23fcb83eeb7aac7
+Author: dan <vovasamuta123@gmail.com>
+Date:   Thu Nov 3 14:24:08 2022 +0300
+
+    5
+
+commit 64a04d7e2016aaf02bccc3505371eea0f2b41a9b
+Author: dazle <vovasamuta123@gmail.com>
+Date:   Thu Nov 3 14:20:50 2022 +0300
+
+    4
+
+commit 298363f4c100c7cc7098998b2f148f14c9682853
+Author: dazle <vovasamuta123@gmail.com>
+Date:   Thu Nov 3 14:18:51 2022 +0300
+
+    second
+
+commit e2360891c7933adfd71b6e32e00eed8c0f893e32
+Author: dazle <vovasamuta123@gmail.com>
+Date:   Thu Nov 3 14:15:31 2022 +0300
+
+    first
+
+commit 7e3990c082e58c4cde7dd3f93f51fecc83836a8e
+Author: dazle <vovasamuta123@gmail.com>
+Date:   Thu Nov 3 14:14:35 2022 +0300
+
+    init commit
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (master)
+$ git checkout 7e3990c082e
+Note: switching to '7e3990c082e'.
+
+You are in 'detached HEAD' state. You can look around, make experimental
+changes and commit them, and you can discard any commits you make in this
+state without impacting any branches by switching back to a branch.
+
+If you want to create a new branch to retain commits you create, you may
+do so (now or later) by using -c with the switch command. Example:
+
+  git switch -c <new-branch-name>
+
+Or undo this operation with:
+
+  git switch -
+
+Turn off this advice by setting config variable advice.detachedHead to false
+
+HEAD is now at 7e3990c init commit
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 ((7e3990c...))
+$ git checkout master
+Previous HEAD position was 7e3990c init commit
+Switched to branch 'master'
+
+danil@DESKTOP-CIO0B6Q MINGW64 /d/laba22 (master)
+$ gitk --all
+
