@@ -1,0 +1,5 @@
+﻿  lab6(count of symbols).cpp
+C:\Users\danil\source\repos\lab6(count of symbols)\lab6(count of symbols)\lab6(count of symbols).cpp(10,20): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\danil\source\repos\lab6(count of symbols)\lab6(count of symbols)\lab6(count of symbols).cpp(23,23): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\danil\source\repos\lab6(count of symbols)\lab6(count of symbols)\lab6(count of symbols).cpp(7,7): warning C4101: mass: неиспользованная локальная переменная
+  lab6(count of symbols).vcxproj -> C:\Users\danil\source\repos\lab6(count of symbols)\x64\Debug\lab6(count of symbols).exe

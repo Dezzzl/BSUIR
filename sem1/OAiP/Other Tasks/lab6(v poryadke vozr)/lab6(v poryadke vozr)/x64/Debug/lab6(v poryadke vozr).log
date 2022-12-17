@@ -1,0 +1,4 @@
+﻿  lab6(v poryadke vozr).cpp
+C:\Users\danil\source\repos\lab6(v poryadke vozr)\lab6(v poryadke vozr)\lab6(v poryadke vozr).cpp(15,20): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\danil\source\repos\lab6(v poryadke vozr)\lab6(v poryadke vozr)\lab6(v poryadke vozr).cpp(51,44): warning C4244: =: преобразование "double" в "int", возможна потеря данных
+  lab6(v poryadke vozr).vcxproj -> C:\Users\danil\source\repos\lab6(v poryadke vozr)\x64\Debug\lab6(v poryadke vozr).exe
