@@ -1,0 +1,4 @@
+﻿  check.cpp
+C:\Users\danil\source\repos\check\check\check.cpp(14,23): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\danil\source\repos\check\check\check.cpp(49,23): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+  check.vcxproj -> C:\Users\danil\source\repos\check\x64\Debug\check.exe

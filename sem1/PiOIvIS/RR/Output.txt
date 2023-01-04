@@ -1,0 +1,82 @@
+TEST-1
+the incidence matrix of the original graph
+1 0 0 0 
+1 1 0 0 
+0 1 1 1 
+0 0 1 1 
+the incidence matrix of the closure graph
+1 1 0 0 
+0 1 1 1 
+0 0 1 1 
+closed vertex is 1,2
+
+TEST-2
+the incidence matrix of the original graph
+1 1 1 0 0 1 
+0 0 0 1 0 0 
+0 0 0 0 0 0 
+0 0 0 0 1 0 
+the incidence matrix of the closure graph
+1 1 1 1 0 1 
+0 0 0 0 0 0 
+0 0 0 0 1 0 
+closed vertex is 1,2
+
+TEST-3
+the incidence matrix of the original graph
+1 0 0 0 
+0 1 0 0 
+0 0 1 0 
+0 0 0 1 
+0 0 0 1 
+the incidence matrix of the closure graph
+1 1 0 0 
+0 0 1 0 
+0 0 0 1 
+0 0 0 1 
+closed vertex is 1,2
+
+TEST-4
+the incidence matrix of the original graph
+1 0 0 0 0 0 0 0 0 0 0 
+0 1 0 0 0 0 0 0 0 0 0 
+0 0 1 1 1 0 0 0 0 0 0 
+0 0 0 1 0 1 0 0 1 0 0 
+0 0 0 0 0 1 1 1 0 0 0 
+0 0 0 0 0 0 0 0 1 0 1 
+0 0 0 0 0 0 0 0 0 1 0 
+0 0 0 0 0 0 0 0 0 0 1 
+0 0 0 0 0 0 0 1 0 1 0 
+0 0 1 0 0 0 0 0 0 0 0 
+0 0 0 0 1 0 1 0 0 0 0 
+the incidence matrix of the closure graph
+1 1 0 0 0 0 0 0 0 0 0 
+0 0 1 1 1 0 0 0 0 0 0 
+0 0 0 1 0 1 0 0 1 0 0 
+0 0 0 0 0 1 1 1 0 0 0 
+0 0 0 0 0 0 0 0 1 0 1 
+0 0 0 0 0 0 0 0 0 1 0 
+0 0 0 0 0 0 0 0 0 0 1 
+0 0 0 0 0 0 0 1 0 1 0 
+0 0 1 0 0 0 0 0 0 0 0 
+0 0 0 0 1 0 1 0 0 0 0 
+closed vertex is 1,2
+
+TEST-5
+the incidence matrix of the original graph
+1 0 1 1 1 1 0 0 0 0 0 0 0 
+1 1 0 0 0 0 1 1 0 0 0 0 0 
+0 1 1 0 0 0 0 0 1 0 0 0 1 
+0 0 0 0 1 0 0 1 1 1 1 0 0 
+0 0 0 1 0 0 1 0 0 0 1 1 0 
+0 0 0 0 0 1 0 0 0 1 0 1 1 
+the incidence matrix of the closure graph
+1 1 1 1 1 1 1 1 0 0 0 0 0 
+0 1 1 0 0 0 0 0 1 0 0 0 1 
+0 0 0 0 1 0 0 1 1 1 1 0 0 
+0 0 0 1 0 0 1 0 0 0 1 1 0 
+0 0 0 0 0 1 0 0 0 1 0 1 1 
+closed vertex is 1,2
+
+TEST-6
+it is impossible to make a closure because there is only one vertex in the graph
