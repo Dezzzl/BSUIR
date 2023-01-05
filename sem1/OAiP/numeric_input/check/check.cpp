@@ -6,10 +6,19 @@ int check_int() {
 	int i, count_of_numbers = 0;
 	char temp[100];
 	int x = 0;
+	bool minus = true;
 	bool flag = true;
 	bool predel = true;
 	while (flag) {
 		gets_s(temp);
+		if (temp[0] == '-') {
+			minus = false;
+			for (i = 0; i < strlen(temp) - 1; i++) {
+				temp[i] = temp[i + 1];
+			}
+			temp[strlen(temp) - 1] = '\0';
+
+		}
 		int n = strlen(temp);
 		for (i = 0; i < n; i++) {
 			if (temp[i] >= '0' && temp[i] <= '9') {
@@ -24,57 +33,71 @@ int check_int() {
 				}
 			}
 		}
-		if (count_of_numbers == n && n<=10 && predel==true) {
-			if (temp[0] == '0') { count_of_numbers = 0; predel=true, cout << "try again\n"; }
+		if (count_of_numbers == n && n <= 10 && predel == true) {
+			if (temp[0] == '0') { count_of_numbers = 0; predel = true, cout << "try again\n"; minus = true; }
 			else flag = false;
 		}
-		else { count_of_numbers = 0; cout << "try again\n"; predel = true; }
-	
-		}
+		else { count_of_numbers = 0; cout << "try again\n"; predel = true; minus = true; }
+
+	}
 	for (i = 0; i < strlen(temp); i++) {
 		x += int((int(temp[i]) - 48) * pow(10, strlen(temp) - (i + 1)));
 	}
-	return x;
-	}
-	
+	if (minus == true)
+		return x;
+	else return -x;
+}
+
 
 double check_double() {
-	int i, count_of_points=0, count_of_numbers=0, point=0;
+	int i, count_of_points = 0, count_of_numbers = 0, point = 0;
 	char temp[100];
-	double x=0;
-	bool flag=true;
+	bool minus = true;
+	double x = 0;
+	bool flag = true;
 	while (flag) {
 		gets_s(temp);
+		if (temp[0] == '-') {
+			minus = false;
+			for (i = 0; i < strlen(temp) - 1; i++) {
+				temp[i] = temp[i + 1];
+			}
+			temp[strlen(temp) - 1] = '\0';
+
+		}
+
 		int n = strlen(temp);
 		for (i = 0; i < n; i++) {
 			if (temp[i] >= '0' && temp[i] <= '9') {
 				count_of_numbers++;
-		}
+			}
 			if (temp[i] == '.') {
 				count_of_points++;
 				point = i;
 			}
 		}
 		if (((count_of_points + count_of_numbers == n) && count_of_points == 1)) {
-			if ((temp[0] == '0' && temp[1] == '0') || temp[0] == '.' || temp[n - 1] == '.') { count_of_points = 0; count_of_numbers = 0; cout << "try again\n"; }
+			if ((temp[0] == '0' && temp[1] == '0') || temp[0] == '.' || temp[n - 1] == '.') { count_of_points = 0; count_of_numbers = 0; minus = true;  cout << "try again\n"; }
 			else flag = false;
 		}
-		else { count_of_points = 0; count_of_numbers = 0; cout << "try again\n"; };
-	
+		else { count_of_points = 0; count_of_numbers = 0; minus = true; cout << "try again\n"; };
+
 
 	}
 	for (i = 0; i < point; i++) {
-		x += double((int(temp[i]) - 48.0) * pow(10.0, point-(i+1)));	
-}
-	for (i = point + 1; i < strlen(temp); i++) {
-		x+= double((int(temp[i]) - 48.0) / pow(10.0, (i-point)));
+		x += double((int(temp[i]) - 48.0) * pow(10.0, point - (i + 1)));
 	}
-	return x;
+	for (i = point + 1; i < strlen(temp); i++) {
+		x += double((int(temp[i]) - 48.0) / pow(10.0, (i - point)));
+	}
+	if (minus == true)
+		return x;
+	else return -x;
 }
 int main() {
 	int f1;
 	f1 = check_int();
-	cout << f1<<"\n";
+	cout << f1 << "\n";
 	double f;
 	f = check_double();
 	cout << f;
