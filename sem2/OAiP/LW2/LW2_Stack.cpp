@@ -136,7 +136,7 @@ int main() {
     while (1) {
         cout << "> ";
         getline(cin, command);
-        if (command == "1") {
+        if (command == "push") {
             cout << "Введите информацию для ввода: ";
             cin >> info; cin.ignore();
             st = push(st, info);
