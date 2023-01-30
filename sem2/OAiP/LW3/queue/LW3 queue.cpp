@@ -1,12 +1,11 @@
 ﻿#include<iostream>
-#include<iomanip>;
 using namespace std;
 struct queue {
 	int info;
 	queue* next;
 };
 
-void push(int info, queue**begin, queue**end){
+void push(int info, queue** begin, queue** end) {
 	queue* st = new queue;
 	st->info = info;
 	st->next = NULL;
@@ -17,10 +16,10 @@ void push(int info, queue**begin, queue**end){
 	}
 }
 
-void info(queue*begin) {
+void info(queue* begin) {
 	queue* st = begin;
 	while (st != NULL) {
-		cout << st->info<<" ";
+		cout << st->info << " ";
 		st = st->next;
 	}
 	cout << endl;
@@ -46,33 +45,33 @@ void sort(queue* begin) {
 }
 queue* pop(queue* begin) {
 	if (begin == NULL)return nullptr;
-	queue* st=begin;
+	queue* st = begin;
 	begin = begin->next;
 	delete st;
 	return begin;
 }
-void del(queue** begin, queue **end) {
+void del(queue** begin, queue** end) {
 	queue* st;
 	while (*begin != NULL) {
 		st = *begin;
-		*begin=(*begin)->next;
+		*begin = (*begin)->next;
 		delete st;
 	}
 	*end = NULL;
 }
-void del_info(int info, queue**begin) {
+void del_info(int info, queue** begin) {
 	queue* st = *begin;
-	queue* st1=*begin;
+	queue* st1 = *begin;
 	while (st->info != info) {
 		if (st->next->info == info)st1 = st;
 		st = st->next;
 	}
 	if (st == NULL)cout << "Такого элемента нет\n";
-	else if(st==*begin) {
+	else if (st == *begin) {
 		*begin = (*begin)->next;
 		delete st;
 	}
-	else{
+	else {
 		st1->next = st->next;
 		delete st;
 	}
@@ -97,9 +96,9 @@ void task(queue* begin, queue** b1, queue** e1, int max) {
 }
 void menu() {
 	cout << "Меню:" << endl << "1-Создать или добавить элемент в очередь" << endl
-		<< "2-Просмотр" << endl << "3-Сортировка" << endl << "4-Удаление элемента" << 
-		endl << "5-Удаление очереди" << endl<<"6-Удаление по значеню"<<endl
-		<<"7-Индвивдуальное задание" << endl << "0-Выход" << endl;
+		<< "2-Просмотр" << endl << "3-Сортировка" << endl << "4-Удаление элемента" <<
+		endl << "5-Удаление очереди" << endl << "6-Удаление по значеню" << endl
+		<< "7-Индвивдуальное задание" << endl << "8-Основная очередь" << endl << "9-Меню" << endl << "0-Выход" << endl;
 }
 int main() {
 	setlocale(LC_ALL, "russian");
@@ -177,6 +176,7 @@ int main() {
 			}
 			else cout << "Вы работате с основной очередью!\n";
 		}
+		else if (choice == 9) menu();
 		else if (choice == 0) { del(&begin, &end); break; }
 	}
 	return 0;
