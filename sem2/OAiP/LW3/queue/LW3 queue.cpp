@@ -172,7 +172,7 @@ int main() {
 				begin1 = begin; end1 = end;
 				begin = buff1; end = buff2;
 				main = true;
-				peek = false;
+				peek = true;
 			}
 			else cout << "Вы работате с основной очередью!\n";
 		}
