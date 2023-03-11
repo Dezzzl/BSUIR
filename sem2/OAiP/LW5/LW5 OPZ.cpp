@@ -46,6 +46,9 @@ bool expressionCheck(const char* expression) {
             if (expression[i + 1] >= 'a' && expression[i + 1] <= 'z') {
                 clear(brackets, &bracketcheck); return false;
             }
+            if (i >= 2) {
+                if (expression[i - 2] == '(') { clear(brackets, &bracketcheck); return false; }
+            }
             if (brackets == NULL) { clear(brackets, &bracketcheck); return false; }
             else { brackets = pop(brackets, &bracketcheck); continue; }
         }
@@ -61,16 +64,21 @@ bool expressionCheck(const char* expression) {
         else { clear(brackets, &bracketcheck); return false; }
     }
     if (expression[i] == '(' || expression[i] == '*' || expression[i] == '+' || expression[i] == '-' || expression[i] == '/') { clear(brackets, &bracketcheck); return false; }
-    if (expression[i] == ')')
+    else if (expression[i] == ')')
     {
         if (brackets == NULL) { clear(brackets, &bracketcheck); return false; }
         else
         {
             brackets = pop(brackets, &bracketcheck);
             if (brackets != NULL) { clear(brackets, &bracketcheck); return false; }
+            else if (i >= 2) {
+                if (expression[i - 2] == '(') { clear(brackets, &bracketcheck); return false; }
+            }
+            return true;
         }
     }
-    if (brackets != NULL) { clear(brackets, &bracketcheck); return false; }
+    else if (brackets != NULL) { clear(brackets, &bracketcheck); return false; }
+    else if (expression[i] < 'a' || expression[i] > 'z') { clear(brackets, &bracketcheck); return false; }
     else return true;
 }
 void createOPZ(const char* expression, char* OPZ)
