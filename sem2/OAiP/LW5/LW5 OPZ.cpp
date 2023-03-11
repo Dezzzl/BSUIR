@@ -17,6 +17,9 @@ Stack* pop(Stack* st, char* s) {
     delete temp;
     return st;
 }
+void clear(Stack* st, char* s) {
+    while (st != NULL)st = pop(st, s);
+}
 int Prior(char a) {
     switch (a) {
     case '*': 	case '/': 	return 3;
@@ -30,44 +33,44 @@ bool expressionCheck(const char* expression) {
     char bracketcheck;
     Stack* brackets = NULL;
     int i = 0;
-    if (expression[i] == ')' || expression[i] == '*' || expression[i] == '+' || expression[i] == '-' || expression[i] == '/')return false;
+    if (expression[i] == ')' || expression[i] == '*' || expression[i] == '+' || expression[i] == '-' || expression[i] == '/') { clear(brackets, &bracketcheck); return false; }
     for (i = 0; i < strlen(expression) - 1; i++)
     {
         if (expression[i] == '(')
         {
-            if (expression[i + 1] == '*' || expression[i + 1] == '+' || expression[i + 1] == '-' || expression[i + 1] == '/' || expression[i + 1] == ')') { return false; }
+            if (expression[i + 1] == '*' || expression[i + 1] == '+' || expression[i + 1] == '-' || expression[i + 1] == '/' || expression[i + 1] == ')') { clear(brackets, &bracketcheck); return false; }
             else { brackets = push(brackets, expression[i]); continue; }
         }
         else  if (expression[i] == ')')
         {
             if (expression[i + 1] >= 'a' && expression[i + 1] <= 'z') {
-                return false;
+                clear(brackets, &bracketcheck); return false;
             }
-            if (brackets == NULL)return false;
+            if (brackets == NULL) { clear(brackets, &bracketcheck); return false; }
             else { brackets = pop(brackets, &bracketcheck); continue; }
         }
         else  if (expression[i] == '*' || expression[i] == '+' || expression[i] == '-' || expression[i] == '/') {
-            if (expression[i + 1] == '*' || expression[i + 1] == '-' || expression[i + 1] == '+' || expression[i + 1] == '/' || expression[i + 1] == ')')return false;
+            if (expression[i + 1] == '*' || expression[i + 1] == '-' || expression[i + 1] == '+' || expression[i + 1] == '/' || expression[i + 1] == ')') { clear(brackets, &bracketcheck); return false; }
             else continue;
         }
         else if (expression[i] >= 'a' && expression[i] <= 'z') {
-            if ((expression[i + 1] >= 'a' && expression[i] <= 'z') || expression[i + 1] == '(')return false;
-            else if (brackets == NULL && expression[i + 1] == ')')return false;
+            if ((expression[i + 1] >= 'a' && expression[i] <= 'z') || expression[i + 1] == '(') { clear(brackets, &bracketcheck); return false; }
+            else if (brackets == NULL && expression[i + 1] == ')') { clear(brackets, &bracketcheck); return false; }
             else continue;
         }
-        else return false;
+        else { clear(brackets, &bracketcheck); return false; }
     }
-    if (expression[i] == '(' || expression[i] == '*' || expression[i] == '+' || expression[i] == '-' || expression[i] == '/')return false;
+    if (expression[i] == '(' || expression[i] == '*' || expression[i] == '+' || expression[i] == '-' || expression[i] == '/') { clear(brackets, &bracketcheck); return false; }
     if (expression[i] == ')')
     {
-        if (brackets == NULL)return false;
+        if (brackets == NULL) { clear(brackets, &bracketcheck); return false; }
         else
         {
             brackets = pop(brackets, &bracketcheck);
-            if (brackets != NULL)return false;
-            else return true;
+            if (brackets != NULL) { clear(brackets, &bracketcheck); return false; }
         }
     }
+    if (brackets != NULL) { clear(brackets, &bracketcheck); return false; }
     else return true;
 }
 void createOPZ(const char* expression, char* OPZ)
@@ -167,7 +170,7 @@ int main() {
     char OPZ[100];
     while (1) {
         cout << "Введите выражение\n";
-            gets_s(expression);
+        gets_s(expression);
         bool check = expressionCheck(expression);
         if (check == false) { cout << "Выражение некорректно! Попробуйте ещё\n";  continue; }
         else { cout << "Выражение корректно!\n"; break; }
