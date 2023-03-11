@@ -35,7 +35,7 @@ bool expressionCheck(const char* expression) {
     {
         if (expression[i] == '(')
         {
-            if (expression[i + 1] == '*' || expression[i + 1] == '+' || expression[i + 1] == '-' || expression[i + 1] == '/' || expression[i + 1] == ')' || expression[i + 1] == '(') { return false; }
+            if (expression[i + 1] == '*' || expression[i + 1] == '+' || expression[i + 1] == '-' || expression[i + 1] == '/' || expression[i + 1] == ')') { return false; }
             else { brackets = push(brackets, expression[i]); continue; }
         }
         else  if (expression[i] == ')')
@@ -58,6 +58,16 @@ bool expressionCheck(const char* expression) {
         else return false;
     }
     if (expression[i] == '(' || expression[i] == '*' || expression[i] == '+' || expression[i] == '-' || expression[i] == '/')return false;
+    if (expression[i] == ')')
+    {
+        if (brackets == NULL)return false;
+        else
+        {
+            brackets = pop(brackets, &bracketcheck);
+            if (brackets != NULL)return false;
+            else return true;
+        }
+    }
     else return true;
 }
 void createOPZ(const char* expression, char* OPZ)
@@ -148,16 +158,16 @@ float result(char* OPZ)
         }
 
     }
-    delete arr;
+    delete[]arr;
     return result;
 }
 int main() {
     setlocale(LC_ALL, "rus");
-    char expression[100];
+    char expression[100] = "(a+(((a+d)+a)+d))";
     char OPZ[100];
     while (1) {
         cout << "Введите выражение\n";
-        gets_s(expression);
+        /*    gets_s(expression);*/
         bool check = expressionCheck(expression);
         if (check == false) { cout << "Выражение некорректно! Попробуйте ещё\n";  continue; }
         else { cout << "Выражение корректно!\n"; break; }
