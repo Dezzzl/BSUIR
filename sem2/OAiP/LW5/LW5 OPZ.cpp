@@ -163,11 +163,11 @@ float result(char* OPZ)
 }
 int main() {
     setlocale(LC_ALL, "rus");
-    char expression[100] = "(a+(((a+d)+a)+d))";
+    char expression[100];
     char OPZ[100];
     while (1) {
         cout << "Введите выражение\n";
-        /*    gets_s(expression);*/
+            gets_s(expression);
         bool check = expressionCheck(expression);
         if (check == false) { cout << "Выражение некорректно! Попробуйте ещё\n";  continue; }
         else { cout << "Выражение корректно!\n"; break; }
