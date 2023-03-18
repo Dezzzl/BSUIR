@@ -34,7 +34,7 @@
 
 ### Тестирование 
 ![](https://github.com/iit-22170x/RPIIS/blob/e450a92812d1c365a7f97324e198be32c13c5413/sem2/img/LW2_test1.png)   
-![](https://github.com/iit-22170x/RPIIS/blob/e450a92812d1c365a7f97324e198be32c13c5413/sem2/img/LW2_test2.png)   
+![](https://github.com/iit-22170x/RPIIS/blob/f695bce9b2af4a7429ce9f65d9ffaf30454d7e59/sem2/img/LW2_test2.png)    
 - **Тест-1**  
 Симметрическая разность 3-ех множеств.  
 - **Тест-2**  

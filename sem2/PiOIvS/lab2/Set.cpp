@@ -76,7 +76,7 @@ Set Set::Unification(Set set2, Set& used)
 		}
 		for (int i = 0; i < Differences[0].size(); i++)
 			if(!used.contains(Differences[0].info[i]))
-			result.add(info[i]);
+			result.add(Differences[0].info[i]);
 		for (int i = 1; i < sets.size(); i++)
 			result = result.Unification(Differences[i], used);
 		return result;
