@@ -24,8 +24,7 @@
 - **int size()** - возвращает количество элементов в множестве.
 - **Set symmetricDifference(Set set2)** - симметрическая разность двух множеств.
 - **Set symmetricDifference(vector\<Set\> sets)** - симметрическая разность нескольких множеств.
-- **Set Difference(Set set2, Set& used)** - разность двух множеств.
-- **Set Unification(Set set2, Set& used)** - объединение двух множеств, с учетом ненужных элементов(находятся во множестве used).
+- **void sort(vector\<int\>&count)** - метод, используемый для релизации алгоритма симметрической разности.
 - **Set** - конструктор множества.
 - **~Set** - деструктор для удаления множества.
 
@@ -33,8 +32,8 @@
 Программа основана на классе Set, в котором описаны основные методы и методы симметрической разности.
 
 ### Тестирование 
-![](https://github.com/iit-22170x/RPIIS/blob/e450a92812d1c365a7f97324e198be32c13c5413/sem2/img/LW2_test1.png)   
-![](https://github.com/iit-22170x/RPIIS/blob/f695bce9b2af4a7429ce9f65d9ffaf30454d7e59/sem2/img/LW2_test2.png)    
+![](https://github.com/iit-22170x/RPIIS/blob/7b73802c710594bcc1d826953d2ee049300788cf/sem2/img/LW2(2.1).png)   
+![](https://github.com/iit-22170x/RPIIS/blob/7b73802c710594bcc1d826953d2ee049300788cf/sem2/img/LW2(2.2).png)    
 - **Тест-1**  
 Симметрическая разность 3-ех множеств.  
 - **Тест-2**  
