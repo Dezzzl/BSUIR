@@ -8,17 +8,23 @@ Set::Set() = default;
 Set::~Set() = default;
 void Set::add(string elem)
 {
+	vector<string>v;
+	if (elem[0] == '{' || elem[0] == '<')
+	{
+		v = parsing_string(elem);
+		elem = parsing_vec(v);
+	}
 	info.push_back(elem);
 }
 void Set::printSet()
 {
-	cout << "{ ";
+	cout << "{";
 	for (int i = 0; i < info.size(); i++) {
 		cout << info[i];
 		if (i < info.size() - 1)
-			cout << ", ";
+			cout << ",";
 	}
-	cout << " }\n";
+	cout << "}\n";
 }
 void Set::remove(string elem) {
 	for (int i = 0; i < info.size(); i++)
@@ -81,4 +87,82 @@ Set Set::symmetricDifference(vector<Set>sets) {
 			for (int p = 0; p < diff; p++)result.add(used.info[i]);
 		}
 	return result;
+}
+vector<string> Set::parsing_string(string elem)
+{
+	vector<string>result;
+	string member;
+	for (int i = 0; i < elem.length(); i++) {
+		if (elem[i] == '{' || elem[i] == '}' || elem[i] == '<' || elem[i] == '>') {
+			if (!member.empty()) {
+				result.push_back(member);
+				member.clear();
+			}
+			member.clear();
+			member += elem[i];
+			result.push_back(member);
+			member.clear();
+		}
+		else if (elem[i] == ',')
+		{
+			if (member.empty())continue;
+			result.push_back(member);
+			member.clear();
+		}
+		else {
+			member += elem[i];
+		}
+
+	}
+	return result;
+}
+string Set::parsing_vec(vector<string>& set)
+{
+	stack<elem>st;
+	elem buff;
+	for (int i = 0; i < set.size(); i++) {
+		if (set[i] == "{" || set[i] == "<") {
+			buff.index = i;
+			buff.bracket = set[i];
+			st.push(buff);
+		}
+		else if (set[i] == "}")
+		{
+			buff = st.top();
+			st.pop();
+			sort(set, buff.index + 1, i - 1);
+			compare(set, buff.index + 1, i - 1);
+		}
+		else if (set[i] == ">")
+		{
+			buff = st.top();
+			st.pop();
+			compare(set, buff.index + 1, i - 1);
+		}
+
+	}
+	return set[0];
+}
+void Set::sort(vector<string>& set, int start, int finish)
+{
+	if (finish < start || finish == start)return;
+	for (int i = start; i <= finish; i++)
+		for (int j = start; j < finish; j++) {
+			if (set[i].empty() || set[j].empty())continue;
+			if (set[i] > set[j])swap(set[i], set[j]);
+		}
+}
+void Set::compare(vector<string>& set, int start, int finish)
+{
+	for (int i = start; i <= finish; i++)
+	{
+		if (set[i].empty())continue;
+		set[start - 1] += set[i];
+		set[start - 1] += ",";
+		set[i].clear();
+	}
+	if (set[start - 1][set[start - 1].length() - 1] == ',')
+		set[start - 1].pop_back();
+	set[start - 1] += set[finish + 1];
+	set[finish + 1].clear();
 }
