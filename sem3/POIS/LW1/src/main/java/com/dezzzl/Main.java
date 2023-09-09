@@ -9,11 +9,13 @@ public class Main {
         polynomial1.displayPolynomial();
         polynomial2.displayPolynomial();
         Polynomial result=polynomial1.addition(polynomial2);
-        Polynomial dif1=polynomial1.difference(polynomial2);
-        Polynomial dif2=polynomial2.difference(polynomial1);
+        Polynomial dif1=polynomial1.subtract(polynomial2);
+        Polynomial dif2=polynomial2.subtract(polynomial1);
+        Polynomial mult=polynomial1.multiply(polynomial2);
         System.out.println(polynomial1.calculateTheValue(1));
         result.displayPolynomial();
         dif1.displayPolynomial();
         dif2.displayPolynomial();
+        mult.displayPolynomial();
     }
 }

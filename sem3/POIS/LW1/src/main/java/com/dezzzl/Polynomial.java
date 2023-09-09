@@ -2,6 +2,7 @@ package main.java.com.dezzzl;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -92,10 +93,50 @@ public class Polynomial {
         return resultingPolynomial;
     }
 
-    public Polynomial difference(Polynomial other) {
+    public Polynomial divide(Polynomial second){
+        
+    }
+    public Polynomial subtract(Polynomial other) {
         Polynomial oppositePolynomial = makeOpposite(other);
         return addition(oppositePolynomial);
     }
+
+    public Polynomial multiply(Polynomial second) {
+        List<List<Double>> intermediateResults =createMatrixOfIntermediateResults(second);
+        List<Double> resultCoefficients = createCoefficientList(intermediateResults);
+        Collections.reverse(resultCoefficients);
+        return new Polynomial(resultCoefficients, resultCoefficients.size() - 1);
+    }
+
+    private  List<Double> createCoefficientList(List<List<Double>> intermediateResults) {
+        List<Double> resultCoefficients = new ArrayList<>(intermediateResults.get(intermediateResults.size() - 1));
+        for (int i = 0; i < intermediateResults.size() - 1; i++) {
+            for (int j = 0; j < intermediateResults.get(i).size(); j++) {
+                double sum = resultCoefficients.get(j) + intermediateResults.get(i).get(j);
+                resultCoefficients.set(j, sum);
+            }
+        }
+        return resultCoefficients;
+    }
+
+    private List<List<Double>> createMatrixOfIntermediateResults(Polynomial second) {
+        List<List<Double>> intermediateResults =new ArrayList<>();
+        int numberOfZeroesInRow = 0;
+        for (int degreeSecond = second.getDegree(); degreeSecond >= 0; degreeSecond--) {
+            List<Double> row = new ArrayList<>();
+            for (int i = 0; i < numberOfZeroesInRow; i++) {
+                row.add(0.0);
+            }
+            for (int degreeFirst = this.getDegree(); degreeFirst >= 0; degreeFirst--) {
+                double product = second.getCoefficient(degreeSecond) * this.getCoefficient(degreeFirst);
+                row.add(product);
+            }
+            numberOfZeroesInRow++;
+            intermediateResults.add(row);
+        }
+        return intermediateResults;
+    }
+
 
     private Polynomial makeOpposite(Polynomial polynomial) {
         Polynomial oppositePolynomial = new Polynomial(polynomial.getDegree());
