@@ -30,12 +30,13 @@ public class Polynomial {
         this.degree = degree;
     }
 
-    public void displayPolynomial() {
+    @Override
+    public String toString() {
         StringBuilder polynomial = new StringBuilder();
         for (int coefficientNumber = degree; coefficientNumber >= 0; coefficientNumber--) {
             if (isTheCoefficientNotEqualToZero(coefficients.get(coefficientNumber))) {
                 polynomial.append(coefficients.get(coefficientNumber));
-            }
+            } else continue;
             if ((!isTheCoefficientNumberEqualToOne(coefficientNumber)) && (isTheCoefficientNumberNotEqualToZero(coefficientNumber))) {
                 polynomial.append("x^" + coefficientNumber);
             }
@@ -46,7 +47,10 @@ public class Polynomial {
                 polynomial.append(" + ");
             }
         }
-        System.out.println(polynomial);
+        if (polynomial.charAt(polynomial.length() - 1) == ' ') {
+            polynomial.replace(polynomial.length() - 2, polynomial.length() - 1, "");
+        }
+        return polynomial.toString();
     }
 
     private boolean isTheCoefficientNotEqualToZero(double coefficient) {
@@ -90,25 +94,78 @@ public class Polynomial {
             double resultingCoefficient = resultingPolynomial.getCoefficient(coefficientNumber) + polynomialWithSmallestDegree.getCoefficient(coefficientNumber);
             resultingPolynomial.setCoefficient(coefficientNumber, resultingCoefficient);
         }
+        while (resultingPolynomial.getCoefficient(resultingPolynomial.getDegree()) == 0 && resultingPolynomial.getDegree() > 0) {
+            resultingPolynomial.coefficients.remove(resultingPolynomial.getDegree());
+            resultingPolynomial.setDegree(resultingPolynomial.getDegree() - 1);
+        }
         return resultingPolynomial;
     }
 
-    public Polynomial divide(Polynomial second){
-        
+    public List<Polynomial> divide(Polynomial divider) {
+        if (this.getDegree() < divider.getDegree()) return null;
+        List<Polynomial> partsOfQuotient = new ArrayList<>();
+        Polynomial mod = this;
+        List<Polynomial> modAndQuotient = new ArrayList<>();
+        while (true) {
+            Polynomial result = findTheCoeffAndDegree(mod, divider);
+            if (result != null) {
+                partsOfQuotient.add(result);
+                Polynomial res = multiplyTheDividerByTheResult(divider, result);
+                mod = subtractTheResultFromTheDivisor(mod, res);
+            } else {
+                modAndQuotient.add(mod);
+                break;
+            }
+        }
+        Polynomial quotient = getQuotient(partsOfQuotient);
+        modAndQuotient.add(quotient);
+        return modAndQuotient;
     }
+
+    private Polynomial getQuotient(List<Polynomial> partsOfQuotient) {
+        Polynomial quotient = partsOfQuotient.get(0);
+        for (int part = 0; part < partsOfQuotient.size() - 1; part++) {
+            quotient = quotient.addition(partsOfQuotient.get(part + 1));
+        }
+        return quotient;
+    }
+
+    private Polynomial subtractTheResultFromTheDivisor(Polynomial divisor, Polynomial result) {
+        return divisor.subtract(result);
+    }
+
+    private Polynomial multiplyTheDividerByTheResult(Polynomial divider, Polynomial result) {
+        return divider.multiply(result);
+    }
+
+    private Polynomial findTheCoeffAndDegree(Polynomial mod, Polynomial divider) {
+        if (divider.getDegree() > mod.getDegree()) {
+            return null;
+        } else {
+            double seniorCoefficient = mod.getCoefficient(mod.getDegree()) / divider.getCoefficient(divider.getDegree());
+            int degree = mod.getDegree() - divider.getDegree();
+            Polynomial result = new Polynomial(degree);
+            for (int coefficientNumber = 0; coefficientNumber < result.getDegree(); coefficientNumber++) {
+                result.coefficients.add(0.0);
+            }
+            result.coefficients.add(seniorCoefficient);
+            return result;
+        }
+    }
+
     public Polynomial subtract(Polynomial other) {
         Polynomial oppositePolynomial = makeOpposite(other);
         return addition(oppositePolynomial);
     }
 
     public Polynomial multiply(Polynomial second) {
-        List<List<Double>> intermediateResults =createMatrixOfIntermediateResults(second);
+        List<List<Double>> intermediateResults = createMatrixOfIntermediateResults(second);
         List<Double> resultCoefficients = createCoefficientList(intermediateResults);
         Collections.reverse(resultCoefficients);
         return new Polynomial(resultCoefficients, resultCoefficients.size() - 1);
     }
 
-    private  List<Double> createCoefficientList(List<List<Double>> intermediateResults) {
+    private List<Double> createCoefficientList(List<List<Double>> intermediateResults) {
         List<Double> resultCoefficients = new ArrayList<>(intermediateResults.get(intermediateResults.size() - 1));
         for (int i = 0; i < intermediateResults.size() - 1; i++) {
             for (int j = 0; j < intermediateResults.get(i).size(); j++) {
@@ -120,7 +177,7 @@ public class Polynomial {
     }
 
     private List<List<Double>> createMatrixOfIntermediateResults(Polynomial second) {
-        List<List<Double>> intermediateResults =new ArrayList<>();
+        List<List<Double>> intermediateResults = new ArrayList<>();
         int numberOfZeroesInRow = 0;
         for (int degreeSecond = second.getDegree(); degreeSecond >= 0; degreeSecond--) {
             List<Double> row = new ArrayList<>();
@@ -147,9 +204,6 @@ public class Polynomial {
         return oppositePolynomial;
     }
 
-    private boolean isMinuend(Polynomial polynomial) {
-        return equals(polynomial);
-    }
 
     @Override
     public boolean equals(Object o) {
