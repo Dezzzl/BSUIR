@@ -8,11 +8,16 @@ public class InputPolynomial {
 
     private static final Scanner scanner = new Scanner(System.in);
     public  Polynomial inputPolynomial(){
-        System.out.println("Введите степень многочлена");
-        int degree = inputDegree();
-        System.out.println("Введите коэффициенты многочлена");
-        List<Double>coefficients=inputCoefficients(degree);
-        return new Polynomial(coefficients, degree);
+        boolean isPolynomial=true;
+        while(true) {
+            System.out.println("Введите степень многочлена");
+            int degree = inputDegree();
+            System.out.println("Введите коэффициенты многочлена");
+            List<Double> coefficients = inputCoefficients(degree);
+            Polynomial polynomial= new Polynomial(coefficients, degree);
+          isPolynomial=polynomial.isPolynomial();
+          if(isPolynomial)return polynomial;
+        }
     }
 
     private List<Double> inputCoefficients(int degree) {

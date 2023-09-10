@@ -47,10 +47,18 @@ public class Polynomial {
                 polynomial.append(" + ");
             }
         }
-        if (polynomial.charAt(polynomial.length() - 1) == ' ') {
+        if (polynomial.length()>2&&polynomial.charAt(polynomial.length() - 1) == ' ') {
             polynomial.replace(polynomial.length() - 2, polynomial.length() - 1, "");
         }
         return polynomial.toString();
+    }
+
+    public  boolean isPolynomial(){
+        int countOfCoefficientsNotEqualToZero=0;
+        for(int coefficientNumber=0; coefficientNumber<=this.getDegree(); coefficientNumber++){
+            if(this.getCoefficient(coefficientNumber)!=0)countOfCoefficientsNotEqualToZero++;
+        }
+        return countOfCoefficientsNotEqualToZero > 1;
     }
 
     private boolean isTheCoefficientNotEqualToZero(double coefficient) {
@@ -101,55 +109,55 @@ public class Polynomial {
         return resultingPolynomial;
     }
 
-    public List<Polynomial> divide(Polynomial divider) {
-        if (this.getDegree() < divider.getDegree()) return null;
-        List<Polynomial> partsOfQuotient = new ArrayList<>();
-        Polynomial mod = this;
-        List<Polynomial> modAndQuotient = new ArrayList<>();
+    public List<Polynomial> divide(Polynomial divisor) {
+        if (this.getDegree() < divisor.getDegree()) return null;
+        List<Polynomial> quotientParts = new ArrayList<>();
+        Polynomial remainder = this;
+        List<Polynomial> remainderAndQuotient = new ArrayList<>();
         while (true) {
-            Polynomial result = findTheCoeffAndDegree(mod, divider);
-            if (result != null) {
-                partsOfQuotient.add(result);
-                Polynomial res = multiplyTheDividerByTheResult(divider, result);
-                mod = subtractTheResultFromTheDivisor(mod, res);
+            Polynomial divisionResult = findQuotientTerm(remainder, divisor);
+            if (divisionResult != null) {
+                quotientParts.add(divisionResult);
+                Polynomial product = multiplyQuotientByDivisor(divisionResult, divisor);
+                remainder = subtractProductFromRemainder(remainder, product);
             } else {
-                modAndQuotient.add(mod);
+                remainderAndQuotient.add(remainder);
                 break;
             }
         }
-        Polynomial quotient = getQuotient(partsOfQuotient);
-        modAndQuotient.add(quotient);
-        return modAndQuotient;
+        Polynomial quotient = calculateQuotient(quotientParts);
+        remainderAndQuotient.add(quotient);
+        return remainderAndQuotient;
     }
 
-    private Polynomial getQuotient(List<Polynomial> partsOfQuotient) {
-        Polynomial quotient = partsOfQuotient.get(0);
-        for (int part = 0; part < partsOfQuotient.size() - 1; part++) {
-            quotient = quotient.addition(partsOfQuotient.get(part + 1));
+    private Polynomial calculateQuotient(List<Polynomial> quotientParts) {
+        Polynomial quotient = quotientParts.get(0);
+        for (int part = 0; part < quotientParts.size() - 1; part++) {
+            quotient = quotient.addition(quotientParts.get(part + 1));
         }
         return quotient;
     }
 
-    private Polynomial subtractTheResultFromTheDivisor(Polynomial divisor, Polynomial result) {
-        return divisor.subtract(result);
+    private Polynomial subtractProductFromRemainder(Polynomial remainder, Polynomial product) {
+        return remainder.subtract(product);
     }
 
-    private Polynomial multiplyTheDividerByTheResult(Polynomial divider, Polynomial result) {
-        return divider.multiply(result);
+    private Polynomial multiplyQuotientByDivisor(Polynomial quotient, Polynomial divisor) {
+        return divisor.multiply(quotient);
     }
 
-    private Polynomial findTheCoeffAndDegree(Polynomial mod, Polynomial divider) {
-        if (divider.getDegree() > mod.getDegree()) {
+    private Polynomial findQuotientTerm(Polynomial remainder, Polynomial divisor) {
+        if (divisor.getDegree() > remainder.getDegree()) {
             return null;
         } else {
-            double seniorCoefficient = mod.getCoefficient(mod.getDegree()) / divider.getCoefficient(divider.getDegree());
-            int degree = mod.getDegree() - divider.getDegree();
-            Polynomial result = new Polynomial(degree);
-            for (int coefficientNumber = 0; coefficientNumber < result.getDegree(); coefficientNumber++) {
-                result.coefficients.add(0.0);
+            double leadingCoefficient = remainder.getCoefficient(remainder.getDegree()) / divisor.getCoefficient(divisor.getDegree());
+            int degree = remainder.getDegree() - divisor.getDegree();
+            Polynomial divisionResult = new Polynomial(degree);
+            for (int coefficientNumber = 0; coefficientNumber < divisionResult.getDegree(); coefficientNumber++) {
+                divisionResult.coefficients.add(0.0);
             }
-            result.coefficients.add(seniorCoefficient);
-            return result;
+            divisionResult.coefficients.add(leadingCoefficient);
+            return divisionResult;
         }
     }
 
