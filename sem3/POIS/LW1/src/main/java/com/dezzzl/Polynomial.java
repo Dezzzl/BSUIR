@@ -12,23 +12,51 @@ public class Polynomial {
 
     private int degree;
 
+    /**
+     * Конструктор класса, создающий многочлен на основе заданных коэффициентов и степени.
+     *
+     * @param coefficients Список коэффициентов многочлена.
+     * @param degree       Степень многочлена.
+     */
     public Polynomial(List<Double> coefficients, int degree) {
         this.coefficients = coefficients;
         this.degree = degree;
     }
 
+    /**
+     * Конструктор класса, создающий пустой многочлен заданной степени.
+     *
+     * @param degree Степень многочлена.
+     */
     public Polynomial(int degree) {
         this.degree = degree;
         coefficients = new ArrayList<>(degree + 1);
     }
 
+    /**
+     * Устанавливает значение коэффициента по заданному индексу.
+     *
+     * @param coefficientNumber Степень при коэффициенте.
+     * @param coefficient       Значение коэффициента которое будет установлено у данной степени.
+     */
     public void setCoefficient(int coefficientNumber, double coefficient) {
         coefficients.set(coefficientNumber, coefficient);
     }
 
+    /**
+     * Устанавливает степень многочлена.
+     *
+     * @param degree степень многочлена.
+     */
     public void setDegree(int degree) {
         this.degree = degree;
     }
+
+    /**
+     * Возвращает многочлен в виде строки.
+     *
+     * @return Многочлен в виде строки.
+     */
 
     @Override
     public String toString() {
@@ -47,18 +75,23 @@ public class Polynomial {
                 polynomial.append(" + ");
             }
         }
-        if (polynomial.length()>2&&polynomial.charAt(polynomial.length() - 1) == ' ') {
-            polynomial.replace(polynomial.length() - 2, polynomial.length() - 1, "");
+        if (polynomial.length() > 2 && polynomial.charAt(polynomial.length() - 1) == ' ') {
+            polynomial.replace(polynomial.length() - 3, polynomial.length(), "");
         }
         return polynomial.toString();
     }
 
-    public  boolean isPolynomial(){
-        int countOfCoefficientsNotEqualToZero=0;
-        for(int coefficientNumber=0; coefficientNumber<=this.getDegree(); coefficientNumber++){
-            if(this.getCoefficient(coefficientNumber)!=0)countOfCoefficientsNotEqualToZero++;
+    /**
+     * Возвращает количество коэффициентов не равных 0 м ногочлене.
+     *
+     * @return количество коэффициентов не равных 0 м ногочлене.
+     */
+    public int getCountOfNotZeroCoefficients() {
+        int countOfCoefficientsNotEqualToZero = 0;
+        for (int coefficientNumber = 0; coefficientNumber <= this.getDegree(); coefficientNumber++) {
+            if (this.getCoefficient(coefficientNumber) != 0) countOfCoefficientsNotEqualToZero++;
         }
-        return countOfCoefficientsNotEqualToZero > 1;
+        return countOfCoefficientsNotEqualToZero;
     }
 
     private boolean isTheCoefficientNotEqualToZero(double coefficient) {
@@ -73,14 +106,32 @@ public class Polynomial {
         return coefficientNumber == 1;
     }
 
+    /**
+     * Возвращает степень многочлена.
+     *
+     * @return степень многочлена.
+     */
     public int getDegree() {
         return degree;
     }
+
+    /**
+     * Возвращает коэффициент при переданной степени.
+     *
+     * @param coefficientNumber степень при коэффициенте, который хотим получить.
+     * @return коэффициент при переданной степени.
+     */
 
     public double getCoefficient(int coefficientNumber) {
         return coefficients.get(coefficientNumber);
     }
 
+    /**
+     * Расчитывает значение многочлена для заданного аргумента
+     *
+     * @param argument значение аргумента
+     * @return значение многочлена для заданного аргумента
+     */
     public double calculateTheValue(double argument) {
         double polynomialValue = 0;
         for (int coefficientNumber = degree; coefficientNumber > 0; coefficientNumber--) {
@@ -91,6 +142,12 @@ public class Polynomial {
         return polynomialValue;
     }
 
+    /**
+     * Выполняет сложение многочлена с другим многочленом.
+     *
+     * @param other Другой многочлен.
+     * @return Результат сложения многочленов.
+     */
     public Polynomial addition(Polynomial other) {
         Polynomial polynomialWithHighestDegree = getPolynomialWithHighestDegree(other);
         Polynomial polynomialWithSmallestDegree = getPolynomialWithSmallestDegree(other);
@@ -109,10 +166,21 @@ public class Polynomial {
         return resultingPolynomial;
     }
 
+
+    /**
+     * Выполняет деление многочлена на другой многочлен и возвращает как результат
+     * частное и остаток от деления в виде списка многочленов.
+     *
+     * @param divisor Делитель (многочлен, на который делится текущий многочлен).
+     * @return Список, содержащий частное и остаток от деления.
+     */
     public List<Polynomial> divide(Polynomial divisor) {
-        if (this.getDegree() < divisor.getDegree()) return null;
         List<Polynomial> quotientParts = new ArrayList<>();
         Polynomial remainder = this;
+        if (this.getDegree() < divisor.getDegree()) {
+            remainder = divisor;
+            divisor = this;
+        }
         List<Polynomial> remainderAndQuotient = new ArrayList<>();
         while (true) {
             Polynomial divisionResult = findQuotientTerm(remainder, divisor);
@@ -161,11 +229,23 @@ public class Polynomial {
         }
     }
 
+    /**
+     * Выполняет вычитание другого многочлена из данного многочлена.
+     *
+     * @param other Другой многочлен.
+     * @return Результат вычитания многочленов.
+     */
     public Polynomial subtract(Polynomial other) {
         Polynomial oppositePolynomial = makeOpposite(other);
         return addition(oppositePolynomial);
     }
 
+    /**
+     * Выполняет умножение многочлена на другой многочлен.
+     *
+     * @param second Второй многочлен.
+     * @return Результат умножения многочленов.
+     */
     public Polynomial multiply(Polynomial second) {
         List<List<Double>> intermediateResults = createMatrixOfIntermediateResults(second);
         List<Double> resultCoefficients = createCoefficientList(intermediateResults);
@@ -213,6 +293,12 @@ public class Polynomial {
     }
 
 
+    /**
+     * Проверяет равенство текущего многочлена другому объекту.
+     *
+     * @param o Объект для сравнения.
+     * @return true, если объекты равны, иначе false.
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -221,6 +307,11 @@ public class Polynomial {
         return degree == that.degree && Objects.equals(coefficients, that.coefficients);
     }
 
+    /**
+     * Вычисляет хэш-код для текущего многочлена.
+     *
+     * @return Хэш-код многочлена.
+     */
     @Override
     public int hashCode() {
         return Objects.hash(coefficients, degree);
