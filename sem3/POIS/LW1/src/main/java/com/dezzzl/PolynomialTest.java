@@ -6,6 +6,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import static org.junit.Assert.*;
 
@@ -99,7 +100,7 @@ public class PolynomialTest {
                 assertEquals(expected.getCoefficient(j), actual.getCoefficient(j), 0.001);
             }
         }
-
+        
         List<Polynomial> results2 = polynomial4.divide(polynomial3);
         List<Polynomial> expectedResults2 = new ArrayList<>(Arrays.asList(
                 new Polynomial(new ArrayList<>(Arrays.asList(13.0000, 588.8519, 850.6667)), 2),

@@ -29,8 +29,7 @@ public class Polynomial {
      * @param degree Степень многочлена.
      */
     public Polynomial(int degree) {
-        this.degree = degree;
-        coefficients = new ArrayList<>(degree + 1);
+       this(new ArrayList<>(degree+1), degree);
     }
 
     /**
@@ -62,17 +61,20 @@ public class Polynomial {
     public String toString() {
         StringBuilder polynomial = new StringBuilder();
         for (int coefficientNumber = degree; coefficientNumber >= 0; coefficientNumber--) {
+            if (this.getCoefficient(coefficientNumber)>0 && coefficientNumber!=degree) {
+                polynomial.append(" + ");
+            }
+            if(this.getCoefficient(coefficientNumber)<0){
+                polynomial.append(" - ");
+            }
             if (isTheCoefficientNotEqualToZero(coefficients.get(coefficientNumber))) {
-                polynomial.append(coefficients.get(coefficientNumber));
+                polynomial.append(Math.abs(coefficients.get(coefficientNumber)));
             } else continue;
             if ((!isTheCoefficientNumberEqualToOne(coefficientNumber)) && (isTheCoefficientNumberNotEqualToZero(coefficientNumber))) {
                 polynomial.append("x^" + coefficientNumber);
             }
             if (isTheCoefficientNumberEqualToOne(coefficientNumber)) {
                 polynomial.append("x");
-            }
-            if (isTheCoefficientNumberNotEqualToZero(coefficientNumber)) {
-                polynomial.append(" + ");
             }
         }
         if (polynomial.length() > 2 && polynomial.charAt(polynomial.length() - 1) == ' ') {
