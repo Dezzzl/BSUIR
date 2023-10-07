@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GWF version="2.0">
+    <staticSector>
+        <node type="node/const/perm/relation" idtf="Продукт*" shapeColor="0" id="2534666416544" parent="2534666738080" left="0" top="0" right="68" bottom="25" textColor="164" text_angle="0" text_font="Times New Roman" font_size="10" x="2007.23" y="545.093" haveBus="false" idtf_pos="0">
+            <content type="0" mime_type="" content_visibility="false" file_name=""/>
+        </node>
+        <node type="node/const/perm/group" idtf="Компания" shapeColor="0" id="2534666420912" parent="2534666738080" left="0" top="0" right="68" bottom="25" textColor="164" text_angle="0" text_font="Times New Roman" font_size="10" x="1777.23" y="533.093" haveBus="false" idtf_pos="0">
+            <content type="0" mime_type="" content_visibility="false" file_name=""/>
+        </node>
+        <node type="node/var/perm/general" idtf="_Компания" shapeColor="0" id="2534666420704" parent="2534666738080" left="0" top="0" right="75" bottom="25" textColor="164" text_angle="0" text_font="Times New Roman" font_size="10" x="1775.73" y="659.593" haveBus="false" idtf_pos="0">
+            <content type="0" mime_type="" content_visibility="false" file_name=""/>
+        </node>
+        <node type="node/const/perm/group" idtf="Смартфон" shapeColor="0" id="2534666422368" parent="2534666738080" left="0" top="0" right="73" bottom="25" textColor="164" text_angle="0" text_font="Times New Roman" font_size="10" x="2227.23" y="533.093" haveBus="false" idtf_pos="0">
+            <content type="0" mime_type="" content_visibility="false" file_name=""/>
+        </node>
+        <node type="node/var/perm/general" idtf="_Смартфон" shapeColor="0" id="2534666419040" parent="2534666738080" left="0" top="0" right="80" bottom="25" textColor="164" text_angle="0" text_font="Times New Roman" font_size="10" x="2226.73" y="658.593" haveBus="false" idtf_pos="0">
+            <content type="0" mime_type="" content_visibility="false" file_name=""/>
+        </node>
+        <pair type="pair/var/-/perm/orient" idtf="" shapeColor="0" id="2534666725104" parent="2534666738080" id_b="2534666420704" id_e="2534666419040" b_x="1775.73" b_y="659.593" e_x="2226.73" e_y="658.593" dotBBalance="0" dotEBalance="0">
+            <points/>
+        </pair>
+        <pair type="pair/var/pos/perm/orient/membership" idtf="" shapeColor="0" id="2534666723424" parent="2534666738080" id_b="2534666416544" id_e="2534666725104" b_x="2007.23" b_y="545.093" e_x="0" e_y="0" dotBBalance="0" dotEBalance="0.487202">
+            <points/>
+        </pair>
+        <pair type="pair/var/pos/perm/orient/membership" idtf="" shapeColor="0" id="2534663607776" parent="2534666738080" id_b="2534666422368" id_e="2534666419040" b_x="2227.23" b_y="533.093" e_x="2226.73" e_y="658.593" dotBBalance="0" dotEBalance="0">
+            <points/>
+        </pair>
+        <pair type="pair/var/pos/perm/orient/membership" idtf="" shapeColor="0" id="2534666724384" parent="2534666738080" id_b="2534666420912" id_e="2534666420704" b_x="1777.23" b_y="533.093" e_x="1775.73" e_y="659.593" dotBBalance="0" dotEBalance="0">
+            <points/>
+        </pair>
+        <contour type="contour/const/perm" idtf="" shapeColor="0" id="2534666738080" parent="0">
+            <points>
+                <point x="1723.23" y="480.094"/>
+                <point x="1722.23" y="720.093"/>
+                <point x="2330.23" y="720.093"/>
+                <point x="2331.23" y="477.094"/>
+            </points>
+        </contour>
+        <node type="node/var/perm/general" idtf="_Смартфон" shapeColor="0" id="2534666418832" parent="2534666742496" left="0" top="0" right="80" bottom="25" textColor="164" text_angle="0" text_font="Times New Roman" font_size="10" x="1693.23" y="256.093" haveBus="false" idtf_pos="0">
+            <content type="0" mime_type="" content_visibility="false" file_name=""/>
+        </node>
+        <node type="node/var/perm/general" idtf="_Компания" shapeColor="0" id="2534666420496" parent="2534666742496" left="0" top="0" right="75" bottom="25" textColor="164" text_angle="0" text_font="Times New Roman" font_size="10" x="1607.23" y="232.093" haveBus="false" idtf_pos="0">
+            <content type="0" mime_type="" content_visibility="false" file_name=""/>
+        </node>
+        <contour type="contour/const/perm" idtf="" shapeColor="0" id="2534666742496" parent="0">
+            <points>
+                <point x="1580.65" y="204.515"/>
+                <point x="1787.98" y="205.515"/>
+                <point x="1788.65" y="285.183"/>
+                <point x="1581.98" y="283.183"/>
+            </points>
+        </contour>
+        <node type="node/var/perm/general" idtf="_Компания" shapeColor="0" id="2534666423200" parent="2534662227600" left="0" top="0" right="75" bottom="25" textColor="164" text_angle="0" text_font="Times New Roman" font_size="10" x="1767.34" y="962.974" haveBus="false" idtf_pos="0">
+            <content type="0" mime_type="" content_visibility="false" file_name=""/>
+        </node>
+        <node type="node/const/perm/group" idtf="Компания" shapeColor="0" id="2534666419664" parent="2534662227600" left="0" top="0" right="68" bottom="25" textColor="164" text_angle="0" text_font="Times New Roman" font_size="10" x="1768.84" y="836.474" haveBus="false" idtf_pos="0">
+            <content type="0" mime_type="" content_visibility="false" file_name=""/>
+        </node>
+        <node type="node/var/perm/general" idtf="_Смартфон" shapeColor="0" id="2534664393024" parent="2534662227600" left="0" top="0" right="80" bottom="25" textColor="164" text_angle="0" text_font="Times New Roman" font_size="10" x="2218.34" y="961.974" haveBus="false" idtf_pos="0">
+            <content type="0" mime_type="" content_visibility="false" file_name=""/>
+        </node>
+        <node type="node/const/perm/relation" idtf="Производитель смартфона*" shapeColor="0" id="2534664395312" parent="2534662227600" left="0" top="0" right="178" bottom="25" textColor="164" text_angle="0" text_font="Times New Roman" font_size="10" x="1986.84" y="851.474" haveBus="false" idtf_pos="0">
+            <content type="0" mime_type="" content_visibility="false" file_name=""/>
+        </node>
+        <pair type="pair/var/-/perm/orient" idtf="" shapeColor="0" id="2534665865168" parent="2534662227600" id_b="2534664393024" id_e="2534666423200" b_x="2218.34" b_y="961.974" e_x="1767.34" e_y="962.974" dotBBalance="0" dotEBalance="0">
+            <points/>
+        </pair>
+        <pair type="pair/var/pos/perm/orient/membership" idtf="" shapeColor="0" id="2534666723184" parent="2534662227600" id_b="2534666421120" id_e="2534664393024" b_x="2219.18" b_y="841.81" e_x="2218.34" e_y="961.974" dotBBalance="0" dotEBalance="0">
+            <points/>
+        </pair>
+        <pair type="pair/var/pos/perm/orient/membership" idtf="" shapeColor="0" id="2534665230928" parent="2534662227600" id_b="2534664395312" id_e="2534665865168" b_x="1986.84" b_y="851.474" e_x="0" e_y="0" dotBBalance="0" dotEBalance="0.487202">
+            <points/>
+        </pair>
+        <pair type="pair/var/pos/perm/orient/membership" idtf="" shapeColor="0" id="2534665231568" parent="2534662227600" id_b="2534666419664" id_e="2534666423200" b_x="1768.84" b_y="836.474" e_x="1767.34" e_y="962.974" dotBBalance="0" dotEBalance="0">
+            <points/>
+        </pair>
+        <contour type="contour/const/perm" idtf="" shapeColor="0" id="2534662227600" parent="0">
+            <points>
+                <point x="1714.84" y="783.474"/>
+                <point x="1713.84" y="1023.47"/>
+                <point x="2321.85" y="1023.47"/>
+                <point x="2322.85" y="780.474"/>
+            </points>
+        </contour>
+        <node type="node/const/perm/general" idtf="" shapeColor="0" id="2534664794480" parent="0" x="2028.92" y="382.443" haveBus="false" idtf_pos="0">
+            <content type="1" mime_type="content/term" content_visibility="true" file_name=""><![CDATA[Производитель смартфонов - это компания, которая занимается производством смартфонов]]></content>
+        </node>
+        <node type="node/const/perm/role" idtf="связываемые переменные'" shapeColor="0" id="2534666417376" parent="0" left="0" top="0" right="161" bottom="25" textColor="164" text_angle="0" text_font="Times New Roman" font_size="10" x="1505.32" y="185.479" haveBus="false" idtf_pos="5">
+            <content type="0" mime_type="" content_visibility="false" file_name=""/>
+        </node>
+        <node type="node/const/perm/tuple" idtf="" shapeColor="0" id="2534666421536" parent="0" x="1422.09" y="164.557" haveBus="true" idtf_pos="0">
+            <content type="0" mime_type="" content_visibility="false" file_name=""/>
+        </node>
+        <node type="node/const/perm/tuple" idtf="" shapeColor="0" id="2534666419872" parent="0" x="1573.23" y="439.094" haveBus="true" idtf_pos="0">
+            <content type="0" mime_type="" content_visibility="false" file_name=""/>
+        </node>
+        <node type="node/const/perm/group" idtf="Атомарное существование" shapeColor="0" id="2534666418624" parent="0" left="0" top="0" right="171" bottom="25" textColor="164" text_angle="0" text_font="Times New Roman" font_size="10" x="2494.59" y="173.093" haveBus="true" idtf_pos="4">
+            <content type="0" mime_type="" content_visibility="false" file_name=""/>
+        </node>
+        <node type="node/const/perm/relation" idtf="всеобщность*" shapeColor="0" id="2534666422784" parent="0" left="0" top="0" right="93" bottom="25" textColor="164" text_angle="0" text_font="Times New Roman" font_size="10" x="1276.73" y="165.557" haveBus="false" idtf_pos="0">
+            <content type="0" mime_type="" content_visibility="false" file_name=""/>
+        </node>
+        <node type="node/const/perm/relation" idtf="эквиваленция*" shapeColor="0" id="2534666417168" parent="0" left="0" top="0" right="94" bottom="25" textColor="164" text_angle="0" text_font="Times New Roman" font_size="10" x="1573.23" y="347.094" haveBus="false" idtf_pos="0">
+            <content type="0" mime_type="" content_visibility="false" file_name=""/>
+        </node>
+        <node type="node/const/perm/group" idtf="Смартфон" shapeColor="0" id="2534666421120" parent="0" left="0" top="0" right="73" bottom="25" textColor="164" text_angle="0" text_font="Times New Roman" font_size="10" x="2219.18" y="841.81" haveBus="false" idtf_pos="0">
+            <content type="0" mime_type="" content_visibility="false" file_name=""/>
+        </node>
+        <pair type="pair/const/pos/perm/orient/membership" idtf="" shapeColor="0" id="2534666722704" parent="0" id_b="2534662227024" id_e="2534662227600" b_x="0" b_y="0" e_x="2018.34" e_y="901.972" dotBBalance="0.779855" dotEBalance="0">
+            <points/>
+        </pair>
+        <pair type="pair/const/pos/perm/orient/membership" idtf="" shapeColor="0" id="2534666726064" parent="0" id_b="2534666417168" id_e="2534666419872" b_x="1573.23" b_y="347.094" e_x="1573.23" e_y="439.094" dotBBalance="0" dotEBalance="0">
+            <points/>
+        </pair>
+        <pair type="pair/const/pos/perm/orient/membership" idtf="" shapeColor="0" id="2534666722464" parent="0" id_b="2534662226832" id_e="2534666738080" b_x="0" b_y="0" e_x="2026.73" e_y="598.593" dotBBalance="0.490197" dotEBalance="0">
+            <points/>
+        </pair>
+        <pair type="pair/const/pos/perm/orient/membership" idtf="" shapeColor="0" id="2534666723904" parent="0" id_b="2534666422784" id_e="2534666421536" b_x="1276.73" b_y="165.557" e_x="1422.09" e_y="164.557" dotBBalance="0" dotEBalance="0">
+            <points/>
+        </pair>
+        <pair type="pair/const/pos/perm/orient/membership" idtf="" shapeColor="0" id="2534666725584" parent="0" id_b="2534662226256" id_e="2534666742496" b_x="0" b_y="0" e_x="1684.65" e_y="244.849" dotBBalance="0.0822112" dotEBalance="0">
+            <points/>
+        </pair>
+        <pair type="pair/const/pos/perm/orient/membership" idtf="" shapeColor="0" id="2534666724864" parent="0" id_b="2534662227024" id_e="2534666738080" b_x="0" b_y="0" e_x="2026.73" e_y="598.593" dotBBalance="0.258352" dotEBalance="0">
+            <points/>
+        </pair>
+        <pair type="pair/const/pos/perm/orient/membership" idtf="" shapeColor="0" id="2534666724624" parent="0" id_b="2534666417376" id_e="2534666725584" b_x="1505.32" b_y="185.479" e_x="0" e_y="0" dotBBalance="0" dotEBalance="0.51523">
+            <points/>
+        </pair>
+        <pair type="pair/const/pos/perm/orient/membership" idtf="" shapeColor="0" id="2534666725344" parent="0" id_b="2534662226832" id_e="2534662227600" b_x="0" b_y="0" e_x="2018.34" e_y="901.972" dotBBalance="0.852641" dotEBalance="0">
+            <points/>
+        </pair>
+        <pair type="pair/const/pos/perm/orient/membership" idtf="" shapeColor="0" id="2534666725824" parent="0" id_b="2534662226256" id_e="2534666419872" b_x="0" b_y="0" e_x="1573.23" e_y="439.094" dotBBalance="0.310236" dotEBalance="0">
+            <points/>
+        </pair>
+        <bus type="" idtf="" shapeColor="0" id="2534662227024" parent="0" owner="2534666419872" b_x="1573.29" b_y="448.594" e_x="1577.23" e_y="1030.09">
+            <points/>
+        </bus>
+        <bus type="" idtf="" shapeColor="0" id="2534662226832" parent="0" owner="2534666418624" b_x="2494.51" b_y="182.593" e_x="2487.23" e_y="1024.09">
+            <points/>
+        </bus>
+        <bus type="" idtf="" shapeColor="0" id="2534662226256" parent="0" owner="2534666421536" b_x="1422.03" b_y="174.057" e_x="1417.06" e_y="1031.22">
+            <points/>
+        </bus>
+    </staticSector>
+</GWF>
