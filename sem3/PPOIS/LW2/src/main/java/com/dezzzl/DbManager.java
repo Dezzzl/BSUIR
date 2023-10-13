@@ -6,7 +6,9 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Objects;
 import java.util.Properties;
+import java.util.Scanner;
 import java.util.stream.Stream;
 
 public class DbManager {
@@ -28,7 +30,7 @@ public class DbManager {
         }
     }
 
-    public static String get(String key) {
+    private static String get(String key) {
         return PROPERTIES.getProperty(key);
     }
 
@@ -42,11 +44,4 @@ public class DbManager {
             throw new RuntimeException(e);
         }
     }
-
-    public static void main(String[] args) throws SQLException {
-        try (Connection connection = open()) {
-            System.out.println(connection.getTransactionIsolation());
-        }
-    }
-
 }
