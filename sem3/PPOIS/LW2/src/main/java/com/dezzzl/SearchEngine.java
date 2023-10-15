@@ -89,7 +89,7 @@
                 }
             }
 
-            public List<Comment> getComments(int imageId) {
+            private List<Comment> getComments(int imageId) {
                 List<Comment> comments = new ArrayList<>();
 
                 String query = "SELECT * FROM comments WHERE image_id = ?";
@@ -115,7 +115,7 @@
                 return comments;
             }
 
-            public List<Rating> getRatings(int imageId) {
+            private List<Rating> getRatings(int imageId) {
                 List<Rating> ratings = new ArrayList<>();
 
                 String query = "SELECT * FROM ratings WHERE image_id = ?";
@@ -140,7 +140,7 @@
                 return ratings;
             }
 
-            public List<Tag> getTags(int imageId) {
+            private List<Tag> getTags(int imageId) {
                 List<Tag> tags = new ArrayList<>();
 
                 String query = "SELECT * FROM tags " +
@@ -167,7 +167,7 @@
             }
 
 
-            public <T extends User> T getPerson(int userId, Class<T> type) throws SQLException {
+            private  <T extends User> T getPerson(int userId, Class<T> type) throws SQLException {
                 String query = "SELECT * FROM persons WHERE id = ?";
 
                 try (PreparedStatement statement = connection.prepareStatement(query)) {

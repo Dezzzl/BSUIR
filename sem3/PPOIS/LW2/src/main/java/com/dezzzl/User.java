@@ -1,6 +1,8 @@
 package com.dezzzl;
 
 import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.List;
 
 public class User {
     public static final Class<User> CLASS = User.class;
@@ -29,8 +31,18 @@ public class User {
 
     private String password;
 
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    private String role = "USER";
+
+    public String getRole() {
+        return role;
+    }
+
     public User(int id, String email, String username, String password) {
-        this.id=id;
+        this.id = id;
         this.email = email;
         this.username = username;
         this.password = password;
@@ -52,21 +64,49 @@ public class User {
         return username;
     }
 
-    public void addComment(){
-
+    public void addComment(int imageId, int userId, String text) {
+        DbManager dbManager = new DbManager();
+        dbManager.addComment(imageId, userId, text);
     }
 
-    public void deleteComment(){
-
+    public void deleteComment(int commentId) {
+        DbManager dbManager = new DbManager();
+        if (this.getId() == dbManager.getUserIdByCommentId(commentId)) {
+            dbManager.deleteComment(commentId);
+        }
     }
 
-    public void addRating(){
-
-    }
-    public void search(){
-
+    public void addRating(int imageId, int userId, int ratingValue) {
+        DbManager dbManager = new DbManager();
+        dbManager.addRating(imageId, userId, ratingValue);
     }
 
+    public List<Image> searchByTag(int offset, String tag) {
+        try (Connection connection = DbManager.open()) {
+            SearchEngine searchEngine = new SearchEngine(connection);
+            return searchEngine.getImagesWithTag(offset, tag);
+        } catch (SQLException e) {
+            throw new RuntimeException("Ошибка при выполнении поиска по тэгу", e);
+        }
+    }
+
+    public List<Image> searchByAuthor(int offset, String username) {
+        try (Connection connection = DbManager.open()) {
+            SearchEngine searchEngine = new SearchEngine(connection);
+            return searchEngine.getImageWithAuthor(offset, username);
+        } catch (SQLException e) {
+            throw new RuntimeException("Ошибка при выполнении поиска по автору", e);
+        }
+    }
+
+    public List<Image> getAllImages(int offset) {
+        try (Connection connection = DbManager.open()) {
+            SearchEngine searchEngine = new SearchEngine(connection);
+            return searchEngine.getAllImages(offset);
+        } catch (SQLException e) {
+            throw new RuntimeException("Ошибка при выполнении поиска всех изображений", e);
+        }
+    }
 
 
 }
