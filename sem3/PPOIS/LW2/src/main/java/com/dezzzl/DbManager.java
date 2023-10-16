@@ -130,27 +130,7 @@ public class DbManager {
         }
     }
 
-    private void deleteRatingsForImage(int imageId) {
-        String deleteRatingsQuery = "DELETE FROM ratings WHERE image_id = ?";
-        try (Connection connection = open();
-             PreparedStatement statement = connection.prepareStatement(deleteRatingsQuery)) {
-            statement.setInt(1, imageId);
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 
-    private void deleteTagsForImage(int imageId) {
-        String deleteTagsQuery = "DELETE FROM image_tags WHERE image_id = ?";
-        try (Connection connection = open();
-             PreparedStatement statement = connection.prepareStatement(deleteTagsQuery)) {
-            statement.setInt(1, imageId);
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 
     public void addTagToImage(int imageId, String tagName) {
         // Проверяем, существует ли тег с указанным именем
@@ -163,6 +143,18 @@ public class DbManager {
             // Если тег не существует, создаем новый тег и связываем его с картинкой
             tagId = createNewTag(tagName);
             addTagToImageMapping(imageId, tagId);
+        }
+    }
+
+
+    public void deleteRatingById(int ratingId) {
+        String deleteRatingQuery = "DELETE FROM ratings WHERE id = ?";
+        try (Connection connection = open();
+             PreparedStatement statement = connection.prepareStatement(deleteRatingQuery)) {
+            statement.setInt(1, ratingId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Ошибка при удалении рейтинга с ID " + ratingId, e);
         }
     }
 
@@ -324,7 +316,7 @@ public class DbManager {
                 if (resultSet.next()) {
                     return resultSet.getInt("user_id");
                 } else {
-                    throw new RuntimeException("Комментарий с указанным ID не найден.");
+                    return -1;
                 }
             }
         } catch (SQLException e) {
@@ -374,6 +366,57 @@ public class DbManager {
         }
         // Если изображение с указанным ID не найдено, возвращаем -1 или другое значение по умолчанию
         return -1;
+    }
+
+    public int getUserIdByEmail(String email) {
+        String query = "SELECT id FROM persons WHERE email = ?";
+        try (Connection connection = open();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, email);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getInt("id");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // обработка ошибок
+        }
+        return -1; // Возвращаем -1, если пользователь с указанным email не найден
+    }
+
+    public int getUserIdByUsername(String username) {
+        String query = "SELECT id FROM persons WHERE username = ?";
+        try (Connection connection = open();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, username);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getInt("id");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // обработка ошибок
+        }
+        return -1; // Возвращаем -1, если пользователь с указанным username не найден
+    }
+
+    public String getPasswordByUsername(String username) {
+        String query = "SELECT password FROM persons WHERE username = ?";
+        try (Connection connection = open();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, username);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getString("password");
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Ошибка при получении пароля пользователя", e);
+        }
+        return null;
     }
 
 }

@@ -12,15 +12,6 @@ public class Rating {
         this.user = user;
         this.value = value;
     }
-
-    public void setValue(int value) {
-        this.value = value;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
     public int getValue() {
         return value;
     }

@@ -11,10 +11,10 @@
                     "WHERE tags.name = ?";
             public static final String SEARCH_BY_AUTHOR = "SELECT * FROM images " +
                     "INNER JOIN persons ON user_id = persons.id " +
-                    "WHERE persons.username = 'van'";
+                    "WHERE persons.username = ?";
             public static final String SEARCH_ALL_IMAGES = "SELECT * FROM images ";
 
-            public static final String OFFSET_AND_LIMIT = "OFFSET ? LIMIT 1;";
+            public static final String OFFSET_AND_LIMIT = "OFFSET ? LIMIT 2;";
 
             private final  Connection connection;
 
@@ -34,18 +34,17 @@
                 }
                 return images;
             }
-            public List<Image> getImageWithAuthor(int offset, String username){
-                List<Image> images =new ArrayList<>();
-                String query = SEARCH_BY_AUTHOR;
-                query+=OFFSET_AND_LIMIT;
-                try(PreparedStatement statement = connection.prepareStatement(query)) {
+            public List<Image> getImageWithAuthor(int offset, String username) {
+                List<Image> images = new ArrayList<>();
+                String query = SEARCH_BY_AUTHOR + " OFFSET ? LIMIT 2;";
+                try (PreparedStatement statement = connection.prepareStatement(query)) {
                     statement.setString(1, username);
                     statement.setInt(2, offset);
                     createImage(offset, statement, images);
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
-                return  images;
+                return images;
             }
 
             List<Image>getAllImages(int offset){

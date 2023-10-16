@@ -48,6 +48,10 @@ public class User {
         this.password = password;
     }
 
+    public User(String email, String username, String password){
+        this(0, email, username, password);
+    }
+
     public int getId() {
         return id;
     }

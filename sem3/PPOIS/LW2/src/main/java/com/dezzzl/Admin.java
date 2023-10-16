@@ -7,6 +7,11 @@ public class Admin extends User implements ImageOperations{
         setRole("ADMIN");
     }
 
+    public  Admin(String email, String username, String password ){
+        super(email, username, password);
+        setRole("ADMIN");
+    }
+
     public void deleteComment(int commentId){
         DbManager dbManager = new DbManager();
         dbManager.deleteComment(commentId);

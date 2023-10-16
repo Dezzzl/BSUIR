@@ -15,15 +15,6 @@ public class Comment {
         this.text = text;
         this.date = date;
     }
-
-    public int getId() {
-        return id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
     public String getText() {
         return text;
     }
@@ -36,9 +27,9 @@ public class Comment {
     public String toString() {
         StringBuilder st=new StringBuilder();
         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm  dd.MM.yy");
-        String formattedDate = dateFormat.format(date);
+        String formattedDate = dateFormat.format(getDate());
         st.append(user.getUsername()+" отправил в "+formattedDate+"\n");
-        st.append(text+"\n");
+        st.append(getText()+"\n");
         return st.toString();
     }
 }

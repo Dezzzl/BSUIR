@@ -12,15 +12,11 @@ public class Author extends User implements ImageOperations{
         setRole("AUTHOR");
     }
 
-    public void setImages(List<Image> images) {
-        this.images = images;
+    public  Author(String email, String username, String password ){
+        super(email, username, password);
+        setRole("AUTHOR");
     }
-
-    public List<Image> getImages() {
-        return images;
-    }
-
-    private List<Image> images = new ArrayList<>();
+    private final List<Image> images = new ArrayList<>();
 
     @Override
     public String toString() {

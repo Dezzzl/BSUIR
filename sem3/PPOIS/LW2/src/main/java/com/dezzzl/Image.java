@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 public class Image {
 
@@ -42,23 +43,7 @@ public class Image {
         this.uploadDate = uploadDate;
     }
 
-    void addComment(Comment comment) {
-        comments.add(comment);
-    }
-
-    void removeComment(Comment comment) {
-        comments.remove(comment);
-    }
-
-    void addTag(Tag tag) {
-        tags.add(tag);
-    }
-
-    void removeTag(Tag tag) {
-        tags.remove(tag);
-    }
-
-    double calculateAverageRating() {
+   private double calculateAverageRating() {
         double summaryRating = 0;
         if (ratings.isEmpty()) return 0;
         for (Rating rating : ratings) {
@@ -68,15 +53,18 @@ public class Image {
     }
 
 
+    public Author getAuthor() {
+        return author;
+    }
 
     @Override
     public String toString() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm  dd.MM.yy");
-        String formattedDate = dateFormat.format(uploadDate);
+        String formattedDate = dateFormat.format(getUploadDate());
         StringBuilder st = new StringBuilder();
-        st.append("Название: " + title + "\n");
-        st.append("Описание: " + description + "\n");
-        st.append("Автор: " + author.toString() + "\n");
+        st.append("Название: " + getTitle() + "\n");
+        st.append("Описание: " + getDescription() + "\n");
+        st.append("Автор: " + getAuthor().toString() + "\n");
         st.append("Дата публикации: " + formattedDate + "\n");
         st.append("Рейтинг: " + calculateAverageRating() + "\n");
         if (!tags.isEmpty()) {
@@ -93,26 +81,6 @@ public class Image {
         }
         return st.toString();
     }
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setUploadDate(Date uploadDate) {
-        this.uploadDate = uploadDate;
-    }
-
-    public int getId() {
-        return id;
-    }
-
     public String getTitle() {
         return title;
     }
