@@ -21,29 +21,86 @@ public class Image {
 
     private List<Rating> ratings = new ArrayList<>();
 
-    public void setComments(List<Comment> comments) {
-        this.comments = comments;
-    }
-
-    public void setRaitings(List<Rating> ratings) {
-        this.ratings = ratings;
-    }
-
-    public void setTags(List<Tag> tags) {
-        this.tags = tags;
-    }
-
     private List<Tag> tags = new ArrayList<>();
 
     public Image(int id, Author author, String title, String description, Date uploadDate) {
-        this.author=author;
+        this.author = author;
         this.id = id;
         this.title = title;
         this.description = description;
         this.uploadDate = uploadDate;
     }
 
-   private double calculateAverageRating() {
+    /**
+     * Устанавливает комментарии под изображением
+     *
+     * @param comments список комментариев
+     */
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
+    /**
+     * Устанавливает рейтинги пользователй для изображения
+     *
+     * @param ratings список рейтингов
+     */
+    public void setRaitings(List<Rating> ratings) {
+        this.ratings = ratings;
+    }
+
+    /**
+     * Устанавливает теги под изображением
+     *
+     * @param tags список тегов
+     */
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
+    }
+
+
+    /**
+     * Возвращает автора изображения
+     *
+     * @return автора изображения
+     */
+    public Author getAuthor() {
+        return author;
+    }
+
+    /**
+     * Возвращает название изображения
+     *
+     * @return название изображения
+     */
+    public String getTitle() {
+        return title;
+    }
+
+    /**
+     * Возвращает описание изображения
+     *
+     * @return описание изображения
+     */
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     * Возвращает дату публикации изображения
+     *
+     * @return дату публикации изображения
+     */
+    public Date getUploadDate() {
+        return uploadDate;
+    }
+
+    /**
+     * Вычисляет средний рйтинг изображеня
+     *
+     * @return средний рйтинг изображеня
+     */
+    private double calculateAverageRating() {
         double summaryRating = 0;
         if (ratings.isEmpty()) return 0;
         for (Rating rating : ratings) {
@@ -52,11 +109,10 @@ public class Image {
         return summaryRating / ratings.size();
     }
 
-
-    public Author getAuthor() {
-        return author;
-    }
-
+    /**
+     * Возвращает изображение в виде строки
+     * @return изображение в виде строки
+     * */
     @Override
     public String toString() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm  dd.MM.yy");
@@ -80,16 +136,5 @@ public class Image {
             st.append(comment.toString());
         }
         return st.toString();
-    }
-    public String getTitle() {
-        return title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public Date getUploadDate() {
-        return uploadDate;
     }
 }

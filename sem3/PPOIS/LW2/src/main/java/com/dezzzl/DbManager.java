@@ -21,6 +21,9 @@ public class DbManager {
         loadProperties();
     }
 
+    /**
+     * Загружает свойства базы данных из файла application.properties
+     */
     private static void loadProperties() {
         try (var inputStream = DbManager.class.getClassLoader().getResourceAsStream("application.properties")) {
             PROPERTIES.load(inputStream);
@@ -29,10 +32,21 @@ public class DbManager {
         }
     }
 
+    /**
+     * Возвращает одно из свойств базы данных по переданному ключ
+     *
+     * @param key id ключ для одного из свойств базы данных
+     * @return одно из свойств базы данных по переданному ключ
+     */
     private static String get(String key) {
         return PROPERTIES.getProperty(key);
     }
 
+    /**
+     * возвращает Connection с базой данных
+     *
+     * @return Connection с базой данных
+     */
     public static Connection open() {
         try {
             return DriverManager.getConnection(
@@ -44,6 +58,11 @@ public class DbManager {
         }
     }
 
+    /**
+     * Удаление комментария под изображением
+     *
+     * @param commentId id комментария, который нужно удалить
+     */
     public void deleteComment(int commentId) {
         String query = "DELETE FROM comments WHERE id = ?";
         try (Connection connection = open();
@@ -60,6 +79,13 @@ public class DbManager {
         }
     }
 
+    /**
+     * Добавление комментария к изображению
+     *
+     * @param imageId     id изображения под которым пользователь написал комментарий
+     * @param userId      id пользователя, который добавляет комментарий
+     * @param commentText текст комметария
+     */
     public void addComment(int imageId, int userId, String commentText) {
         String query = "INSERT INTO comments (image_id, user_id, text, date) VALUES (?, ?, ?, NOW())";
 
@@ -74,25 +100,11 @@ public class DbManager {
         }
     }
 
-    public void createImage(String title, String description, int userId) {
-        String query = "INSERT INTO images (title, description, user_id) VALUES (?, ?, ?)";
-
-        try (Connection connection = open();
-             PreparedStatement statement = connection.prepareStatement(query)) {
-
-            statement.setString(1, title);
-            statement.setString(2, description);
-            statement.setInt(3, userId);
-
-            statement.executeUpdate();
-
-            System.out.println("Изображение успешно добавлено в базу данных.");
-
-        } catch (SQLException e) {
-            throw new RuntimeException("Ошибка при создании изображения: " + e.getMessage(), e);
-        }
-    }
-
+    /**
+     * Удаление изображения по его id
+     *
+     * @param imageId id изображения, которое нужно удалить
+     */
     public void deleteImage(int imageId) {
         String deleteImageQuery = "DELETE FROM images WHERE id = ?";
         try (Connection connection = open();
@@ -104,6 +116,11 @@ public class DbManager {
         }
     }
 
+    /**
+     * Удаление пользователя из базы данных
+     *
+     * @param userId id пользователя, которого нужно удалить
+     */
     public void deleteUser(int userId) {
         String deleteUserQuery = "DELETE FROM persons WHERE id = ?";
         try (Connection connection = open();
@@ -115,6 +132,11 @@ public class DbManager {
         }
     }
 
+    /**
+     * Добавление пользователя в базу данных
+     *
+     * @param user пользователь, которого нужно добавить в базу данных
+     */
     public void addUser(User user) {
         String addUserQuery = "INSERT INTO persons (username, password, email, role) VALUES (?, ?, ?, ?)";
         try (Connection connection = open();
@@ -131,22 +153,27 @@ public class DbManager {
     }
 
 
-
+    /**
+     * Добавление тега к изображению
+     *
+     * @param imageId id изображения, к которому нужно добавить тег
+     * @param tagName текст тега
+     */
     public void addTagToImage(int imageId, String tagName) {
-        // Проверяем, существует ли тег с указанным именем
         int tagId = getTagIdByName(tagName);
-
-        // Если тег существует, связываем его с картинкой
         if (tagId != -1) {
             addTagToImageMapping(imageId, tagId);
         } else {
-            // Если тег не существует, создаем новый тег и связываем его с картинкой
             tagId = createNewTag(tagName);
             addTagToImageMapping(imageId, tagId);
         }
     }
 
-
+    /**
+     * Удаление рейтинга пользователя к изображению
+     *
+     * @param ratingId id рейтинга
+     */
     public void deleteRatingById(int ratingId) {
         String deleteRatingQuery = "DELETE FROM ratings WHERE id = ?";
         try (Connection connection = open();
@@ -170,9 +197,8 @@ public class DbManager {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // обработка ошибок
+            e.printStackTrace();
         }
-        // Если тег с указанным именем не найден, возвращаем -1
         return -1;
     }
 
@@ -188,9 +214,8 @@ public class DbManager {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // обработка ошибок
+            e.printStackTrace();
         }
-        // Если не удалось создать новый тег, возвращаем -1
         return -1;
     }
 
@@ -203,15 +228,20 @@ public class DbManager {
 
             statement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace(); // обработка ошибок
+            e.printStackTrace();
         }
     }
 
+    /**
+     * Удаление тега из изображения
+     *
+     * @param imageId id изображения, к из которого удаляется тег
+     * @param tagName текст тега
+     */
     public void removeTagFromImage(int imageId, String tagName) {
         int tagId = getTagIdByName(tagName);
 
         if (tagId != -1) {
-            // Удаляем связь тега с картинкой
             String removeMappingQuery = "DELETE FROM image_tags WHERE image_id = ? AND tag_id = ?";
             try (Connection connection = open();
                  PreparedStatement statement = connection.prepareStatement(removeMappingQuery)) {
@@ -220,11 +250,17 @@ public class DbManager {
 
                 statement.executeUpdate();
             } catch (SQLException e) {
-                e.printStackTrace(); // обработка ошибок
+                e.printStackTrace();
             }
         }
     }
 
+    /**
+     * Добавление тега в базу данных
+     *
+     * @param tagName текст тега
+     * @param tagName текст тега
+     */
     public void addTag(String tagName) {
         String query = "INSERT INTO tags (name) VALUES (?)";
         try (Connection connection = open();
@@ -237,6 +273,12 @@ public class DbManager {
         }
     }
 
+    /**
+     * Добавление тега к изображению
+     *
+     * @param userId  id пользователя, у которого меняют роль
+     * @param newRole новая роль
+     */
     public void changeUserRole(int userId, String newRole) {
         String query = "UPDATE persons SET role = ? WHERE id = ?";
         try (Connection connection = open();
@@ -254,13 +296,17 @@ public class DbManager {
         }
     }
 
+    /**
+     * Добавление рейтинга к изображению
+     *
+     * @param imageId     id изображения, к которому пользователь хочет добавить рейтинг
+     * @param userId      id пользователя, который хочет добавить рейтинг
+     * @param ratingValue численное значение рейтинга
+     */
     public void addRating(int imageId, int userId, int ratingValue) {
-        // Проверяем, существует ли рейтинг от данного пользователя для данного изображения
         if (checkRatingExists(imageId, userId)) {
-            // Если рейтинг уже существует, обновляем его значение
             updateRating(imageId, userId, ratingValue);
         } else {
-            // Если рейтинг не существует, добавляем новый
             insertRating(imageId, userId, ratingValue);
         }
     }
@@ -307,6 +353,12 @@ public class DbManager {
         }
     }
 
+    /**
+     * Возвращает Id пользователя, который написал комментарий с переданным Id
+     *
+     * @param commentId id комментария
+     * @return Id пользователя, который написал комментарий с переданным Id
+     */
     public int getUserIdByCommentId(int commentId) {
         String query = "SELECT user_id FROM comments WHERE id = ?";
         try (Connection connection = open();
@@ -324,6 +376,13 @@ public class DbManager {
         }
     }
 
+    /**
+     * Добавление изображения в базу данных
+     *
+     * @param title       название изображения
+     * @param description описание изображения
+     * @param userId      Id пользователя
+     */
     public void uploadImage(String title, String description, int userId) {
         String query = "INSERT INTO images (title, description, user_id, upload_date) VALUES (?, ?, ?, NOW())";
 
@@ -350,6 +409,12 @@ public class DbManager {
         }
     }
 
+    /**
+     * Возвращает Id автора изображения
+     *
+     * @param imageId id изображения
+     * @return Id автора изображения
+     */
     public int getUserIdByImageId(int imageId) {
         String query = "SELECT user_id FROM images WHERE id = ?";
         try (Connection connection = open();
@@ -364,10 +429,16 @@ public class DbManager {
         } catch (SQLException e) {
             throw new RuntimeException("Ошибка при получении ID пользователя по ID изображения: " + e.getMessage(), e);
         }
-        // Если изображение с указанным ID не найдено, возвращаем -1 или другое значение по умолчанию
         return -1;
     }
 
+
+    /**
+     * Возвращает Id пользователя по его email
+     *
+     * @param email email пользователя
+     * @return Id пользователся с данным email
+     */
     public int getUserIdByEmail(String email) {
         String query = "SELECT id FROM persons WHERE email = ?";
         try (Connection connection = open();
@@ -380,11 +451,17 @@ public class DbManager {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // обработка ошибок
+            e.printStackTrace();
         }
-        return -1; // Возвращаем -1, если пользователь с указанным email не найден
+        return -1;
     }
 
+    /**
+     * Возвращает Id пользователя по его username
+     *
+     * @param username username пользователя
+     * @return Id пользователся с данным username
+     */
     public int getUserIdByUsername(String username) {
         String query = "SELECT id FROM persons WHERE username = ?";
         try (Connection connection = open();
@@ -397,11 +474,17 @@ public class DbManager {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // обработка ошибок
+            e.printStackTrace();
         }
-        return -1; // Возвращаем -1, если пользователь с указанным username не найден
+        return -1;
     }
 
+    /**
+     * Возвращает password пользователя по его username
+     *
+     * @param username username пользователя
+     * @return password пользователся с данным username
+     */
     public String getPasswordByUsername(String username) {
         String query = "SELECT password FROM persons WHERE username = ?";
         try (Connection connection = open();

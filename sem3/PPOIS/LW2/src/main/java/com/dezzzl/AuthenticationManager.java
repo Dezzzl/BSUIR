@@ -5,6 +5,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class AuthenticationManager {
+    /**
+     * Возвращает true, если пользователю удалось зарегистрироваться, false, если не удалось
+     *
+     * @param username username пользователя
+     * @param password password пользователя
+     * @param email    email пользователя
+     * @return true, если пользователю удалось зарегистрироваться, false - если не удалось
+     */
     public boolean registerUser(String username, String password, String email) {
         DbManager dbManager = new DbManager();
         if (dbManager.getUserIdByEmail(email) != -1) {
@@ -18,6 +26,13 @@ public class AuthenticationManager {
         return true;
     }
 
+    /**
+     * Возвращает true, если пользователю удалось войти, false, если не удалось
+     *
+     * @param username username пользователя
+     * @param password password пользователя
+     * @return true, если пользователю удалось войти, false, если не удалось
+     */
     public boolean loginUser(String username, String password) {
 
         DbManager dbManager = new DbManager();
@@ -26,13 +41,8 @@ public class AuthenticationManager {
         } else if (!Objects.equals(dbManager.getPasswordByUsername(username), password)) {
             return false;
         } else {
-
-            // Проверка введенных данных в базе данных
-            // Ваш код для проверки данных в базе данных
-            // Если пользователь существует и введенный пароль совпадает, вернуть true, иначе false
-
             System.out.println("Пользователь успешно вошел в систему.");
-            return true; // Возвращаем true, если пользователь успешно вошел
+            return true;
         }
     }
 

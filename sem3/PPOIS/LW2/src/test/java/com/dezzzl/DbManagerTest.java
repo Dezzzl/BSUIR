@@ -30,7 +30,7 @@ private String text = "TestText";
         String title = "Test Image";
         String description = "Description";
         int userId = 1;
-        dbManager.createImage(title, description, userId);
+        dbManager.uploadImage(title, description, userId);
         try (Connection connection = DbManager.open();
              Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery("SELECT * FROM images WHERE title = '" + title + "'")) {
@@ -48,7 +48,7 @@ private String text = "TestText";
         String title = "Test Image";
         String description = "Description";
         int userId = 1;
-        dbManager.createImage(title, description, userId);
+        dbManager.uploadImage(title, description, userId);
         int imageId;
         try (Connection connection = DbManager.open();
              Statement statement = connection.createStatement();
@@ -146,7 +146,7 @@ private String text = "TestText";
                 if (resultSet.next()) {
                     count = resultSet.getInt(1);
                 } else {
-                    count = 0; // или другое значение по умолчанию
+                    count = 0;
                 }
             }
         }
