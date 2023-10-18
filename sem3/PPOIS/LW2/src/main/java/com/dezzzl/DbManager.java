@@ -219,13 +219,13 @@ public class DbManager {
         return -1;
     }
 
-    private void addTagToImageMapping(int imageId, int tagId) {
+    private void addTagToImageMapping(int imageId, int tagId){
         String addMappingQuery = "INSERT INTO image_tags (image_id, tag_id) VALUES (?, ?)";
-        try (Connection connection = open();
-             PreparedStatement statement = connection.prepareStatement(addMappingQuery)) {
+        try (  Connection connection = open();
+        PreparedStatement statement = connection.prepareStatement(addMappingQuery);) {
             statement.setInt(1, imageId);
             statement.setInt(2, tagId);
-
+connection.close();
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

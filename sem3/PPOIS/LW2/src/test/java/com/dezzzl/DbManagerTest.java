@@ -247,7 +247,7 @@ private String text = "TestText";
             }
         }
 
-        user.addComment(imageId, userId, text);
+        user.addComment(imageId, text);
         String maxCommentIdQuery="SELECT MAX(id) FROM comments";
         int commentId=-1;
         try(Connection connection = DbManager.open();

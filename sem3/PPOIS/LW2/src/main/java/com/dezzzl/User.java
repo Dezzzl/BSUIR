@@ -17,6 +17,8 @@ public class User {
 
 
     private String role = "USER";
+
+    private static final DbManager dbManager = new DbManager();
     /**
      * Конструктор, создающий пользователя по его id, email, username, password
      * @param id id пользователя
@@ -119,12 +121,11 @@ public class User {
     /**
      * Добавление комментария к изображению
      * @param imageId id изображения под которым пользователь написал комментарий
-     * @param userId  id пользователя, который добавляет комментарий
+
      * @param text текст комметария
      * */
-    public void addComment(int imageId, int userId, String text) {
-        DbManager dbManager = new DbManager();
-        dbManager.addComment(imageId, userId, text);
+    public void addComment(int imageId,  String text) {
+        dbManager.addComment(imageId, getId(), text);
     }
 
     /**
@@ -132,7 +133,6 @@ public class User {
      * @param commentId id комментария, который нужно удалить
      * */
     public void deleteComment(int commentId) {
-        DbManager dbManager = new DbManager();
         if (this.getId() == dbManager.getUserIdByCommentId(commentId)) {
             dbManager.deleteComment(commentId);
         }
@@ -144,7 +144,6 @@ public class User {
      * @param ratingValue численное значение рейтинга
      * */
     public void addRating(int imageId, int userId, int ratingValue) {
-        DbManager dbManager = new DbManager();
         dbManager.addRating(imageId, userId, ratingValue);
     }
 

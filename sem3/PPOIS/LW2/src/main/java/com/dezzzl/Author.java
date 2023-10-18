@@ -9,6 +9,8 @@ public class Author extends User implements ImageOperations {
 
     private final List<Image> images = new ArrayList<>();
 
+    private static final DbManager dbManager = new DbManager();
+
     /**
      * Конструктор, создающий автора по его id, email, username, password
      *
@@ -52,7 +54,6 @@ public class Author extends User implements ImageOperations {
      * @param userId      Id автора
      */
     public void uploadImage(String title, String description, int userId) {
-        DbManager dbManager = new DbManager();
         dbManager.uploadImage(title, description, userId);
     }
 
@@ -62,7 +63,6 @@ public class Author extends User implements ImageOperations {
      * @param imageId Id изображения
      */
     public void deleteImage(int imageId) {
-        DbManager dbManager = new DbManager();
         if (dbManager.getUserIdByImageId(imageId) == this.getId()) {
             dbManager.deleteImage(imageId);
         }
@@ -75,7 +75,6 @@ public class Author extends User implements ImageOperations {
      * @param tagName текст тега
      */
     public void addTag(int imageId, String tagName) {
-        DbManager dbManager = new DbManager();
         if (dbManager.getUserIdByImageId(imageId) == this.getId()) {
             dbManager.addTagToImage(imageId, tagName);
         }
@@ -88,7 +87,6 @@ public class Author extends User implements ImageOperations {
      * @param tagName текст тега
      */
     public void removeTag(int imageId, String tagName) {
-        DbManager dbManager = new DbManager();
         if (dbManager.getUserIdByImageId(imageId) == this.getId()) {
             dbManager.removeTagFromImage(imageId, tagName);
         }

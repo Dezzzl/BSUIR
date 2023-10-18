@@ -1,10 +1,10 @@
 package com.dezzzl;
 
 public class Rating {
-    private int id;
+    private final int id;
     private final User user;
 
-    private int value;
+    private final int value;
 
     /**
      * Конструктор, создающий рейтинг по его id, user, value

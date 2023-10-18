@@ -3,6 +3,7 @@ package com.dezzzl;
 public class Admin extends User implements ImageOperations{
     public static final Class<Admin> CLASS = Admin.class;
 
+    private static final DbManager dbManager = new DbManager();
     /**
      * Конструктор, создающий админа по его id, email, username, password
      *
@@ -32,7 +33,6 @@ public class Admin extends User implements ImageOperations{
      * @param commentId id комментария, который нужно удалить
      * */
     public void deleteComment(int commentId){
-        DbManager dbManager = new DbManager();
         dbManager.deleteComment(commentId);
     }
 
@@ -42,7 +42,6 @@ public class Admin extends User implements ImageOperations{
      * @param userId id пользователя, которого нужно удалить
      * */
     public void deleteUser(int userId){
-        DbManager dbManager = new DbManager();
         dbManager.deleteUser(userId);
     }
     /**
@@ -50,7 +49,6 @@ public class Admin extends User implements ImageOperations{
      * @param imageId id изображения, которое нужно удалить
      * */
     public void deleteImage(int imageId){
-        DbManager dbManager = new DbManager();
         dbManager.deleteImage(imageId);
     }
 
@@ -60,7 +58,6 @@ public class Admin extends User implements ImageOperations{
      * @param newTag текст тега
      * */
     public void addTag(int imageId, String newTag){
-        DbManager dbManager = new DbManager();
         dbManager.addTagToImage(imageId, newTag);
     }
 
@@ -70,7 +67,6 @@ public class Admin extends User implements ImageOperations{
      * @param tagName текст тега
      * */
     public void removeTag(int imageId, String tagName){
-        DbManager dbManager = new DbManager();
         dbManager.removeTagFromImage(imageId, tagName);
     }
     /**
@@ -79,7 +75,6 @@ public class Admin extends User implements ImageOperations{
      * @param newRole новая роль
      * */
     public void setNewRole(int userId, String newRole){
-        DbManager dbManager = new DbManager();
         dbManager.changeUserRole(userId, newRole);
     }
 
