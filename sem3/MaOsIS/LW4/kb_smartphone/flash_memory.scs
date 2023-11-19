@@ -1,0 +1,15 @@
+nrel_flash_memory
+   => nrel_main_idtf: [Флеш-память*] (* <- lang_ru;; *);;
+
+flash_memory_1000
+   => nrel_main_idtf: [1000 ГБ](*<- lang_ru;;*);
+   -> [1000];;
+
+  flash_memory_512
+   => nrel_main_idtf: [512 ГБ](*<- lang_ru;;*);
+   -> [512];;
+
+
+   flash_memory_256
+   => nrel_main_idtf: [256 ГБ](*<- lang_ru;;*);
+   -> [256];;

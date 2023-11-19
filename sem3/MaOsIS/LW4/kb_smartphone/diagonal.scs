@@ -1,0 +1,22 @@
+nrel_diagonal
+   => nrel_main_idtf: [Диагональ*] (* <- lang_ru;; *);;
+
+diagonal_6_7
+   => nrel_main_idtf: [6.7 д](*<- lang_ru;;*);
+   -> [6.7];;
+
+  diagonaly_6_8
+   => nrel_main_idtf: [6.8 д](*<- lang_ru;;*);
+   -> [6.8];;
+
+ diagonal_6_74
+   => nrel_main_idtf: [6.74 д](*<- lang_ru;;*);
+   -> [6.74];;
+
+diagonal_6_73
+   => nrel_main_idtf: [6.73 д](*<- lang_ru;;*);
+   -> [6.73];;
+
+diagonal_6_67
+   => nrel_main_idtf: [6.67 д](*<- lang_ru;;*);
+   -> [6.67];;

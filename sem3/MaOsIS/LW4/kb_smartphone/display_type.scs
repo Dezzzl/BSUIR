@@ -1,0 +1,12 @@
+type_OLED
+    => nrel_main_idtf: [OLED] (* <- lang_en;; *);;
+
+    type_AMOLED
+    => nrel_main_idtf: [AMOLED] (* <- lang_en;; *);;
+
+        type_IPS
+    => nrel_main_idtf: [IPS] (* <- lang_en;; *);;
+
+
+nrel_display_type
+    => nrel_main_idtf: [тип дисплея*] (* <- lang_ru;; *);;

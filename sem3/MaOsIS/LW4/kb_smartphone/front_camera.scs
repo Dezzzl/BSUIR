@@ -1,0 +1,26 @@
+nrel_front_camera
+   => nrel_main_idtf: [фронтальна камера*] (* <- lang_ru;; *);;
+
+
+front_camera_12
+   => nrel_main_idtf: [12 Мп](*<- lang_ru;;*);
+   -> [12];;
+   front_camera_40
+   => nrel_main_idtf: [40 Мп](*<- lang_ru;;*);
+   -> [40];;
+
+  front_camera_13
+   => nrel_main_idtf: [13 Мп](*<- lang_ru;;*);
+   -> [13];;
+
+   front_camera_32
+   => nrel_main_idtf: [32 Мп](*<- lang_ru;;*);
+   -> [32];;
+
+front_camera_11
+   => nrel_main_idtf: [11 Мп](*<- lang_ru;;*);
+   -> [11];;
+
+   front_camera_20
+   => nrel_main_idtf: [20 Мп](*<- lang_ru;;*);
+   -> [20];;

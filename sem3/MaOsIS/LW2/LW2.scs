@@ -1,5 +1,4 @@
 section_subject_domain_of_devices
-
     => nrel_main_idtf:
     [Раздел. Предметная область устройств]
     (* <- lang_ru;;*);

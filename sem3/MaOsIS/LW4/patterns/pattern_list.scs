@@ -1,0 +1,25 @@
+lw4_patterns
+    => nrel_main_idtf: [Шаблоны для поиска по БЗ] (* <- lang_ru;; *);
+    -> pattern1;
+    -> pattern2;
+    -> pattern3;
+    -> pattern4;
+    -> pattern5;
+    -> pattern6;
+    -> pattern7;
+    -> pattern8;
+    -> pattern9;
+    -> pattern10;
+    ->pattern11;;
+
+pattern1 => nrel_main_idtf: [Найти тип дисплея для iPhone 14 Pro Max] (* <- lang_ru;; *);;
+pattern2 => nrel_main_idtf: [Найти тип дисплея для всех смартфонов] (* <- lang_ru;; *);;
+pattern3 => nrel_main_idtf: [Найти смартфоны с объемом флеш-памяти 1000 ГБ] (* <- lang_ru;; *);;
+pattern4 => nrel_main_idtf: [Найти смартфоны с типом дисплея OLED и объемом флеш-памяти 512 ГБ] (* <- lang_ru;; *);;
+pattern5 => nrel_main_idtf: [Найти смартфоны ценой 70000р, а также их диагональ] (* <- lang_ru;; *);;
+pattern6 => nrel_main_idtf: [Найти смартфоны с фронтальной камерой 20 Мп, ценой 42000р, и типом дисплея AMOLED] (* <- lang_ru;; *);;
+pattern7 => nrel_main_idtf: [Найти смартфоны, которых объем флеш-памяти 512 ГБ или 1000 ГБ] (* <- lang_ru;; *);;
+pattern8 => nrel_main_idtf: [Найти все смартфоны] (* <- lang_ru;; *);;
+pattern9 => nrel_main_idtf: [Найти все смартфоны камерафоны] (* <- lang_ru;; *);;
+pattern10 => nrel_main_idtf: [Найти все смартфоны камерафоны с диагональю 6.8 и с фронтальной камерой 40 Мп] (* <- lang_ru;; *);;
+pattern11 => nrel_main_idtf: [Найти все смартфоны камерафоны ценой 105000р, найти их объем флеш-памяти] (* <- lang_ru;; *);;

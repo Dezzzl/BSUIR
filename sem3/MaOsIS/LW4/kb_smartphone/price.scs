@@ -1,0 +1,23 @@
+nrel_price
+   => nrel_main_idtf: [цена*] (* <- lang_ru;; *);;
+
+   
+
+price_105000
+   => nrel_main_idtf: [105 тыс.р.](*<- lang_ru;;*);
+   -> [105000];;
+   price_70000
+   => nrel_main_idtf: [70 тыс.р.](*<- lang_ru;;*);
+   -> [70000];;
+
+   price_79000
+   => nrel_main_idtf: [79 тыс.р.](*<- lang_ru;;*);
+   -> [79000];;
+
+price_65000
+   => nrel_main_idtf: [65 тыс.р.](*<- lang_ru;;*);
+   -> [65000];;
+
+   price_42000
+   => nrel_main_idtf: [42 тыс.р.](*<- lang_ru;;*);
+   -> [42000];;

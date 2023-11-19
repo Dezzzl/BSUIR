@@ -1,0 +1,79 @@
+section_smartphones
+->iPhone_14_Pro_Max;
+->Samsung_Galaxy_S22_Ultra;
+->Huawei_Mate_50_Pro;
+->Xiaomi_12S_Ultra;
+->POCO_F4_GT;
+->Google_Pixel_7_Pro;;
+
+
+iPhone_14_Pro_Max
+    => nrel_main_idtf: [iPhone 14 Pro Max] (* <- lang_en;; *);
+    => nrel_front_camera:front_camera_12;
+    => nrel_display_type: type_OLED;
+    => nrel_price: price_105000;
+    => nrel_flash_memory: 
+    flash_memory_256;
+    flash_memory_1000;
+    => nrel_diagonal: diagonal_6_7;
+    <- concept_smartphone;;
+
+
+    Samsung_Galaxy_S22_Ultra
+    => nrel_main_idtf: [Samsung Galaxy S22 Ultra] (* <- lang_en;; *);
+    => nrel_front_camera:front_camera_40;
+    => nrel_display_type: type_AMOLED;
+    => nrel_price: price_70000;
+    => nrel_flash_memory: flash_memory_1000;
+    => nrel_diagonal: diagonal_6_8;
+    <- concept_smartphone;;
+
+
+
+       Huawei_Mate_50_Pro
+    => nrel_main_idtf: [Huawei Mate 50 Pro] (* <- lang_en;; *);
+    => nrel_front_camera:front_camera_13;
+    => nrel_display_type: type_OLED;
+    => nrel_price: price_70000;
+    => nrel_flash_memory: flash_memory_512;
+    => nrel_diagonal: diagonal_6_74;
+    <- concept_smartphone;;
+
+
+        Xiaomi_12S_Ultra
+    => nrel_main_idtf: [Xiaomi 12S Ultra] (* <- lang_en;; *);
+    => nrel_front_camera:front_camera_32;
+    => nrel_display_type: type_AMOLED;
+    => nrel_price: price_79000;
+    => nrel_flash_memory: flash_memory_512;
+    => nrel_diagonal: diagonal_6_73;
+    <- concept_smartphone;;
+
+    
+
+        Google_Pixel_7_Pro
+    => nrel_main_idtf: [Google Pixel 7 Pro] (* <- lang_en;; *);
+    => nrel_front_camera:front_camera_11;
+    => nrel_display_type: type_AMOLED;
+    => nrel_price: price_65000;
+    => nrel_flash_memory: flash_memory_512;
+    => nrel_diagonal: diagonal_6_7;
+    <- concept_smartphone;; 
+
+
+
+       POCO_F4_GT
+    => nrel_main_idtf: [POCO F4 GT] (* <- lang_en;; *);
+    => nrel_front_camera:front_camera_20;
+    => nrel_display_type: type_AMOLED;
+    => nrel_price: price_42000;
+    => nrel_flash_memory: flash_memory_256;
+    => nrel_diagonal: diagonal_6_67;
+    <- concept_smartphone;;
+    
+
+
+
+
+
+    
