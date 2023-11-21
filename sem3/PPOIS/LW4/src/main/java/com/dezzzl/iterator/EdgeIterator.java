@@ -1,4 +1,4 @@
-package com.dezzzl.terator;
+package com.dezzzl.iterator;
 
 import com.dezzzl.Graph;
 import com.dezzzl.Node;

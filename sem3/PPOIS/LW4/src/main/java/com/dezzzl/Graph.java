@@ -1,6 +1,6 @@
 package com.dezzzl;
 
-import com.dezzzl.terator.*;
+import com.dezzzl.iterator.*;
 
 import java.util.*;
 
@@ -17,6 +17,13 @@ public class Graph<T> implements Iterable<T> {
     public Graph() {
     }
 
+    /**
+     * Возвращает ребро по его индексу в матрице инцидентности
+     *
+     * @param countOfEdge индекс ребра в матрице инцидентности
+     *
+     * @return ребро по его индексу в матрице инцидентности
+     */
     public List<Node<T>>getEdge(int countOfEdge){
         int indexOfOutNode=0;
         int indexOfInNode=0;

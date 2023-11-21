@@ -1,8 +1,7 @@
-package com.dezzzl.terator;
+package com.dezzzl.iterator;
 
 import com.dezzzl.Graph;
 import com.dezzzl.Node;
-import com.dezzzl.terator.EdgeIterator;
 
 import java.util.List;
 

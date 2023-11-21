@@ -1,10 +1,9 @@
-package com.dezzzl.terator;
+package com.dezzzl.iterator;
 
 import com.dezzzl.Graph;
 import com.dezzzl.Node;
 
 import java.util.Iterator;
-import java.util.List;
 
 public class NodeIterator<T> implements Iterator<Node<T>> {
     protected Graph<T> graph;
