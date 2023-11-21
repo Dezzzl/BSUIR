@@ -8,7 +8,7 @@ public class Graph<T> implements Iterable<T> {
     private final List<Node<T>> nodes = new ArrayList<>();
     private final List<List<Integer>> incidenceMatrix = new ArrayList<>();
 
-    private int countOfEdges;
+    private  int countOfEdges;
 
     /**
      * Конструктор, создающий граф

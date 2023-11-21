@@ -1,5 +1,7 @@
 import com.dezzzl.Graph;
 import com.dezzzl.Node;
+import com.dezzzl.iterator.ConstantEdgeIterator;
+import com.dezzzl.iterator.ConstantNodeIterator;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -215,6 +217,38 @@ public class GraphTest {
         assertTrue(adjacentEdges.contains(node3));
         assertTrue(adjacentEdges.contains(node4));
         assertFalse(adjacentEdges.contains(node5));
+    }
+
+    @Test public void testConstantNodeIterator(){
+        graph.addNode(node1);
+        graph.addNode(node2);
+        graph.addNode(node3);
+        graph.addEdge(node1, node2);
+        graph.addEdge(node3, node1);
+        ConstantNodeIterator<String> constantNodeIterator = new ConstantNodeIterator<>(graph);
+        assertTrue(constantNodeIterator.hasNext());
+        try {
+            constantNodeIterator.next();
+            constantNodeIterator.remove();
+            fail("Исключение не выброшено");
+        } catch (UnsupportedOperationException e) {
+        }
+    }
+
+    @Test public void testConstantEdgeIterator(){
+        graph.addNode(node1);
+        graph.addNode(node2);
+        graph.addNode(node3);
+        graph.addEdge(node1, node2);
+        graph.addEdge(node3, node1);
+        ConstantEdgeIterator<String> constantEdgeIterator = new ConstantEdgeIterator<>(graph);
+        assertTrue(constantEdgeIterator.hasNext());
+        try {
+            constantEdgeIterator.next();
+            constantEdgeIterator.remove();
+            fail("Исключение не выброшено");
+        } catch (UnsupportedOperationException e) {
+        }
     }
 
 }
