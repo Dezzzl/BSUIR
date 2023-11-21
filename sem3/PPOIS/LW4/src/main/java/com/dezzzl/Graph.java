@@ -8,8 +8,6 @@ public class Graph<T> implements Iterable<T> {
     private final List<Node<T>> nodes = new ArrayList<>();
     private final List<List<Integer>> incidenceMatrix = new ArrayList<>();
 
-    private final List<List<Node<T>>> edges = new ArrayList<>();
-
     private int countOfEdges;
 
     /**
@@ -19,11 +17,21 @@ public class Graph<T> implements Iterable<T> {
     public Graph() {
     }
 
+    public List<Node<T>>getEdge(int countOfEdge){
+        int indexOfOutNode=0;
+        int indexOfInNode=0;
+        for (int i =0; i<countOfEdges; i++){
+            if(incidenceMatrix.get(i).get(countOfEdge)==-1)indexOfInNode=i;
+            if(incidenceMatrix.get(i).get(countOfEdge)==1)indexOfInNode=i;
+        }
+        return List.of(nodes.get(indexOfOutNode), nodes.get(indexOfInNode));
+    }
     /**
      * Добавляет узел в граф
      *
      * @param node узел
      */
+
     public void addNode(Node<T> node) {
         nodes.add(node);
         node.setIndex(incidenceMatrix.size());
@@ -35,22 +43,12 @@ public class Graph<T> implements Iterable<T> {
     }
 
     /**
-     * Возвращает все ребра графа
-     *
-     * @return все ребра графа
-     **/
-    public List<List<Node<T>>> getEdges() {
-        return edges;
-    }
-
-    /**
      * Добавляет ребро между двумя вершинами
      *
      * @param from из какого узла
      * @param to   в какой узел
      */
     public void addEdge(Node<T> from, Node<T> to) {
-        edges.add(List.of(from, to));
         countOfEdges++;
         int firstIndex = from.getIndex();
         int secondIndex = to.getIndex();
@@ -151,8 +149,6 @@ public class Graph<T> implements Iterable<T> {
      */
     public void deleteEdge(Node<T> from, Node<T> to) {
         if (!isEdgeInGraph(from, to)) return;
-
-        edges.remove(Map.of(from, to));
 
         int indexOfEdge = getIndexOfEdge(from, to);
 

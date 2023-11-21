@@ -19,11 +19,11 @@ public class ReverseEdgeIterator<T> extends EdgeIterator<T> {
 
     @Override
     public List<Node<T>> next() {
-        return graph.getEdges().get(currentIndex--);
+        return graph.getEdge(currentIndex--);
     }
 
     @Override
     public void remove() {
-        graph.deleteEdge(graph.getEdges().get(currentIndex+1).get(0), graph.getEdges().get(currentIndex+1).get(1));
+        graph.deleteEdge(graph.getEdge(currentIndex+1).get(0), graph.getEdge(currentIndex+1).get(1));
     }
 }
