@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Objects;
 import java.util.Optional;
 
 public class PersonDatabaseManager {
@@ -102,8 +103,8 @@ public class PersonDatabaseManager {
      * @param order заказ
      */
     public void cancelOrder(Order order){
+        if(Objects.equals(order.getStatus(), "Обрабатывается"))(new WarehouseDatabaseManager()).putProductsToStock(order);
         String query = "UPDATE Orders SET status = 'Отменен' WHERE id = ?";
-
         try (Connection connection = ConnectionManager.open();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 

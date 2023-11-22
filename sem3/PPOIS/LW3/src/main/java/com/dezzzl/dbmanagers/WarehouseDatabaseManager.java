@@ -259,8 +259,12 @@ public class WarehouseDatabaseManager {
             e.printStackTrace();
         }
     }
-
-    private void putProductsToStock(Order order) {
+    /**
+     * Кладет продукты из заказа на склад
+     *
+     * @param order заказ
+     */
+    public void putProductsToStock(Order order) {
         Map<Product, Integer> products = OrderDatabaseManager.getOrderProductsAndQuantity(order.getId());
 
         for (Map.Entry<Product, Integer> entry : products.entrySet()) {
@@ -306,7 +310,7 @@ public class WarehouseDatabaseManager {
 
             preparedStatement.executeBatch();
         } catch (SQLException e) {
-            e.printStackTrace(); // Обработка исключений
+            e.printStackTrace();
         }
     }
 
