@@ -17,11 +17,11 @@ public class ReverseNodeIterator<T> extends NodeIterator<T>{
 
     @Override
     public Node<T> next() {
-        return graph.getNodes().get(currentIndex--);
+        return graph.getNodeByIndex(currentIndex--);
     }
 
     @Override
     public void remove() {
-        graph.deleteNode(graph.getNodes().get(currentIndex+1));
+        graph.deleteNode(graph.getNodeByIndex(currentIndex+1));
     }
 }

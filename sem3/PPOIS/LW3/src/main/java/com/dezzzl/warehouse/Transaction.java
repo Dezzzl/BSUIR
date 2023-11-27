@@ -11,8 +11,8 @@ public class Transaction {
     private final Timestamp date;
     private final int quantityChange;
     private final boolean isOrderCompleted;
-    private final int orderId;
-    private final int productId;
+    private final Order order;
+    private final Product product;
 
     /**
      * Конструктор, создающий Transaction по его id, type, date, quantityChange, isOrderCompleted, orderId, productId
@@ -22,17 +22,17 @@ public class Transaction {
      * @param date             дата транзакции
      * @param quantityChange   изменение на складе
      * @param isOrderCompleted выполнен ли заказ или отменен
-     * @param orderId          Id пользователя
-     * @param productId        Id продукта
+     * @param order           пользователь
+     * @param product      продукт
      */
-    public Transaction(int id, String type, Timestamp date, int quantityChange, boolean isOrderCompleted, int orderId, int productId) {
+    public Transaction(int id, String type, Timestamp date, int quantityChange, boolean isOrderCompleted, Order order, Product product) {
         this.id = id;
         this.type = type;
         this.date = date;
         this.quantityChange = quantityChange;
         this.isOrderCompleted = isOrderCompleted;
-        this.orderId = orderId;
-        this.productId = productId;
+        this.order = order;
+        this.product = product;
     }
 
     /**

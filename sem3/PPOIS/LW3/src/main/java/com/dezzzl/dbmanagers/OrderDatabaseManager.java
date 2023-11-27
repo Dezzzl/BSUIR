@@ -1,5 +1,7 @@
 package com.dezzzl.dbmanagers;
 
+import com.dezzzl.exceptions.PersonNotFoundException;
+import com.dezzzl.person.Person;
 import com.dezzzl.warehouse.Order;
 import com.dezzzl.warehouse.Product;
 
@@ -20,13 +22,17 @@ public class OrderDatabaseManager {
             preparedStatement.setInt(1, orderId);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
+                   int personId =  resultSet.getInt("person_id");
+                   Optional<Person> personOptional  = PersonDatabaseManager.getPersonById(personId);
                     return Optional.of(new Order(
                             resultSet.getInt("id"),
                             resultSet.getTimestamp("order_date"),
                             resultSet.getString("status"),
-                            resultSet.getInt("person_id")
+                            personOptional.get()
                     ));
                 }
+            } catch (PersonNotFoundException e) {
+                throw new RuntimeException(e);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -37,10 +43,10 @@ public class OrderDatabaseManager {
     /**
      * Возвращает продукты и их количество для данного заказа
      *
-     * @param orderId  id заказа
+     * @param order заказ
      * @return продукты и их количество для данного заказа
      */
-    public static Map<Product, Integer> getOrderProductsAndQuantity(int orderId) {
+    public static Map<Product, Integer> getOrderProductsAndQuantity(Order order) {
         Map<Product, Integer> orderProductsAndQuantity = new HashMap<>();
 
         String query = "SELECT * " +
@@ -51,7 +57,7 @@ public class OrderDatabaseManager {
         try (Connection connection = ConnectionManager.open();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
-            preparedStatement.setInt(1, orderId);
+            preparedStatement.setInt(1, order.getId());
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
@@ -108,18 +114,36 @@ public class OrderDatabaseManager {
                     orders.add(order);
                 }
             }
-        } catch (SQLException e) {
+        } catch (SQLException | PersonNotFoundException e) {
             e.printStackTrace();
         }
 
         return orders;
     }
 
-    private Order mapResultSetToOrder(ResultSet resultSet) throws SQLException {
+    private Order mapResultSetToOrder(ResultSet resultSet) throws SQLException, PersonNotFoundException {
         int orderId = resultSet.getInt("id");
         Timestamp orderDate = resultSet.getTimestamp("order_date");
         String status = resultSet.getString("status");
         int personId = resultSet.getInt("person_id");
-        return new Order(orderId, orderDate, status, personId);
+        Optional<Person> personOptional = PersonDatabaseManager.getPersonById(personId);
+        return new Order(orderId, orderDate, status, personOptional.get());
+    }
+
+    /**
+     * Удаление заказа из таблицы Order по id
+     * @param orderId id заказа
+     */
+    public void deleteOrderById(int orderId) {
+        String deleteQuery = "DELETE FROM Orders WHERE id = ?";
+
+        try (Connection connection = ConnectionManager.open();
+             PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery)) {
+
+            preparedStatement.setInt(1, orderId);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

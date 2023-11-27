@@ -5,7 +5,7 @@ import com.dezzzl.iterator.*;
 import java.util.*;
 
 public class Graph<T> implements Iterable<T> {
-    private final List<Node<T>> nodes = new ArrayList<>();
+    private final Map<Node<T>, Integer> nodes = new HashMap<>();
     private final List<List<Integer>> incidenceMatrix = new ArrayList<>();
 
     private  int countOfEdges;
@@ -24,14 +24,29 @@ public class Graph<T> implements Iterable<T> {
      *
      * @return ребро по его индексу в матрице инцидентности
      */
-    public List<Node<T>>getEdge(int countOfEdge){
+    public Edge<T> getEdge(int countOfEdge){
         int indexOfOutNode=0;
         int indexOfInNode=0;
         for (int i =0; i<countOfEdges; i++){
             if(incidenceMatrix.get(i).get(countOfEdge)==-1)indexOfInNode=i;
-            if(incidenceMatrix.get(i).get(countOfEdge)==1)indexOfInNode=i;
+            if(incidenceMatrix.get(i).get(countOfEdge)==1)indexOfOutNode=i;
         }
-        return List.of(nodes.get(indexOfOutNode), nodes.get(indexOfInNode));
+        return new Edge<>(getNodeByIndex(indexOfOutNode), getNodeByIndex(indexOfInNode));
+    }
+    /**
+     * Возвращает узел по его индексу в матрице инцидентности
+     *
+     * @param index индекс узла в матрице инцидентности
+     *
+     * @return узел по его индексу в матрице инцидентности
+     */
+    public Node<T> getNodeByIndex(int index) {
+        for (Map.Entry<Node<T>, Integer> entry : nodes.entrySet()) {
+            if (entry.getValue() == index) {
+                return entry.getKey();
+            }
+        }
+        return null;
     }
     /**
      * Добавляет узел в граф
@@ -40,8 +55,9 @@ public class Graph<T> implements Iterable<T> {
      */
 
     public void addNode(Node<T> node) {
-        nodes.add(node);
-        node.setIndex(incidenceMatrix.size());
+        Optional<Node<T>> nodeOptional = getNode(node.getInfo());
+        if (nodeOptional.isPresent())return;
+        nodes.put(node, nodes.size());
         if (incidenceMatrix.size() > 1) {
             incidenceMatrix.add(new ArrayList<>(Collections.nCopies(incidenceMatrix.get(0).size(), 0)));
         } else {
@@ -51,14 +67,13 @@ public class Graph<T> implements Iterable<T> {
 
     /**
      * Добавляет ребро между двумя вершинами
-     *
-     * @param from из какого узла
-     * @param to   в какой узел
+     * @param edge ребро
      */
-    public void addEdge(Node<T> from, Node<T> to) {
+    public void addEdge(Edge<T> edge) {
+        if (isEdgeInGraph(edge))return;
         countOfEdges++;
-        int firstIndex = from.getIndex();
-        int secondIndex = to.getIndex();
+        int firstIndex = nodes.get(edge.getFrom());
+        int secondIndex = nodes.get(edge.getTo());
         for (List<Integer> row : incidenceMatrix) {
             row.add(0);
         }
@@ -91,7 +106,7 @@ public class Graph<T> implements Iterable<T> {
      *
      * @return все вершины графа
      */
-    public List<Node<T>> getNodes() {
+    public Map<Node<T>, Integer> getNodes() {
         return nodes;
     }
 
@@ -111,24 +126,20 @@ public class Graph<T> implements Iterable<T> {
      * @return узел по его идентификатору
      */
     public Optional<Node<T>> getNode(T info) {
-        for (Node<T> node : nodes) {
-            if (node.getInfo().equals(info)) {
-                return Optional.of(node);
-            }
-        }
-        return Optional.empty();
+        return nodes.keySet().stream()
+                .filter(node -> node.getInfo().equals(info))
+                .findFirst();
     }
 
     /**
-     * Возвращает true, если узел присутствует в графе
+     * Возвращает true, если ребро присутствует в графе
      *
-     * @param from узел из которого вышло ребро
-     * @param to узел в который зашло ребро
-     * @return true, если узел присутствует в графе
+     * @param edge ребро
+     * @return true, если ребпо присутствует в графе
      */
-    public boolean isEdgeInGraph(Node<T> from, Node<T> to) {
+    public boolean isEdgeInGraph(Edge<T> edge) {
         for (int i = 0; i < countOfEdges; i++) {
-            if (incidenceMatrix.get(from.getIndex()).get(i) == 1 && incidenceMatrix.get(to.getIndex()).get(i) == -1)
+            if (incidenceMatrix.get(nodes.get(edge.getFrom())).get(i) == 1 && incidenceMatrix.get(nodes.get(edge.getTo())).get(i) == -1)
                 return true;
         }
         return false;
@@ -143,7 +154,7 @@ public class Graph<T> implements Iterable<T> {
     public int getDegreeOfNode(Node<T> node) {
         int counter = 0;
         for (int i = 0; i < countOfEdges; i++) {
-            if (incidenceMatrix.get(node.getIndex()).get(i) != 0) counter++;
+            if (incidenceMatrix.get(nodes.get(node)).get(i) != 0) counter++;
         }
         return counter;
     }
@@ -151,13 +162,12 @@ public class Graph<T> implements Iterable<T> {
 
     /**
      *Удаляет ребро, если оно есть в графе
-     * @param from узел из которого вышло ребро
-     * @param to узел в который зашло ребро
+     * @param edge ребро
      */
-    public void deleteEdge(Node<T> from, Node<T> to) {
-        if (!isEdgeInGraph(from, to)) return;
+    public void deleteEdge(Edge<T> edge) {
+        if (!isEdgeInGraph(edge)) return;
 
-        int indexOfEdge = getIndexOfEdge(from, to);
+        int indexOfEdge = getIndexOfEdge(edge);
 
         for (int i = 0; i < incidenceMatrix.size(); i++) {
             incidenceMatrix.get(i).remove(indexOfEdge);
@@ -165,9 +175,9 @@ public class Graph<T> implements Iterable<T> {
         countOfEdges--;
     }
 
-    private int getIndexOfEdge(Node<T> from, Node<T> to) {
+    private int getIndexOfEdge(Edge<T> edge) {
         for (int i = 0; i < countOfEdges; i++) {
-            if (incidenceMatrix.get(from.getIndex()).get(i) == 1 && incidenceMatrix.get(to.getIndex()).get(i) == -1)
+            if (incidenceMatrix.get(nodes.get(edge.getFrom())).get(i) == 1 && incidenceMatrix.get(nodes.get(edge.getTo())).get(i) == -1)
                 return i;
         }
         return -1;
@@ -181,13 +191,13 @@ public class Graph<T> implements Iterable<T> {
         List<Node<T>> incidentNodes = getIncidentNodes(node);
 
         for (Node<T> incidentNode : incidentNodes) {
-            if (isEdgeInGraph(node, incidentNode))
-                deleteEdge(node, incidentNode);
+            if (isEdgeInGraph(new Edge<>(node, incidentNode)))
+                deleteEdge(new Edge<>(node, incidentNode));
             else
-                deleteEdge(incidentNode, node);
+                deleteEdge(new Edge<>(incidentNode, node));
         }
 
-        incidenceMatrix.remove(node.getIndex());
+        incidenceMatrix.remove(nodes.get(node).intValue());
 
         nodes.remove(node);
 
@@ -201,10 +211,10 @@ public class Graph<T> implements Iterable<T> {
      public List<Node<T>> getIncidentNodes(Node<T> node) {
         List<Node<T>> incidentNodes = new ArrayList<>();
         for (int i = 0; i < countOfEdges; i++) {
-            if (incidenceMatrix.get(node.getIndex()).get(i) != 0)
+            if (incidenceMatrix.get(nodes.get(node)).get(i) != 0)
                 for (int j = 0; j < nodes.size(); j++) {
-                    if (incidenceMatrix.get(j).get(i) != 0 && j != node.getIndex())
-                        incidentNodes.add(nodes.get(j));
+                    if (incidenceMatrix.get(j).get(i) != 0 && j != nodes.get(node))
+                        incidentNodes.add(getNodeByIndex(j));
                 }
         }
         return incidentNodes;
@@ -212,7 +222,8 @@ public class Graph<T> implements Iterable<T> {
 
     private void updateIndexes() {
         for (int i = 0; i < nodes.size(); i++) {
-            nodes.get(i).setIndex(i);
+            Node<T> node = getNodeByIndex(i);
+            nodes.replace(node, i);
         }
     }
 
@@ -257,13 +268,13 @@ public class Graph<T> implements Iterable<T> {
      * @param edgeForFind ребро, которое нужно найти
      * @return ребро по двум вершинам с использованием итератора
      */
-    public List<Node<T>> getEdgeWithIter(List<Node<T>> edgeForFind) {
+    public Optional<Edge<T>> getEdgeWithIter(Edge<T> edgeForFind) {
         EdgeIterator<T> edgeIterator = new EdgeIterator<>(this);
         while (edgeIterator.hasNext()) {
-            List<Node<T>> edge = edgeIterator.next();
-            if (edge.equals(edgeForFind)) return edge;
+            Edge<T> edge = edgeIterator.next();
+            if (edge.equals(edgeForFind)) return Optional.of(edge);
         }
-        return new ArrayList<>();
+        return Optional.empty();
     }
 
 
@@ -271,10 +282,10 @@ public class Graph<T> implements Iterable<T> {
      *Удаляет ребро в графе с использованием итератора
      * @param edgeForDelete ребро, которое нужно удалить
      */
-    public void deleteEdgeWithIter(List<Node<T>> edgeForDelete) {
+    public void deleteEdgeWithIter(Edge<T> edgeForDelete) {
         EdgeIterator<T> edgeIterator = new EdgeIterator<>(this);
         while (edgeIterator.hasNext()) {
-            List<Node<T>> edge = edgeIterator.next();
+            Edge<T> edge = edgeIterator.next();
             if (edgeForDelete.equals(edge)) {
                 edgeIterator.remove();
             }
@@ -315,13 +326,13 @@ public class Graph<T> implements Iterable<T> {
      * @param edgeForFind ребро, которое нужно найти
      * @return ребро по двум вершинам с использованием итератора
      */
-    public List<Node<T>> getEdgeWithReversedIter(List<Node<T>> edgeForFind) {
+    public Optional<Edge<T>> getEdgeWithReversedIter(Edge<T> edgeForFind) {
         ReverseEdgeIterator<T> edgeIterator = new ReverseEdgeIterator<>(this);
         while (edgeIterator.hasNext()) {
-            List<Node<T>> edge = edgeIterator.next();
-            if (edge.equals(edgeForFind)) return edge;
+            Edge<T> edge = edgeIterator.next();
+            if (edge.equals(edgeForFind)) return Optional.of(edge);
         }
-        return new ArrayList<>();
+        return Optional.empty();
     }
     /**
      * Возвращает смежные вершины с данной
@@ -343,11 +354,11 @@ public class Graph<T> implements Iterable<T> {
      * @param node вершина, для которой ищатся смежные ребра
      * @return смежные ребра с данной вершиной
      */
-    public List<List<Node<T>>> getAdjacentEdges(Node<T> node) {
+    public List<Edge<T>> getAdjacentEdges(Node<T> node) {
         AdjacentEdgesIterator<T> edgeIterator = new AdjacentEdgesIterator<>(this, node);
-        List<List<Node<T>>>  adjacentEdges = new ArrayList<>();
+        List<Edge<T>>  adjacentEdges = new ArrayList<>();
         while (edgeIterator.hasNext()) {
-           List<Node<T>> adjacentEdge = edgeIterator.next();
+           Edge<T> adjacentEdge = edgeIterator.next();
             adjacentEdges.add(adjacentEdge);
         }
         return adjacentEdges;

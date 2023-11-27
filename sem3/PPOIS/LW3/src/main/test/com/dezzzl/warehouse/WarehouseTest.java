@@ -213,10 +213,10 @@ int a =10;
         warehouse.completeOrders();
         Optional<Order> orderOptional = OrderDatabaseManager.getOrderById(1);
         Order order = orderOptional.get();
+        List<Transaction> transactions = TransactionDatabaseManager.getTransactionsByOrderId(order);
         assertEquals("Завершено", order.getStatus());
-        String transactionType = TransactionDatabaseManager.getTransactionType(1);
+        String transactionType = TransactionDatabaseManager.getTransactionType(transactions.get(0));
         assertEquals("Отдача", transactionType);
-        List<Transaction> transactions=warehouse.getTransactionsByOrderId(1);
         assertEquals(4,transactions.size());
     }
 

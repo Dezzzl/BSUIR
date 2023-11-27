@@ -25,24 +25,17 @@ public class Supplier extends Person {
 
     private void parseShortageMessage(String message) {
         Map<Product, Integer> result = new HashMap<>();
-
-        // Разбиваем строку по двоеточию и удаляем лишние пробелы
         String[] parts = message.split(":")[1].trim().split(",");
 
         for (String part : parts) {
-            // Разбиваем информацию о продукте по открывающей и закрывающей скобкам
             String[] productInfo = part.trim().split("\\(");
 
             if (productInfo.length == 2) {
-                // Получаем название продукта
                 String productName = productInfo[0].trim();
 
                 Optional<Product> productOptional = ProductDatabaseManager.getProductByName(productName);
                 Product product = productOptional.get();
-                // Получаем количество продукта
                 int quantity = Integer.parseInt(productInfo[1].replaceAll("[^0-9]", ""));
-
-                // Добавляем в Map
                 missingProducts.put(product, quantity);
             }
         }
@@ -79,7 +72,7 @@ public class Supplier extends Person {
             missingProducts.clear();
         }
         WarehouseDatabaseManager warehouseDatabaseManager = new WarehouseDatabaseManager();
-        warehouseDatabaseManager.createOrder(products, this.getId());
+        warehouseDatabaseManager.createOrder(products, this);
     }
 
 }

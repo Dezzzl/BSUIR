@@ -25,6 +25,7 @@ public class Customer extends Person {
      *
      * @return непрочитанные уведомления для пользователя
      */
+    @Override
     public List<Notification> getNotifications() {
         return NotificationDatabaseManager.getUnreadNotificationsByPersonId(this.getId());
     }
@@ -37,7 +38,7 @@ public class Customer extends Person {
     @Override
     public void createOrder(Map<Product, Integer> products) {
         WarehouseDatabaseManager warehouseDatabaseManager = new WarehouseDatabaseManager();
-        warehouseDatabaseManager.createOrder(products, this.getId());
+        warehouseDatabaseManager.createOrder(products, this);
     }
 
 }

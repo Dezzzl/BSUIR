@@ -105,6 +105,6 @@ public class StatisticsDatabaseManager {
             e.printStackTrace();
         }
 
-        return 0; // Если уведомления не найдены
+        return 0;
     }
 }

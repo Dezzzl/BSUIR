@@ -1,19 +1,20 @@
 package com.dezzzl.iterator;
 
+import com.dezzzl.Edge;
 import com.dezzzl.Graph;
 import com.dezzzl.Node;
 
 import java.util.Iterator;
 import java.util.List;
 
-public class AdjacentEdgesIterator<T> implements Iterator<List<Node<T>>> {
+public class AdjacentEdgesIterator<T> implements Iterator<Edge<T>> {
     private final Graph<T> graph;
 
-    private Node<T> node;
+    private final Node<T> node;
 
     private int currentIndex;
 
-    private List<Node<T>> adjacentNodes;
+    private final List<Node<T>> adjacentNodes;
 
     public AdjacentEdgesIterator(Graph<T> graph, Node<T> node) {
         this.graph = graph;
@@ -27,9 +28,9 @@ public class AdjacentEdgesIterator<T> implements Iterator<List<Node<T>>> {
     }
 
     @Override
-    public List<Node<T>> next() {
+    public Edge<T> next() {
         Node<T> adjacentNode = adjacentNodes.get(currentIndex++);
-        if(graph.isEdgeInGraph(node, adjacentNode))return List.of(node, adjacentNode);
-        else return List.of(adjacentNode, node);
+        if(graph.isEdgeInGraph(new Edge<>(node, adjacentNode)))return new Edge<>(node, adjacentNode);
+        else return new Edge<>(adjacentNode, node);
     }
 }

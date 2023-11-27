@@ -1,5 +1,6 @@
 package com.dezzzl.iterator;
 
+import com.dezzzl.Edge;
 import com.dezzzl.Graph;
 import com.dezzzl.Node;
 
@@ -17,12 +18,12 @@ public class ReverseEdgeIterator<T> extends EdgeIterator<T> {
     }
 
     @Override
-    public List<Node<T>> next() {
+    public Edge<T> next() {
         return graph.getEdge(currentIndex--);
     }
 
     @Override
     public void remove() {
-        graph.deleteEdge(graph.getEdge(currentIndex+1).get(0), graph.getEdge(currentIndex+1).get(1));
+        graph.deleteEdge(graph.getEdge(currentIndex+1));
     }
 }

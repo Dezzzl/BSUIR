@@ -1,3 +1,4 @@
+import com.dezzzl.Edge;
 import com.dezzzl.Graph;
 import com.dezzzl.Node;
 import com.dezzzl.iterator.ConstantEdgeIterator;
@@ -25,6 +26,9 @@ public class GraphTest {
     public void addNode() {
         graph.addNode(node1);
         graph.addNode(node2);
+        graph.addNode(node1);
+        graph.addNode(node1);
+        graph.addNode(node1);
         assertEquals(2, graph.getIncidenceMatrix().size());
     }
 
@@ -32,7 +36,7 @@ public class GraphTest {
         int a =0;
         graph.addNode(node1);
         graph.addNode(node2);
-        graph.addEdge(node1, node2);
+        graph.addEdge(new Edge<>(node1, node2));
         List<Integer> firstRow = Arrays.asList(1);
         List<Integer> secondRow = Arrays.asList(-1);
         List<List<Integer>> expectedList = Arrays.asList(firstRow, secondRow);
@@ -43,7 +47,7 @@ public class GraphTest {
         int a =0;
         graph.addNode(node1);
         graph.addNode(node2);
-        graph.addEdge(node1, node2);
+        graph.addEdge(new Edge<>(node1, node2));
        Optional<Node<String>> nodeOptional1 =  graph.getNode("node1");
         nodeOptional1.ifPresent(stringNode -> assertEquals("node1", stringNode.getInfo()));
         Optional<Node<String>> nodeOptional2 =  graph.getNode("node100");
@@ -53,17 +57,17 @@ public class GraphTest {
     @Test public void isEdgeInGraph(){
         graph.addNode(node1);
         graph.addNode(node2);
-        graph.addEdge(node1, node2);
-        assertTrue(graph.isEdgeInGraph(node1, node2));
-        assertFalse(graph.isEdgeInGraph(node2, node1));
+        graph.addEdge(new Edge<>(node1, node2));
+        assertTrue(graph.isEdgeInGraph(new Edge<>(node1, node2)));
+        assertFalse(graph.isEdgeInGraph(new Edge<>(node2, node1)));
     }
 
     @Test public void getDegreeOfNode(){
         graph.addNode(node1);
         graph.addNode(node2);
         graph.addNode(node3);
-        graph.addEdge(node1, node2);
-        graph.addEdge(node3, node1);
+        graph.addEdge(new Edge<>(node1, node2));
+        graph.addEdge(new Edge<>(node3, node1));
         assertEquals(2, graph.getDegreeOfNode(node1));
     }
 
@@ -71,15 +75,15 @@ public class GraphTest {
         graph.addNode(node1);
         graph.addNode(node2);
         graph.addNode(node3);
-        graph.addEdge(node1, node2);
-        graph.addEdge(node3, node1);
+        graph.addEdge(new Edge<>(node1, node2));
+        graph.addEdge(new Edge<>(node3, node1));
         List<Integer> firstRow = Arrays.asList(1,-1);
         List<Integer> secondRow = Arrays.asList(-1, 0);
         List<Integer> thirdRow = Arrays.asList(0,1);
         List<List<Integer>> expectedList = Arrays.asList(firstRow, secondRow, thirdRow);
         assertEquals(expectedList, graph.getIncidenceMatrix());
 
-        graph.deleteEdge(node1, node2);
+        graph.deleteEdge(new Edge<>(node1, node2));
         firstRow = Arrays.asList(-1);
         secondRow = Arrays.asList( 0);
         thirdRow = Arrays.asList(1);
@@ -92,8 +96,8 @@ public class GraphTest {
         graph.addNode(node1);
         graph.addNode(node2);
         graph.addNode(node3);
-        graph.addEdge(node1, node2);
-        graph.addEdge(node3, node1);
+        graph.addEdge(new Edge<>(node1, node2));
+        graph.addEdge(new Edge<>(node3, node1));
         List<Integer> firstRow = Arrays.asList(1,-1);
         List<Integer> secondRow = Arrays.asList(-1, 0);
         List<Integer> thirdRow = Arrays.asList(0,1);
@@ -112,8 +116,8 @@ public class GraphTest {
         graph.addNode(node1);
         graph.addNode(node2);
         graph.addNode(node3);
-        graph.addEdge(node1, node2);
-        graph.addEdge(node3, node1);
+        graph.addEdge(new Edge<>(node1, node2));
+        graph.addEdge(new Edge<>(node3, node1));
        Optional<Node<String>>  nodeOptional=graph.getNodeWithIter(node1);
         nodeOptional.ifPresent(stringNode -> assertEquals(node1, stringNode));
     }
@@ -122,10 +126,11 @@ public class GraphTest {
         graph.addNode(node1);
         graph.addNode(node2);
         graph.addNode(node3);
-        graph.addEdge(node1, node2);
-        graph.addEdge(node3, node1);
-        List<Node<String>> edge = List.of(node1, node2);
-        List<Node<String>> edgeForFind=graph.getEdgeWithIter(edge);
+        graph.addEdge(new Edge<>(node1, node2));
+        graph.addEdge(new Edge<>(node3, node1));
+        Edge<String> edge = new Edge<>(node1, node2);
+       Optional< Edge<String> >edgeForFindOptional=graph.getEdgeWithIter(edge);
+       Edge<String> edgeForFind = edgeForFindOptional.get();
         assertEquals(edge, edgeForFind);
     }
 
@@ -133,9 +138,9 @@ public class GraphTest {
         graph.addNode(node1);
         graph.addNode(node2);
         graph.addNode(node3);
-        graph.addEdge(node1, node2);
-        graph.addEdge(node3, node1);
-        List<Node<String>> edge = List.of(node1, node2);
+        graph.addEdge(new Edge<>(node1, node2));
+        graph.addEdge(new Edge<>(node3, node1));
+      Edge<String> edge = new Edge<>(node1, node2);
         graph.deleteEdgeWithIter(edge);
         List<Integer> firstRow = Arrays.asList(-1);
         List<Integer> secondRow = Arrays.asList(0);
@@ -149,8 +154,8 @@ public class GraphTest {
         graph.addNode(node1);
         graph.addNode(node2);
         graph.addNode(node3);
-        graph.addEdge(node1, node2);
-        graph.addEdge(node3, node1);
+        graph.addEdge(new Edge<>(node1, node2));
+        graph.addEdge(new Edge<>(node3, node1));
         graph.deleteNodeWithIter(node1);
         List<Integer> firstRow = new ArrayList<>();
         List<Integer> secondRow = new ArrayList<>();
@@ -163,8 +168,8 @@ public class GraphTest {
         graph.addNode(node1);
         graph.addNode(node2);
         graph.addNode(node3);
-        graph.addEdge(node1, node2);
-        graph.addEdge(node3, node1);
+        graph.addEdge(new Edge<>(node1, node2));
+        graph.addEdge(new Edge<>(node3, node1));
         Optional<Node<String>>  nodeOptional=graph.getNodeWithReversedIter(node1);
         nodeOptional.ifPresent(stringNode -> assertEquals(node1, stringNode));
     }
@@ -173,10 +178,11 @@ public class GraphTest {
         graph.addNode(node1);
         graph.addNode(node2);
         graph.addNode(node3);
-        graph.addEdge(node1, node2);
-        graph.addEdge(node3, node1);
-        List<Node<String>> edge = List.of(node1, node2);
-        List<Node<String>> edgeForFind=graph.getEdgeWithReversedIter(edge);
+        graph.addEdge(new Edge<>(node1, node2));
+        graph.addEdge(new Edge<>(node3, node1));
+        Edge<String> edge = new Edge<>(node1, node2);
+        Optional<Edge<String>> edgeForFindOptional=graph.getEdgeWithReversedIter(edge);
+        Edge<String>edgeForFind = edgeForFindOptional.get();
         assertEquals(edge, edgeForFind);
     }
 
@@ -186,17 +192,17 @@ public class GraphTest {
         graph.addNode(node3);
         graph.addNode(node4);
         graph.addNode(node5);
-        graph.addEdge(node1, node2);
-        graph.addEdge(node3, node1);
-        graph.addEdge(node4, node1);
-        graph.addEdge(node5, node2);
-        graph.addEdge(node5, node3);
-        List<List<Node<String>>> adjacentEdges=graph.getAdjacentEdges(node1);
+        graph.addEdge(new Edge<>(node1, node2));
+        graph.addEdge(new Edge<>(node3, node1));
+        graph.addEdge(new Edge<>(node4, node1));
+        graph.addEdge(new Edge<>(node5, node2));
+        graph.addEdge(new Edge<>(node5, node3));
+        List<Edge<String>> adjacentEdges=graph.getAdjacentEdges(node1);
         assertEquals(3, adjacentEdges.size());
-        assertTrue(adjacentEdges.contains(List.of(node1, node2)));
-        assertTrue(adjacentEdges.contains(List.of(node3, node1)));
-        assertTrue(adjacentEdges.contains(List.of(node4, node1)));
-        assertFalse(adjacentEdges.contains(List.of(node1, node4)));
+        assertTrue(adjacentEdges.contains(new Edge<>(node1, node2)));
+        assertTrue(adjacentEdges.contains(new Edge<>(node3, node1)));
+        assertTrue(adjacentEdges.contains(new Edge<>(node4, node1)));
+        assertFalse(adjacentEdges.contains(new Edge<>(node1, node4)));
     }
 
 
@@ -206,11 +212,11 @@ public class GraphTest {
         graph.addNode(node3);
         graph.addNode(node4);
         graph.addNode(node5);
-        graph.addEdge(node1, node2);
-        graph.addEdge(node3, node1);
-        graph.addEdge(node4, node1);
-        graph.addEdge(node5, node2);
-        graph.addEdge(node5, node3);
+        graph.addEdge(new Edge<>(node1, node2));
+        graph.addEdge(new Edge<>(node3, node1));
+        graph.addEdge(new Edge<>(node4, node1));
+        graph.addEdge(new Edge<>(node5, node2));
+        graph.addEdge(new Edge<>(node5, node3));
         List<Node<String>> adjacentEdges=graph.getAdjacentNodes(node1);
         assertEquals(3, adjacentEdges.size());
         assertTrue(adjacentEdges.contains(node2));
@@ -223,8 +229,8 @@ public class GraphTest {
         graph.addNode(node1);
         graph.addNode(node2);
         graph.addNode(node3);
-        graph.addEdge(node1, node2);
-        graph.addEdge(node3, node1);
+        graph.addEdge(new Edge<>(node1, node2));
+        graph.addEdge(new Edge<>(node3, node1));
         ConstantNodeIterator<String> constantNodeIterator = new ConstantNodeIterator<>(graph);
         assertTrue(constantNodeIterator.hasNext());
         try {
@@ -239,8 +245,8 @@ public class GraphTest {
         graph.addNode(node1);
         graph.addNode(node2);
         graph.addNode(node3);
-        graph.addEdge(node1, node2);
-        graph.addEdge(node3, node1);
+        graph.addEdge(new Edge<>(node1, node2));
+        graph.addEdge(new Edge<>(node3, node1));
         ConstantEdgeIterator<String> constantEdgeIterator = new ConstantEdgeIterator<>(graph);
         assertTrue(constantEdgeIterator.hasNext());
         try {

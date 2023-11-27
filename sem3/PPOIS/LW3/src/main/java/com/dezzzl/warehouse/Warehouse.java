@@ -1,12 +1,12 @@
 package com.dezzzl.warehouse;
 
-import com.dezzzl.dbmanagers.TransactionDatabaseManager;
-import com.dezzzl.dbmanagers.WarehouseDatabaseManager;
+import com.dezzzl.dbmanagers.*;
 import com.dezzzl.person.Person;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class Warehouse {
 
@@ -50,7 +50,7 @@ public class Warehouse {
      * @param id id заказа
      */
     public void deleteOrderById(int id){
-        warehouseDatabaseManager.deleteOrderById(id);
+        (new OrderDatabaseManager()).deleteOrderById(id);
     }
 
     /**
@@ -58,7 +58,7 @@ public class Warehouse {
      * @param id id пользователя
      */
     public void deletePersonById(int id){
-        warehouseDatabaseManager.deletePersonById(id);
+        (new PersonDatabaseManager()).deletePersonById(id);
     }
 
     /**
@@ -66,7 +66,8 @@ public class Warehouse {
      * @param id id пользователя
      */
     public void deleteProductById(int id){
-        warehouseDatabaseManager.deleteProductById(id);
+       Optional<Product>productOptional =  ProductDatabaseManager.getProductById(id);
+        productOptional.ifPresent(product -> (new ProductDatabaseManager()).deleteProductById(product));
     }
 
 
@@ -76,7 +77,7 @@ public class Warehouse {
      * @param role роль пользователя
      */
     public void addPerson(Person person, String role){
-        warehouseDatabaseManager.addPerson(person, role);
+        (new PersonDatabaseManager()).addPerson(person, role);
     }
 
     /**
@@ -84,7 +85,7 @@ public class Warehouse {
      * @param product  продукт
      */
     public void addProduct(Product product){
-        warehouseDatabaseManager.addProduct(product);
+        (new ProductDatabaseManager()).addProduct(product);
     }
 
     /**
@@ -102,6 +103,10 @@ public class Warehouse {
      * @param orderId id заказа
      */
     public List<Transaction> getTransactionsByOrderId(int orderId){
-       return TransactionDatabaseManager.getTransactionsByOrderId(orderId);
+        Optional<Order> optionalOrder = OrderDatabaseManager.getOrderById(orderId);
+        if (optionalOrder.isPresent()) {
+            return TransactionDatabaseManager.getTransactionsByOrderId(optionalOrder.get());
+        }
+        return new ArrayList<>();
     }
 }

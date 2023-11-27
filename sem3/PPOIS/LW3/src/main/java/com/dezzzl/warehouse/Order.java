@@ -1,5 +1,7 @@
 package com.dezzzl.warehouse;
 
+import com.dezzzl.person.Person;
+
 import java.sql.Timestamp;
 import java.util.Map;
 
@@ -10,22 +12,22 @@ public class Order {
 
     private final String status;
 
-    private final int personId;
+    private final Person person;
     private Map<Product, Integer> products;
 
     /**
      * Конструктор, создающий order по его id, orderDate, status, personId
      *
      * @param id               id заказа
-     * @param orderDate          message заказа
-     * @param status notificationType заказа
-     * @param personId            createDate заказа
+     * @param orderDate          дата заказа
+     * @param status статус заказа
+     * @param person пользователь, создавший заказ
      */
-    public Order(int id, Timestamp orderDate, String status, int personId) {
+    public Order(int id, Timestamp orderDate, String status, Person person) {
         this.id = id;
         this.orderDate = orderDate;
         this.status = status;
-        this.personId = personId;
+        this.person = person;
     }
 
     /**
@@ -70,8 +72,8 @@ public class Order {
      *
      * @return время заказа
      */
-    public int getPersonId() {
-        return personId;
+    public Person getPerson() {
+        return person;
     }
 
 }

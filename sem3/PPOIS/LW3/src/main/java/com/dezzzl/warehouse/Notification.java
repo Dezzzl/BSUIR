@@ -11,7 +11,7 @@ public class Notification {
 
     private final boolean isRead;
 
-    private final int orderId;
+    private final Order order;
 
     /**
      * Конструктор, создающий notification по его id, message, notificationType, createdDate, isRead, orderId
@@ -21,15 +21,15 @@ public class Notification {
      * @param notificationType notificationType уведомления
      * @param createdDate            createDate уведомления
      * @param isRead          прочитано ли уведомления
-     * @param orderId orderId уведомления
+     * @param order order уведомления
      */
-    public Notification(int id, String message, String notificationType, Timestamp createdDate, boolean isRead, int orderId) {
+    public Notification(int id, String message, String notificationType, Timestamp createdDate, boolean isRead, Order order) {
         this.id = id;
         this.message = message;
         this.notificationType = notificationType;
         this.createdDate = createdDate;
         this.isRead = isRead;
-        this.orderId = orderId;
+        this.order = order;
     }
 
     /**
@@ -73,8 +73,8 @@ public class Notification {
      *
      * @return orderId уведомления
      */
-    public int getOrderId() {
-        return orderId;
+    public Order getOrder() {
+        return order;
     }
 
 }

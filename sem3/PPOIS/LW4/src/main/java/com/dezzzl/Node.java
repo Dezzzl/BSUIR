@@ -1,12 +1,10 @@
 package com.dezzzl;
 
+import java.util.Objects;
+
 public class Node<T>{
-    private int index;
     private final T info;
 
-    public int getIndex() {
-        return index;
-    }
 
     public Node(T info) {
         this.info = info;
@@ -25,20 +23,16 @@ public class Node<T>{
         return  "info=" + info;
     }
 
-    /**
-     *Устанавливает номер строки для вершины в матрице инцидентности
-     */
-    public void setIndex(int index) {
-        this.index = index;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Node<?> node = (Node<?>) o;
+        return Objects.equals(info, node.info);
     }
 
     @Override
     public int hashCode() {
-        return super.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
+        return Objects.hash(info);
     }
 }

@@ -1,6 +1,7 @@
 package com.dezzzl.dbmanagers;
 
 import com.dezzzl.warehouse.Order;
+import com.dezzzl.warehouse.Product;
 import com.dezzzl.warehouse.Transaction;
 
 import java.sql.*;
@@ -8,6 +9,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 public class TransactionDatabaseManager {
     /**
@@ -52,43 +54,42 @@ public class TransactionDatabaseManager {
     /**
      * Возвращает тип транзакции(Поступление/Отдача)
      *
-     * @param transactionId id транзакции
+     * @param transaction транзакция
      */
-    public static String getTransactionType(int transactionId) {
+    public static String getTransactionType(Transaction transaction) {
         String query = "SELECT transaction_type FROM Transaction WHERE id = ?";
 
         try (Connection connection = ConnectionManager.open();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setInt(1, transactionId);
+            preparedStatement.setInt(1, transaction.getId());
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
                     return resultSet.getString("transaction_type");
                 } else {
-                    // Обработка случая, когда транзакция с указанным ID не найдена
-                    System.out.println("Транзакция с ID " + transactionId + " не найдена.");
-                    return null; // или бросьте исключение, в зависимости от вашей логики
+                    System.out.println("Транзакция с ID " + transaction.getId() + " не найдена.");
+                    return null;
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // Обработка исключений
-            return null; // или бросьте исключение, в зависимости от вашей логики
+            e.printStackTrace();
+            return null;
         }
     }
 
     /**
      * Возвращает транзакции по id заказа
      *
-     * @param orderId id заказа
+     * @param order заказ
      */
-    public static List<Transaction> getTransactionsByOrderId(int orderId) {
+    public static List<Transaction> getTransactionsByOrderId(Order order) {
         List<Transaction> transactions = new ArrayList<>();
         String query = "SELECT * FROM Transaction WHERE order_id = ?";
 
         try (Connection connection = ConnectionManager.open();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
-            preparedStatement.setInt(1, orderId);
+            preparedStatement.setInt(1, order.getId());
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
@@ -98,8 +99,8 @@ public class TransactionDatabaseManager {
                     int quantityChange = resultSet.getInt("quantity_change");
                     boolean isOrderCompleted = resultSet.getBoolean("is_order_completed");
                     int productId = resultSet.getInt("product_id");
-
-                    Transaction transaction = new Transaction(transactionId, type, date, quantityChange, isOrderCompleted, orderId, productId);
+                    Optional<Product> productOptional = ProductDatabaseManager.getProductById(productId);
+                    Transaction transaction = new Transaction(transactionId, type, date, quantityChange, isOrderCompleted, order, productOptional.get());
                     transactions.add(transaction);
                 }
             }
