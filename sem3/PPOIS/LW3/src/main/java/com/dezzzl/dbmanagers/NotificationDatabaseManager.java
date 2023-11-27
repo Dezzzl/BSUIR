@@ -29,7 +29,7 @@ public class NotificationDatabaseManager {
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
             preparedStatement.setString(1, message);
-            preparedStatement.setString(2, "Изменение Статуса");
+            preparedStatement.setString(2, NotificationType.STATUS_CHANGE.getType());
             preparedStatement.setTimestamp(3, new Timestamp(System.currentTimeMillis()));
             preparedStatement.setInt(4, order.getId());
             preparedStatement.setInt(5, person.getId());
@@ -96,7 +96,7 @@ public class NotificationDatabaseManager {
              PreparedStatement insertStatement = connection.prepareStatement(insertQuery)) {
 
             for (Supplier supplier : suppliers) {
-                String notificationType = "Нехватка Товара";
+                String notificationType = NotificationType.SHORTAGE.getType();
                 insertStatement.setString(1, message);
                 insertStatement.setString(2, notificationType);
                 insertStatement.setTimestamp(3, new Timestamp(System.currentTimeMillis()));

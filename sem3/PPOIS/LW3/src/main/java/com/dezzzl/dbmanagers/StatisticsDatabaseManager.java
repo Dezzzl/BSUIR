@@ -1,5 +1,8 @@
 package com.dezzzl.dbmanagers;
 
+import com.dezzzl.Util.OrderStatus;
+import com.dezzzl.Util.TransactionType;
+
 import java.sql.*;
 import java.util.Date;
 
@@ -9,13 +12,14 @@ public class StatisticsDatabaseManager {
      * @return количество продуктов пришедших/ушедших из склада
      */
     public static int getTotalQuantitySold(){
-        String query = "SELECT SUM(quantity_change) FROM Transaction WHERE transaction_type = 'Отдача'";
+        String query = "SELECT SUM(quantity_change) FROM Transaction WHERE transaction_type = ?";
         try (Connection connection = ConnectionManager.open();
-             PreparedStatement preparedStatement = connection.prepareStatement(query);
-             ResultSet resultSet = preparedStatement.executeQuery()) {
-
-            if (resultSet.next()) {
-                return resultSet.getInt(1);
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, TransactionType.OUTGOING.getType());
+            try(ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getInt(1);
+                }
             }
         }
         catch (SQLException e){
@@ -42,7 +46,7 @@ public class StatisticsDatabaseManager {
             e.printStackTrace();
         }
 
-        return 0; // Если товары в заказах не найдены
+        return 0;
     }
 
     /**
@@ -67,7 +71,7 @@ public class StatisticsDatabaseManager {
             e.printStackTrace();
         }
 
-        return 0; // Если выполненные заказы не найдены
+        return 0;
     }
 
     /**
@@ -75,7 +79,7 @@ public class StatisticsDatabaseManager {
      * @return количество отмененных заказазов
      */
     public static int getCanceledOrdersCount(Date startDate, Date endDate){
-        return getCompletedOrdersCount(startDate, endDate, "Отменен");
+        return getCompletedOrdersCount(startDate, endDate, OrderStatus.CANCELED.getStatus());
     }
 
     /**
@@ -83,7 +87,7 @@ public class StatisticsDatabaseManager {
      * @return количество приостановленных заказазов
      */
     public static int getPendingOrdersCount(Date startDate, Date endDate){
-        return getCompletedOrdersCount(startDate, endDate, "Приостановлен");
+        return getCompletedOrdersCount(startDate, endDate, OrderStatus.SUSPENDED.getStatus());
     }
 
 

@@ -1,5 +1,6 @@
 package com.dezzzl.warehouse;
 
+import com.dezzzl.Util.OrderStatus;
 import com.dezzzl.dbmanagers.*;
 import com.dezzzl.person.Person;
 
@@ -25,7 +26,7 @@ public class Warehouse {
      *
      */
     public void processFirstPendingOrder(){
-        warehouseDatabaseManager.processFirstPendingOrder("В ожидании");
+        warehouseDatabaseManager.processFirstPendingOrder(OrderStatus.PENDING.getStatus());
 
     }
 

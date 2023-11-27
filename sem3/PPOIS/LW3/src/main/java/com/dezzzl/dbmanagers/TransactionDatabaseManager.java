@@ -1,5 +1,8 @@
 package com.dezzzl.dbmanagers;
 
+import com.dezzzl.Util.OrderStatus;
+import com.dezzzl.Util.PersonRole;
+import com.dezzzl.Util.TransactionType;
 import com.dezzzl.warehouse.Order;
 import com.dezzzl.warehouse.Product;
 import com.dezzzl.warehouse.Transaction;
@@ -35,8 +38,8 @@ public class TransactionDatabaseManager {
                     int quantity = resultSet.getInt("quantity");
                     int orderId = resultSet.getInt("id");
                     int productId = resultSet.getInt("product_id");
-                    String type = Objects.equals(resultSet.getString("role"), "Поставщик") ? "Поступление" : "Отдача";
-                    Boolean isOrderCompleted = Objects.equals(resultSet.getString("status"), "Завершено");
+                    String type = Objects.equals(resultSet.getString("role"), PersonRole.SUPPLIER.getRoleName()) ? TransactionType.INCOMING.getType() : TransactionType.OUTGOING.getType();
+                    Boolean isOrderCompleted = Objects.equals(resultSet.getString("status"), OrderStatus.COMPLETED.getStatus());
                     preparedStatement2.setInt(1, quantity);
                     preparedStatement2.setString(2, type);
                     preparedStatement2.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));

@@ -1,5 +1,6 @@
 package com.dezzzl.person;
 
+import com.dezzzl.Util.NotificationType;
 import com.dezzzl.dbmanagers.NotificationDatabaseManager;
 import com.dezzzl.dbmanagers.ProductDatabaseManager;
 import com.dezzzl.dbmanagers.WarehouseDatabaseManager;
@@ -51,7 +52,7 @@ public class Supplier extends Person {
     public List<Notification> getNotifications() {
         List<Notification> notifications = NotificationDatabaseManager.getUnreadNotificationsByPersonId(this.getId());
         for (Notification notification : notifications) {
-            if (notification.getNotificationType().equals("Нехватка Товара")) {
+            if (notification.getNotificationType().equals(NotificationType.SHORTAGE.getType())) {
                 parseShortageMessage(notification.getMessage());
             }
         }

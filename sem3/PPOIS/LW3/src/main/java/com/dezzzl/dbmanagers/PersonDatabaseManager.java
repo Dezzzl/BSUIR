@@ -29,7 +29,7 @@ public class PersonDatabaseManager {
         try (Connection connection = ConnectionManager.open();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, id);
-            preparedStatement.setString(2, "Клиент");
+            preparedStatement.setString(2, PersonRole.CLIENT.getRoleName());
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
                     return Optional.of(new Customer(
@@ -90,7 +90,7 @@ public class PersonDatabaseManager {
         try (Connection connection = ConnectionManager.open();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, id);
-            preparedStatement.setString(2, "Поставщик");
+            preparedStatement.setString(2, PersonRole.SUPPLIER.getRoleName());
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
                     return Optional.of(new Supplier(
@@ -138,12 +138,12 @@ public class PersonDatabaseManager {
      * @param order заказ
      */
     public void cancelOrder(Order order){
-        if(Objects.equals(order.getStatus(), "Обрабатывается"))(new WarehouseDatabaseManager()).putProductsToStock(order);
-        String query = "UPDATE Orders SET status = 'Отменен' WHERE id = ?";
+        if(Objects.equals(order.getStatus(), OrderStatus.PROCESSING.getStatus()))(new WarehouseDatabaseManager()).putProductsToStock(order);
+        String query = "UPDATE Orders SET status = ? WHERE id = ?";
         try (Connection connection = ConnectionManager.open();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-
-            preparedStatement.setInt(1, order.getId());
+            preparedStatement.setString(1, OrderStatus.CANCELED.getStatus());
+            preparedStatement.setInt(2, order.getId());
 
             preparedStatement.executeUpdate();
         }
@@ -197,20 +197,21 @@ public class PersonDatabaseManager {
      */
     public static List<Supplier> getAllSuppliers() throws SQLException {
         List<Supplier> suppliers = new ArrayList<>();
-        String query = "SELECT * FROM Person WHERE role = 'Поставщик'";
+        String query = "SELECT * FROM Person WHERE role = ?";
 
         try (Connection connection = ConnectionManager.open();
-             PreparedStatement preparedStatement = connection.prepareStatement(query);
-             ResultSet resultSet = preparedStatement.executeQuery()) {
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, PersonRole.SUPPLIER.getRoleName());
+            try(ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    int id = resultSet.getInt("id");
+                    String email = resultSet.getString("email");
+                    String name = resultSet.getString("name");
+                    String role = resultSet.getString("role");
 
-            while (resultSet.next()) {
-                int id = resultSet.getInt("id");
-                String email = resultSet.getString("email");
-                String name = resultSet.getString("name");
-                String role = resultSet.getString("role");
-
-                Supplier supplier = new Supplier(id, name, email);
-                suppliers.add(supplier);
+                    Supplier supplier = new Supplier(id, name, email);
+                    suppliers.add(supplier);
+                }
             }
         }
 

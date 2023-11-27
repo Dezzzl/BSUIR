@@ -1,6 +1,7 @@
 package com.dezzzl.dbmanagers;
 
 import com.dezzzl.Util.OrderStatus;
+import com.dezzzl.Util.PersonRole;
 import com.dezzzl.person.Person;
 import com.dezzzl.person.Supplier;
 import com.dezzzl.warehouse.Order;
@@ -42,7 +43,7 @@ public class WarehouseDatabaseManager {
              PreparedStatement preparedStatement = connection.prepareStatement(insertQuery, Statement.RETURN_GENERATED_KEYS)) {
 
             preparedStatement.setTimestamp(1, new Timestamp(System.currentTimeMillis()));
-            preparedStatement.setString(2, "В ожидании");
+            preparedStatement.setString(2, OrderStatus.PENDING.getStatus());
             preparedStatement.setInt(3, person.getId());
 
             int affectedRows = preparedStatement.executeUpdate();
@@ -56,7 +57,7 @@ public class WarehouseDatabaseManager {
                     int orderId = generatedKeys.getInt(1);
                     Optional<Order> orderOptional = OrderDatabaseManager.getOrderById(orderId);
                     insertOrderProducts(connection, productsForOrder, orderOptional.get());
-                    NotificationDatabaseManager.createStatusChangeNotification(orderOptional.get(), person, "В ожидании");
+                    NotificationDatabaseManager.createStatusChangeNotification(orderOptional.get(), person, OrderStatus.PENDING.getStatus());
                 } else {
                     throw new SQLException("Создание заказа не удалось, не удалось получить сгенерированный ID.");
                 }
@@ -72,14 +73,14 @@ public class WarehouseDatabaseManager {
      */
     public void processOrderForCustomer(Order order) {
         try {
-            OrderDatabaseManager.updateOrderStatus(order.getId(), "Обрабатывается");
+            OrderDatabaseManager.updateOrderStatus(order.getId(), OrderStatus.PROCESSING.getStatus());
             Map<Product, Integer> missingProducts = checkStockAvailability(order);
             if (!missingProducts.isEmpty()) {
                 NotificationDatabaseManager.insertShortageNotification(missingProducts, order);
-                OrderDatabaseManager.updateOrderStatus(order.getId(), "Приостановлен");
-                NotificationDatabaseManager.createStatusChangeNotification(order, order.getPerson(), "Приостановлен");
+                OrderDatabaseManager.updateOrderStatus(order.getId(), OrderStatus.SUSPENDED.getStatus());
+                NotificationDatabaseManager.createStatusChangeNotification(order, order.getPerson(), OrderStatus.SUSPENDED.getStatus());
             } else {
-                NotificationDatabaseManager.createStatusChangeNotification(order,order.getPerson(), "Обрабатывается");
+                NotificationDatabaseManager.createStatusChangeNotification(order,order.getPerson(), OrderStatus.PROCESSING.getStatus());
                 takeProductsFromStock(order);
             }
         } catch (SQLException e) {
@@ -161,7 +162,7 @@ public class WarehouseDatabaseManager {
                     if (optionalOrder.isPresent()) {
                         Order order = optionalOrder.get();
                         String role = PersonDatabaseManager.getPersonRole(order.getPerson());
-                        if (Objects.equals(role, "Клиент")) {
+                        if (Objects.equals(role, PersonRole.CLIENT.getRoleName())) {
                             processOrderForCustomer(order);
                         } else {
                             processOrderForSupplier(order);
@@ -180,27 +181,28 @@ public class WarehouseDatabaseManager {
 
      */
     public void processFirstSuspendedOrder(){
-        processFirstPendingOrder("Приостановлен");
+        processFirstPendingOrder(OrderStatus.SUSPENDED.getStatus());
     }
     /**
      * Выполняет  заказы из таблицы Orders со статусом "Обрабатывается"
      *
      */
     public void completeOrders(){
-        String query = "SELECT * FROM Orders WHERE status = 'Обрабатывается'";
+        String query = "SELECT * FROM Orders WHERE status = ?";
 
         try (Connection connection = ConnectionManager.open();
-             PreparedStatement preparedStatement = connection.prepareStatement(query);
-             ResultSet resultSet = preparedStatement.executeQuery()) {
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, OrderStatus.PROCESSING.getStatus());
+            try ( ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    int orderId = resultSet.getInt("id");
+                    Optional<Order> optionalOrder = OrderDatabaseManager.getOrderById(orderId);
 
-            while (resultSet.next()) {
-                int orderId = resultSet.getInt("id");
-                Optional<Order> optionalOrder = OrderDatabaseManager.getOrderById(orderId);
-
-                if (optionalOrder.isPresent()) {
-                    Order order = optionalOrder.get();
-                    String role = PersonDatabaseManager.getPersonRole(order.getPerson());
-                    finishOrder(order);
+                    if (optionalOrder.isPresent()) {
+                        Order order = optionalOrder.get();
+                        String role = PersonDatabaseManager.getPersonRole(order.getPerson());
+                        finishOrder(order);
+                    }
                 }
             }
         }
@@ -211,8 +213,8 @@ public class WarehouseDatabaseManager {
 
     private void finishOrder(Order order) {
         try {
-            OrderDatabaseManager.updateOrderStatus(order.getId(), "Завершено");
-            NotificationDatabaseManager.createStatusChangeNotification(order, order.getPerson(), "Завершено");
+            OrderDatabaseManager.updateOrderStatus(order.getId(), OrderStatus.COMPLETED.getStatus());
+            NotificationDatabaseManager.createStatusChangeNotification(order, order.getPerson(), OrderStatus.COMPLETED.getStatus());
             TransactionDatabaseManager.createTransaction(order);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -226,8 +228,8 @@ public class WarehouseDatabaseManager {
      */
     public void processOrderForSupplier(Order order) {
         try {
-            OrderDatabaseManager.updateOrderStatus(order.getId(), "Обрабатывается");
-            NotificationDatabaseManager.createStatusChangeNotification(order, order.getPerson(), "Обрабатывается");
+            OrderDatabaseManager.updateOrderStatus(order.getId(), OrderStatus.PROCESSING.getStatus());
+            NotificationDatabaseManager.createStatusChangeNotification(order, order.getPerson(), OrderStatus.PROCESSING.getStatus());
             putProductsToStock(order);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -276,7 +278,7 @@ public class WarehouseDatabaseManager {
                 int quantity = entry.getValue();
 
                 preparedStatement.setInt(1, quantity);
-                preparedStatement.setInt(2, 3); // Предположим, что есть метод getMinQuantity()
+                preparedStatement.setInt(2, 3);
                 preparedStatement.setInt(3, product.getId());
 
                 preparedStatement.addBatch();

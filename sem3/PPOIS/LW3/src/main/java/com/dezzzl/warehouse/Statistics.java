@@ -1,5 +1,6 @@
 package com.dezzzl.warehouse;
 
+import com.dezzzl.Util.OrderStatus;
 import com.dezzzl.dbmanagers.StatisticsDatabaseManager;
 
 import java.util.Date;
@@ -26,7 +27,7 @@ public class Statistics {
      * @return количество выполненных заказазов
      */
     public int getCompletedOrdersCount(Date startDate, Date endDate){
-        return StatisticsDatabaseManager.getCompletedOrdersCount(startDate, endDate, "Завершено");
+        return StatisticsDatabaseManager.getCompletedOrdersCount(startDate, endDate, OrderStatus.COMPLETED.getStatus());
     }
     /**
      * Возвращает количество отмененных заказазов
