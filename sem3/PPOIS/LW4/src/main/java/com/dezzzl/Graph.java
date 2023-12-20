@@ -164,7 +164,7 @@ public class Graph<T> implements Iterable<T> {
 
     private boolean isNodeInGraph(Node<T> node){
             for (Map.Entry<Node<T>, Integer> entry : nodes.entrySet()) {
-                if (entry.getKey() == node) {
+                if (entry.getKey().equals(node)) {
                     return true;
                 }
             }
@@ -178,6 +178,7 @@ public class Graph<T> implements Iterable<T> {
      * @return степень вершины
      */
     public int getDegreeOfNode(Node<T> node) {
+        if (!isNodeInGraph(node))return -1;
         int counter = 0;
         for (int i = 0; i < countOfEdges; i++) {
             if (incidenceMatrix.get(nodes.get(node)).get(i) != 0) counter++;
@@ -223,6 +224,7 @@ public class Graph<T> implements Iterable<T> {
      * @param node вершина, которую нужно удалить
      */
     public void deleteNode(Node<T> node) {
+        if (!isNodeInGraph(node))return;
         List<Node<T>> incidentNodes = getIncidentNodes(node);
 
         for (Node<T> incidentNode : incidentNodes) {

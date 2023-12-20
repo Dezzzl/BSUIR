@@ -266,4 +266,17 @@ public class GraphTest {
         }
     }
 
+    @Test public void testEdgeNotFoundException(){
+        graph.addNode(node1);
+        graph.addNode(node2);
+        graph.addNode(node3);
+        graph.addEdge(new Edge<>(node1, node2));
+        graph.addEdge(new Edge<>(node3, node1));
+        try {
+        graph.isEdgeInGraph(null);
+        fail("Исключение не выброшено");
+        } catch (EdgeNotFoundException e) {
+        }
+    }
+
 }
