@@ -1,6 +1,7 @@
 import com.dezzzl.Edge;
 import com.dezzzl.Graph;
 import com.dezzzl.Node;
+import com.dezzzl.exceptions.EdgeNotFoundException;
 import com.dezzzl.iterator.ConstantEdgeIterator;
 import com.dezzzl.iterator.ConstantNodeIterator;
 import org.junit.Test;
@@ -58,8 +59,16 @@ public class GraphTest {
         graph.addNode(node1);
         graph.addNode(node2);
         graph.addEdge(new Edge<>(node1, node2));
-        assertTrue(graph.isEdgeInGraph(new Edge<>(node1, node2)));
-        assertFalse(graph.isEdgeInGraph(new Edge<>(node2, node1)));
+        try {
+            assertTrue(graph.isEdgeInGraph(new Edge<>(node1, node2)));
+        } catch (EdgeNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            assertFalse(graph.isEdgeInGraph(new Edge<>(node2, node1)));
+        } catch (EdgeNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Test public void getDegreeOfNode(){

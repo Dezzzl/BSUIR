@@ -21,11 +21,11 @@ public class NodeIterator<T> implements Iterator<Node<T>> {
 
     @Override
     public Node<T> next() {
-        return graph.getNodeByIndex(currentIndex++);
+        return graph.getNodeByIndex(currentIndex++).get();
     }
 
     @Override
     public void remove() {
-        graph.deleteNode(graph.getNodeByIndex(currentIndex-1));
+        graph.deleteNode(graph.getNodeByIndex(currentIndex-1).get());
     }
 }

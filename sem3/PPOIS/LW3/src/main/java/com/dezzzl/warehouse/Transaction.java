@@ -14,6 +14,22 @@ public class Transaction {
     private final Order order;
     private final Product product;
 
+    public int getQuantityChange() {
+        return quantityChange;
+    }
+
+    public boolean isOrderCompleted() {
+        return isOrderCompleted;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
     /**
      * Конструктор, создающий Transaction по его id, type, date, quantityChange, isOrderCompleted, orderId, productId
      *
