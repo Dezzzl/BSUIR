@@ -13,10 +13,11 @@ iPhone_14_Pro_Max
     => nrel_display_type: type_OLED;
     => nrel_price: price_105000;
     => nrel_flash_memory: 
-    flash_memory_256;
-    flash_memory_1000;
+    flash_memory_512;
+    flash_memory_1000;  
     => nrel_diagonal: diagonal_6_7;
-    <- concept_smartphone;;
+    <- concept_smartphone;
+    <-concept_cameraphone;;
 
 
     Samsung_Galaxy_S22_Ultra
@@ -26,7 +27,8 @@ iPhone_14_Pro_Max
     => nrel_price: price_70000;
     => nrel_flash_memory: flash_memory_1000;
     => nrel_diagonal: diagonal_6_8;
-    <- concept_smartphone;;
+    <- concept_smartphone;
+    <-concept_cameraphone;;
 
 
 
@@ -37,7 +39,8 @@ iPhone_14_Pro_Max
     => nrel_price: price_70000;
     => nrel_flash_memory: flash_memory_512;
     => nrel_diagonal: diagonal_6_74;
-    <- concept_smartphone;;
+    <- concept_smartphone;
+    <-concept_cameraphone;;
 
 
         Xiaomi_12S_Ultra

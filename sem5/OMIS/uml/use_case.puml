@@ -1,0 +1,429 @@
+@startuml
+actor User as "Пользователь"
+actor Admin as "Админ"
+control "Подсистема регистрации и авторизации" as AuthSubsystem
+control "Подсистема профиля" as ProfileSubsystem
+control "Подсистема поиска парковочных мест" as SearchSubsystem
+control "Подсистема оплаты" as PaymentSubsystem
+control "Подсистема отзывов" as ReviewSubsystem
+control "Подсистема управления" as ManagementSubsystem
+database "База данных" as DataBase
+
+User -> AuthSubsystem: Вход в систему
+activate AuthSubsystem
+AuthSubsystem -->> User: Отправка формы регистрации/логина
+alt Регистрация
+  User -> AuthSubsystem: Пользователь нажал "Регистрация"
+  AuthSubsystem -->> User: Получение формы регистрации
+  User -> AuthSubsystem: Ввод ФИО, email, пароля, номера телефона
+  AuthSubsystem -> DataBase: Запрос на сохранение пользователя
+  activate DataBase
+  DataBase -> DataBase: "Cохранение пользователя"
+  DataBase -->> AuthSubsystem: "Уведомление об успешном сохранении"
+  deactivate DataBase
+  AuthSubsystem -->> User: Успешная регистрация
+else Логин
+  User -> AuthSubsystem: Пользователь нажал "Логин"
+  AuthSubsystem -->> User: Получение формы логина
+  loop Пока не залогинится
+  User -> AuthSubsystem: Ввод email и пароля
+  AuthSubsystem -> DataBase: Запрос на проверку данных
+  activate DataBase
+  DataBase -> DataBase: "Проверка пользователя"
+  DataBase -->> AuthSubsystem: "Уведомление о правильности введенных данных"
+  deactivate DataBase
+    alt Успешный логин
+      AuthSubsystem -->> User: Успешный логин
+    else Повторить попытку
+      AuthSubsystem -->> User: Получение формы логина
+    end
+  end
+end
+deactivate AuthSubsystem
+
+User -> ProfileSubsystem: Нажать кнопку "Профиль"
+activate ProfileSubsystem
+par Получение информации о профиле
+  ProfileSubsystem -> DataBase: Запрос на получение всех данных пользователя
+  activate DataBase
+  DataBase -> DataBase: "Получение всех данных пользователя"
+  DataBase -->> ProfileSubsystem: "Отправка всех данных пользователя"
+  deactivate DataBase
+else Получение истории бронирования
+  ProfileSubsystem -> DataBase: Запрос на получение истории бронирования пользователя
+  activate DataBase
+  DataBase -> DataBase: "Получение истории бронирования"
+  DataBase -->> ProfileSubsystem: "Отправка истории бронирования"
+  deactivate DataBase
+else Получение текущих бронирований
+  ProfileSubsystem -> DataBase: Запрос на получение текущих бронирований
+  activate DataBase
+  DataBase -> DataBase: "Получение текущих бронирований"
+  DataBase -->> ProfileSubsystem: "Отправка текущих бронирований"
+  deactivate DataBase
+end
+ProfileSubsystem -->> User: Отобразить информацию о пользователе
+User -> ProfileSubsystem: Нажать кнопку "Изменить профиль"
+ProfileSubsystem -->> User: Получение формы для изменения информации
+loop Пока данные не будут корректными
+  User -> ProfileSubsystem: Ввод новой информации профиля
+  ProfileSubsystem -> DataBase: Запрос на обновление информации
+    activate DataBase
+    DataBase -> DataBase: "Обновление информации пользователя"
+    DataBase -->> ProfileSubsystem: "Подтверждение обновления"
+    deactivate DataBase
+  alt Информация изменена
+    ProfileSubsystem -->> User: Отобразить информацию о пользователе
+  else Повторить попытку
+    ProfileSubsystem -->> User: Получение формы для изменения информации
+  end
+end
+deactivate ProfileSubsystem
+
+User -> SearchSubsystem: Нажать кнопку "Забронировать место"
+activate SearchSubsystem
+SearchSubsystem -> DataBase: Запрос на получение всех парковочных зон
+activate DataBase
+DataBase -> DataBase: "Получение всех парковочных зон"
+DataBase -->> SearchSubsystem: "Отправка всех парковочных зон"
+deactivate DataBase
+SearchSubsystem -->> User: Получение формы поиска парковочной зоны
+alt
+  User -> SearchSubsystem: Выбор зоны из списка
+  SearchSubsystem -> DataBase: Запрос на получение всех мест для зоны
+    activate DataBase
+    DataBase -> DataBase: "Получение всех мест для зоны"
+    DataBase -->> SearchSubsystem: "Отправка всех мест для зоны"
+    deactivate DataBase
+  SearchSubsystem -->> User: Отправить парковочные места
+else
+  loop
+    User -> SearchSubsystem: Ввод адреса зоны
+     SearchSubsystem -> DataBase: Запрос на проверку валидности адреса
+        activate DataBase
+        DataBase -> DataBase: "Проверка валидности адреса"
+        DataBase -->> SearchSubsystem: "Результат проверки"
+        deactivate DataBase
+    alt Адрес валиден
+     SearchSubsystem -> DataBase: Запрос на получение всех мест для зоны
+           activate DataBase
+           DataBase -> DataBase: "Получение всех мест для зоны"
+           DataBase -->> SearchSubsystem: "Отправка всех мест для зоны"
+           deactivate DataBase
+      SearchSubsystem -->> User: Отправить парковочные места
+    else Адрес не валиден
+      SearchSubsystem -->> User: Получение формы поиска парковочной зоны
+    end
+  end
+end
+loop Пока не выберет место
+alt
+  User -> SearchSubsystem: Пользователь выбрал место
+  SearchSubsystem -->> User: Получение формы для ввода времени
+else
+  User -> SearchSubsystem: Пользователь применил фильтры
+    SearchSubsystem -> DataBase: Запрос на получение мест с фильтром для зоны
+    activate DataBase
+    DataBase -> DataBase: "Получение мест с фильтром"
+    DataBase -->> SearchSubsystem: "Отправка мест с фильтром"
+    deactivate DataBase
+  SearchSubsystem -->> User: Отправить парковочные места
+  User -> SearchSubsystem: Пользователь выбрал место
+  SearchSubsystem -->> User: Получение формы для ввода времени
+end
+
+User -> SearchSubsystem: Пользователь вводит время брони
+SearchSubsystem -> DataBase: Запрос на проверку доступности места
+activate DataBase
+DataBase -> DataBase: "Проверка доступности места"
+DataBase -->> SearchSubsystem: "Результат проверки"
+deactivate DataBase
+alt Место доступно
+  SearchSubsystem-> SearchSubsystem: Подсчитать стоимость брони
+else Место недоступно
+  SearchSubsystem -->> User: Получение формы выбора места
+end
+  SearchSubsystem -> PaymentSubsystem: Пользователь выбрал время
+  activate PaymentSubsystem
+  PaymentSubsystem -->> User: Получение формы для оплаты
+  deactivate PaymentSubsystem
+end
+deactivate SearchSubsystem
+
+loop
+  User -> PaymentSubsystem: Ввод данных для оплаты
+  activate PaymentSubsystem
+  PaymentSubsystem -> DataBase: Запрос на проверку данных
+  activate DataBase
+  DataBase -> DataBase: "Проверка данных для оплаты"
+  DataBase -->> PaymentSubsystem: "Результат проверки данных"
+  deactivate DataBase
+  alt Данные верны
+    par
+      PaymentSubsystem -> ProfileSubsystem: Получение информации о пользователе
+      activate ProfileSubsystem
+      ProfileSubsystem -> DataBase: Запрос на получение полной информации о пользователе
+      activate DataBase
+      DataBase -> DataBase: "Поиск полной информации о пользователе"
+      DataBase -->> ProfileSubsystem: "Отправка полной информации о пользователе"
+      deactivate DataBase
+      ProfileSubsystem -->> PaymentSubsystem: "Информация о пользователе"
+      deactivate ProfileSubsystem
+      PaymentSubsystem -> DataBase: Запрос на добавление места в историю бронирования
+      activate DataBase
+      DataBase -> DataBase: "Добавление места в историю бронирования"
+      DataBase -->> PaymentSubsystem: "Подтверждение добавления"
+      deactivate DataBase
+      PaymentSubsystem -> DataBase: Запрос на добавление места в текущие брони
+      activate DataBase
+      DataBase -> DataBase: "Добавление места в текущие брони"
+      DataBase -->> PaymentSubsystem: "Подтверждение добавления"
+      deactivate DataBase
+      PaymentSubsystem -> ProfileSubsystem: Отправка измененных данных
+      activate ProfileSubsystem
+      ProfileSubsystem -> DataBase: Запрос на сохранение измененных данных
+      activate DataBase
+      DataBase -> DataBase: "Сохранение измененных данных"
+      DataBase -->> ProfileSubsystem: "Подтверждение сохранения"
+      deactivate DataBase
+      ProfileSubsystem -->> PaymentSubsystem: Сообщение об успешном сохранении
+      deactivate ProfileSubsystem
+    else
+      PaymentSubsystem -->> User: Получение сообщения успешной оплаты
+    end
+  else Данные не верны
+    PaymentSubsystem -->> User: Получение формы для оплаты
+    deactivate PaymentSubsystem
+end
+User -> ReviewSubsystem: Пользователь нажал на "Отзывы"
+activate ReviewSubsystem
+ReviewSubsystem -> DataBase: Запрос на получение отзывов
+activate DataBase
+DataBase -> DataBase: "Получение отзывов"
+DataBase -->> ReviewSubsystem: "Получение списка отзывов"
+deactivate DataBase
+ReviewSubsystem -->> User: Получение списка отзывов
+User -> ReviewSubsystem: Пользователь нажал "Написать отзыв"
+ReviewSubsystem -->> User: Получение формы для написания отзывов
+User -> ReviewSubsystem: Ввод отзыва и рейтинга
+ReviewSubsystem -> DataBase: Запрос на сохранение отзыва
+activate DataBase
+DataBase -> DataBase: "Сохранение отзыва"
+DataBase -->> ReviewSubsystem: "Подтверждение сохранения отзыва"
+deactivate DataBase
+ReviewSubsystem -->> User: Получени списка отзывов
+deactivate ReviewSubsystem
+
+Admin -> ManagementSubsystem: Админ нажал кнопку "Парковочные зоны"
+activate ManagementSubsystem
+ManagementSubsystem -->> Admin: Получение формы управления парковочными зонами
+alt Создание зоны
+  Admin -> ManagementSubsystem: Админ нажал кнопку "Создать"
+  ManagementSubsystem -->> Admin: Получение формы создания зоны
+  Admin -> ManagementSubsystem: Админ ввел данные для новой зоны
+  ManagementSubsystem -> SearchSubsystem: Запрос на добавление новой зоны
+  activate SearchSubsystem
+    SearchSubsystem -> DataBase: Запрос на добавление зоны
+    activate DataBase
+    DataBase -> DataBase: "Сохранение зоны"
+    DataBase -->> SearchSubsystem: "Подтверждение сохранения зоны"
+    deactivate DataBase
+  SearchSubsystem -->> ManagementSubsystem: Подтверждение добавления новой зоны
+  deactivate SearchSubsystem
+  ManagementSubsystem -->> Admin: Получение формы управления парковочными зонами
+else Редактирование зоны
+  Admin -> ManagementSubsystem: Админ нажал кнопку "Редактировать"
+  ManagementSubsystem -> SearchSubsystem: Запрос на получени всех зон
+  activate SearchSubsystem
+    SearchSubsystem -> DataBase: Запрос на получени всех зон
+    activate DataBase
+    DataBase -> DataBase: "Получени всех зон"
+    DataBase -->> SearchSubsystem: "Возвращение всех зон"
+    deactivate DataBase
+  SearchSubsystem -->> ManagementSubsystem: Вовзращение всех зон
+  deactivate SearchSubsystem
+  ManagementSubsystem -->> Admin: Получение формы редактирования зон со всеми зонами
+  Admin -> ManagementSubsystem : Выбор зоны для редактирования
+  ManagementSubsystem -->> Admin: Отправка формы для редактирования
+  Admin -> ManagementSubsystem: Отправка измененных данных
+  ManagementSubsystem -> SearchSubsystem: Отправка редактированной зоны
+  activate SearchSubsystem
+    SearchSubsystem -> DataBase: Запрос на сохранение измененной зоны
+    activate DataBase
+    DataBase -> DataBase: "Сохранение изменненной зоны"
+    DataBase -->> SearchSubsystem: "Подтверждение сохранения"
+    deactivate DataBase
+  SearchSubsystem -> ManagementSubsystem: Подтверждение сохранения отредактированной зоны
+  deactivate SearchSubsystem
+  ManagementSubsystem -->> Admin: Получение формы управления парковочными зонами
+else  Удаление зоны
+  Admin -> ManagementSubsystem: Админ нажал кнопку "Удалить"
+  ManagementSubsystem -> SearchSubsystem: Запрос на получени всех зон
+  activate SearchSubsystem
+    SearchSubsystem -> DataBase: Запрос на получени всех зон
+    activate DataBase
+    DataBase -> DataBase: "Получени всех зон"
+    DataBase -->> SearchSubsystem: "Возвращение всех зон"
+    deactivate DataBase
+  SearchSubsystem -->> ManagementSubsystem: Вовзращение всех зон
+  deactivate SearchSubsystem
+  ManagementSubsystem -->> Admin: Получение формы удаления зон со всеми зонами
+  Admin -> ManagementSubsystem: Выбор зоны для удаления
+  ManagementSubsystem -> SearchSubsystem: Отправка зоны для удаления
+  activate SearchSubsystem
+    SearchSubsystem -> DataBase: Запрос на получени мест для данной зоны
+    activate DataBase
+    DataBase -> DataBase: "Получени мест для данной парковочной зоны"
+    DataBase -->> SearchSubsystem: "Возвращение мест"
+    deactivate DataBase
+  SearchSubsystem -> ProfileSubsystem: Отправка мест данной зоны
+  activate ProfileSubsystem
+    ProfileSubsystem -> DataBase: Запрос на получение пользователей для данных мест
+    activate DataBase
+    DataBase -> DataBase: "Получение пользователей для данных мест"
+    DataBase -->> ProfileSubsystem: "Возвращение пользователей для данных мест"
+    deactivate DataBase
+    ProfileSubsystem -> DataBase: Запрос на отмену броней для пользователей
+    activate DataBase
+    DataBase -> DataBase: "Отмена броней для данных пользователей"
+    DataBase -->> ProfileSubsystem: "Уведомление об успешной отмене"
+    deactivate DataBase
+  ProfileSubsystem -> SearchSubsystem: Уведомление об успешном удалении
+  deactivate ProfileSubsystem
+    SearchSubsystem -> DataBase: Запрос на удаление всех парковочны мест и зоны
+    activate DataBase
+    DataBase -> DataBase: "Удаление всех парковочны мест и зоны"
+    DataBase -->> SearchSubsystem: "Уведомление об успешном удалении"
+    deactivate DataBase
+  SearchSubsystem -> ManagementSubsystem: Уведомление об успешном удалении зоны и мест
+  deactivate SearchSubsystem
+  ManagementSubsystem -->> Admin: Получение формы управления парковочными зонами
+end
+
+Admin -> ManagementSubsystem: Админ нажал кнопку "Парковочные места"
+ManagementSubsystem -->> Admin: Получение формы управления парковочными местами
+
+alt Создание парковочного места
+  Admin -> ManagementSubsystem: Админ нажал кнопку "Создать"
+  ManagementSubsystem -->> Admin: Получение формы создания парковочного места
+  Admin -> ManagementSubsystem: Админ ввел данные для нового парковочного места
+  ManagementSubsystem -> SearchSubsystem: Запрос на добавление нового парковочного места
+  activate SearchSubsystem
+    SearchSubsystem -> DataBase: Запрос на добавление нового парковочного места
+    activate DataBase
+    DataBase -> DataBase: "Добавление нового парковочного места"
+    DataBase -->> SearchSubsystem: "Уведомление об успешном добавлении"
+    deactivate DataBase
+  SearchSubsystem -> ManagementSubsystem: Подтверждение добавления нового парковочного места
+  deactivate SearchSubsystem
+  ManagementSubsystem -->> Admin: Получение формы управления парковочными местами
+
+else Редактирование парковочного места
+  Admin -> ManagementSubsystem: Админ нажал кнопку "Редактировать"
+  ManagementSubsystem -> SearchSubsystem: Запрос получения всех парковочных мест
+  activate SearchSubsystem
+    SearchSubsystem -> DataBase: Запрос получения всех парковочных мест
+    activate DataBase
+    DataBase -> DataBase: "Получение всех парковочных мест"
+    DataBase -->> SearchSubsystem: "Возвращение всех мест"
+    deactivate DataBase
+  SearchSubsystem -->> ManagementSubsystem: Возвращение списка всех парковочных мест
+  deactivate SearchSubsystem
+  ManagementSubsystem -->> Admin: Получение формы редактирования парковочных мест
+  Admin -> ManagementSubsystem: Выбор парковочного места для редактирования
+  ManagementSubsystem -->> Admin: Отправка формы для редактирования
+  Admin -> ManagementSubsystem: Отправка измененных данных
+  ManagementSubsystem -> SearchSubsystem: Отправка редактированного парковочного места
+  activate SearchSubsystem
+    SearchSubsystem -> DataBase: Запрос на сохранение места
+    activate DataBase
+    DataBase -> DataBase: "Сохранение места"
+    DataBase -->> SearchSubsystem: "Уведомление об успешном сохранении"
+    deactivate DataBase
+  SearchSubsystem -> ManagementSubsystem: Подтверждение сохранения измененного парковочного места
+  deactivate SearchSubsystem
+  ManagementSubsystem -->> Admin: Получение формы управления парковочными местами
+
+else Удаление парковочного места
+  Admin -> ManagementSubsystem: Админ нажал кнопку "Удалить"
+  ManagementSubsystem -> SearchSubsystem: Запрос получения всех парковочных мест
+  activate SearchSubsystem
+    SearchSubsystem -> DataBase: Запрос получения всех парковочных мест
+    activate DataBase
+    DataBase -> DataBase: "Получение всех парковочных мест"
+    DataBase -->> SearchSubsystem: "Возвращение всех мест"
+    deactivate DataBase
+  SearchSubsystem -->> ManagementSubsystem: Возвращение списка всех парковочных мест
+  deactivate SearchSubsystem
+  ManagementSubsystem -->> Admin: Получение формы удаления парковочных мест
+  Admin -> ManagementSubsystem: Выбор парковочного места для удаления
+  ManagementSubsystem -> SearchSubsystem: Отправка парковочного места для удаления
+  activate SearchSubsystem
+    SearchSubsystem -> DataBase: Запрос на удаление парковочного места
+    activate DataBase
+    DataBase -> DataBase: "Удаление парковочного места"
+    DataBase -->> SearchSubsystem: "Уведомление об успешном удалении"
+    deactivate DataBase
+  SearchSubsystem -> ManagementSubsystem: Подтверждение удаления парковочного места
+  deactivate SearchSubsystem
+  ManagementSubsystem -->> Admin: Получение формы управления парковочными местами
+end
+
+Admin -> ManagementSubsystem: Админ нажал кнопку "Мониторинг бронирования"
+ManagementSubsystem -> ProfileSubsystem: Запрос на получение всех пользователей и их активных броней
+activate ProfileSubsystem
+    ProfileSubsystem -> DataBase: Запрос получения всех пользователей
+    activate DataBase
+    DataBase -> DataBase: "Получение всех пользователей"
+    DataBase -->> ProfileSubsystem: "Возвращение всех пользователей"
+    deactivate DataBase
+ProfileSubsystem -> SearchSubsystem: Запрос на получение активных броней для пользователей
+activate SearchSubsystem
+    SearchSubsystem -> DataBase: Запрос на получение активных броней для пользователей
+    activate DataBase
+    DataBase -> DataBase: "Получение активных броней для пользователей"
+    DataBase -->> SearchSubsystem: "Возвращение активных броней для пользователей"
+    deactivate DataBase
+SearchSubsystem -->> ProfileSubsystem: Возвращение активных броней для пользователей
+deactivate SearchSubsystem
+ProfileSubsystem -->> ManagementSubsystem: Получение пользователей и мест
+deactivate ProfileSubsystem
+ManagementSubsystem -->> Admin: Получение формы с пользователями и их местами
+Admin -> ManagementSubsystem: Выбор пользователя
+ManagementSubsystem -->> Admin: Получение формы с активными бронями пользователя
+Admin -> ManagementSubsystem: Выбор места для отмены брони
+ManagementSubsystem -> SearchSubsystem: Запрос на удаление места из активных броней
+activate SearchSubsystem
+    SearchSubsystem -> DataBase: Запрос на удаление места из активных броней
+    activate DataBase
+    DataBase -> DataBase: "Удаление места из активных броней"
+    DataBase -->> SearchSubsystem: "Уведомление об успешном удалении"
+    deactivate DataBase
+SearchSubsystem -->> ManagementSubsystem: Подтверждение удаления
+deactivate SearchSubsystem
+ManagementSubsystem -->> Admin: Подтверждение удаления
+
+Admin -> ManagementSubsystem: Админ нажал кнопку "Выдать роль"
+ManagementSubsystem -> ProfileSubsystem: Запрос на получение всех пользователей
+activate ProfileSubsystem
+    ProfileSubsystem -> DataBase: Запрос получения всех пользователей
+    activate DataBase
+    DataBase -> DataBase: "Получение всех пользователей"
+    DataBase -->> ProfileSubsystem: "Возвращение всех пользователей"
+    deactivate DataBase
+ProfileSubsystem -->> ManagementSubsystem: Отправка всех мест
+deactivate ProfileSubsystem
+ManagementSubsystem -->> Admin: Отравка формы для выдачи роли
+Admin -> ManagementSubsystem: Выбор пользователя для выдачи роли "Администратор"
+ManagementSubsystem -> ProfileSubsystem: Запрос на выдачу роли данному пользователю
+activate ProfileSubsystem
+    ProfileSubsystem -> DataBase: Запрос на выдачу роли данному пользователю
+    activate DataBase
+    DataBase -> DataBase: "Выдача роли пользователю"
+    DataBase -->> ProfileSubsystem: "Уведомлении об изменении роли"
+    deactivate DataBase
+ProfileSubsystem -->> ManagementSubsystem: Подтверждение выдачи роли
+deactivate ProfileSubsystem
+ManagementSubsystem -->> Admin: Подтверждение выдачи роли
+deactivate ManagementSubsystem
+@enduml

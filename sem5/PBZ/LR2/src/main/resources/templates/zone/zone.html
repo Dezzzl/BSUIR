@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Habitat Zone Details</title>
+</head>
+<body>
+<h1>Habitat Zone Details</h1>
+
+<!-- Информация о зоне обитания -->
+<div th:if="${zone}">
+    <p><strong>ID:</strong> <span th:text="${zone.id}"></span></p>
+    <p><strong>Name:</strong> <span th:text="${zone.name}"></span></p>
+    <p><strong>Description:</strong> <span th:text="${zone.description}"></span></p>
+
+    <!-- Кнопка для удаления зоны -->
+    <form th:action="@{/zones/delete/{id}(id=${zone.id})}" method="post">
+        <input type="hidden" name="_method" value="delete"/>
+        <button type="submit">Delete Zone</button>
+    </form>
+
+    <!-- Кнопка для обновления зоны -->
+    <form th:action="@{/zones/update/{id}(id=${zone.id})}" method="get">
+        <button type="submit">Update Zone</button>
+    </form>
+
+
+    <!-- Если зона не найдена -->
+    <div th:if="${zone == null}">
+        <p>Zone not found!</p>
+    </div>
+
+    <!-- Кнопка для создания новой зоны -->
+    <form th:action="@{/zones/create}" method="get">
+        <button type="submit">Create New Zone</button>
+    </form>
+
+</div>
+
+</body>
+</html>
+

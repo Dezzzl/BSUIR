@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Feed Ration</title>
+</head>
+<body>
+<h1>Update Feeding Ration</h1>
+
+<form th:action="@{/feeding-ration/update/{id}(id=${feedingRation.feedRationId})}" method="post" th:object="${feedingRation}">
+
+    <!-- Название рациона -->
+    <label for="name">Name:
+        <input id="name" type="text" name="name" th:value="*{feedRationName}">
+    </label><br>
+
+    <!-- Выбор типа корма -->
+    <h3>Feed Type</h3>
+    <div th:each="feedType : ${feedTypes}">
+        <input th:id="${feedType.id}" type="radio" name="feedType.id" th:value="${feedType.id}" th:checked="*{feedType.id == feedType.id}">
+        <label th:for="${feedType.id}" th:text="${feedType.name}">Feed Type</label>
+    </div>
+
+    <!-- Кнопка для отправки формы -->
+    <br>
+    <button type="submit">Update Feeding Ration</button>
+
+</form>
+
+</body>
+</html>

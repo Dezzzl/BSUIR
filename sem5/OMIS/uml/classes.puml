@@ -1,0 +1,259 @@
+@startuml
+
+class User {
+  - id: Integer
+  - fullName: String
+  - email: String
+  - password: String
+  - personalPhoto: byte[]
+  - telephoneNumber: String
+  - bookingHistory: List<ParkingLot>
+  - currentParkingLots: List<ParkingLot>
+  - role: Role
+
+  + getRole(): Role
+  + getCurrentParkingLots(): List<ParkingLot>
+  + getBookingHistory(): List<ParkingLot>
+}
+
+class ParkingZone {
+  - id: Integer
+  - address: String
+  - parkingLots: List<ParkingLot>
+
+  + getParkingLots(): List<ParkingLot>
+}
+
+class ParkingLot {
+  - id: Integer
+  - status: ParkingLotStatus
+  - type: ParkingLotType
+  - isForHandicapped: boolean
+  - cost: BigDecimal
+  - arrivalTime: LocalDateTime
+  - departureTime: LocalDateTime
+}
+
+class Filter {
+  - parkingLotStatus: ParkingLotStatus
+  - type: ParkingLotType
+  - cost: BigDecimal
+  - arrivalTime: LocalDateTime
+}
+
+class Review {
+  - id: Integer
+  - author: User
+  - content: String
+  - rating: Integer
+  - createdAt: LocalDateTime
+}
+
+enum ParkingLotType {
+  REGULAR,
+  TRUCK,
+  MOTORCYCLE
+}
+
+enum ParkingLotStatus {
+  AVAILABLE,
+  RESERVED,
+  OCCUPIED
+}
+
+enum Role {
+  USER,
+  ADMIN
+}
+
+class ProfileController {
+  - registrationAndAuthorizationService: RegistrationAndAuthorizationService
+  - profileService: ProfileService
+
+  + getRegisterForm(): String
+  + getLoginForm(): String
+  + getResetPasswordForm(): String
+  + register(email: String, password: String, phoneNumber: String, fullName: String): String
+  + resetPassword(oldPassword: String, newPassword: String): String
+  + login(email: String, password: String): String
+  + getBookingHistory(user: User): String
+  + getCurrentParkingLots(user: User): String
+  + addParkingLotToHistory(user: User, parkingLot: ParkingLot): String
+  + addParkingLotToCurrentLots(user: User, parkingLot: ParkingLot): String
+  + deleteParkingLotFromCurrentLots(user: User, parkingLot: ParkingLot): String
+  + loadPersonalPhoto(user: User, personalPhoto: byte[]): String
+  + updateUserInfo(user: User): String
+  + updateRole(User: user, Role: role): String
+  + getUserDetails(User: user): String
+  + getUpdateForm(): String
+}
+
+class RegistrationAndAuthorizationService {
+  - profileRepository: ProfileRepository
+
+  + register(email: String, password: String, phoneNumber: String, fullName: String): User
+  + resetPassword(oldPassword: String, newPassword: String): User
+  + login(email: String, password: String): User
+}
+
+class ProfileService {
+  - profileRepository: ProfileRepository
+
+  + getBookingHistory(user: User): List<ParkingLot>
+  + getCurrentParkingLots(user: User): List<ParkingLot>
+  + addParkingLotToHistory(user: User, parkingLot: ParkingLot): void
+  + addParkingLotToCurrentLots(user: User, parkingLot: ParkingLot): void
+  + deleteParkingLotFromCurrentLots(user: User, parkingLot: ParkingLot): void
+  + loadPersonalPhoto(user: User, personalPhoto: byte[]): void
+  + updateUserInfo(user: User): User
+  + updateRole(User: user, Role: role): void
+  + getUserDetails(User: user): User
+}
+
+class ProfileRepository{
+  - users: List<User>
+
+  + saveUser(email: String, password: String, phoneNumber: String, fullName: String): User
+  + resetPassword(oldPassword: String, newPassword: String): User
+  + login(email: String, password: String): User
+  + getBookingHistory(user: User): List<ParkingLot>
+  + getCurrentParkingLots(user: User): List<ParkingLot>
+  + addParkingLotToHistory(user: User, parkingLot: ParkingLot): void
+  + addParkingLotToCurrentLots(user: User, parkingLot: ParkingLot): void
+  + deleteParkingLotFromCurrentLots(user: User, parkingLot: ParkingLot): void
+  + loadPersonalPhoto(user: User, personalPhoto: byte[]): void
+  + updateUserInfo(user: User): User
+  + updateRole(User: user, Role: role): void
+  + getUserDetails(User: user): User
+}
+
+class ZoneController {
+  - zoneService: ZoneService
+
+  + getParkingZone(parkingZoneId: Integer): String
+  + addParkingZone(parkingZone: ParkingZone): String
+  + deleteParkingZone(parkingZoneId: Integer): String
+  + updateParkingZone(parkingZoneId: Integer): String
+  + addParkingLotToZone(parkingZoneId: Integer, parkingLot: ParkingLot): String
+  + deleteParkingLotFromZone(parkingZoneId: Integer, parkingLotId: Integer): String
+  + searchZoneByParkingLot(parkingLotId: Integer): String
+  + getUpdateForm(parkingZoneId: Integer): String
+  + getSearchForm(): String
+  + getCreateForm(): String
+}
+
+class ZoneService {
+  - zoneRepository: ZoneRepository
+
+  + getParkingZone(parkingZoneId: Integer): ParkingZone
+  + addParkingZone(parkingZone: ParkingZone): void
+  + deleteParkingZone(parkingZoneId: Integer): void
+  + updateParkingZone(parkingZoneId: Integer): ParkingZone
+  + addParkingLotToZone(parkingZoneId: Integer, parkingLot: ParkingLot): void
+  + deleteParkingLotFromZone(parkingZoneId: Integer, parkingLot: ParkingLot): void
+  + searchZoneByParkingLot(parkingLotId: Integer): ParkingZone
+}
+
+class ZoneRepository {
+  - parkingZones: List<ParkingZone>
+
+  + getParkingZone(parkingZoneId: Integer): ParkingZone
+  + addParkingZone(parkingZone: ParkingZone): void
+  + deleteParkingZone(parkingZoneId: Integer): void
+  + updateParkingZone(parkingZoneId: Integer): ParkingZone
+  + addParkingLotToZone(parkingZoneId: Integer, parkingLot: ParkingLot): void
+  + deleteParkingLotFromZone(parkingZoneId: Integer, parkingLot: ParkingLot): void
+  + searchZoneByParkingLot(parkingLotId: Integer): ParkingZone
+}
+class ParkingLotController {
+  - parkingLotService: ParkingLotService
+
+  + getParkingLot(parkingLotId: Integer): String
+  + getLotsWithFilter(filter: Filter, parkingZoneId: Integer): String
+  + updateParkingLot(parkingLotId: Integer): String
+  + addLotToUser(parkingLotId: Integer, userId: Integer): String
+  + getUpdateForm(parkingLotId: Integer): String
+  + getFilterForm(parkingZoneId: Integer): String
+}
+
+class ParkingLotService {
+  - parkingLotRepository: ParkingLotRepository
+
+  + getParkingLot(parkingLotId: Integer): ParkingLot
+  + getLotsWithFilter(filter: Filter, parkingZoneId: Integer): List<ParkingLot>
+  + updateParkingLot(parkingLotId: Integer): ParkingLot
+  + addLotToUser(parkingLotId: Integer, userId: Integer): boolean
+}
+
+class ParkingLotRepository {
+  - parkingLots: List<ParkingLot>
+
+  + getParkingLot(parkingLotId: Integer): ParkingLot
+  + getLotsWithFilter(filter: Filter, parkingZoneId: Integer): List<ParkingLot>
+  + updateParkingLot(parkingLotId: Integer): ParkingLot
+  + addLotToUser(parkingLotId: Integer, userId: Integer): boolean
+}
+
+class ReviewController {
+  - reviewService: ReviewService
+
+  + getReview(reviewId: Integer): String
+  + addReview(review: Review): String
+  + getReviews(page: Integer): String
+  + deleteReview(reviewId: Integer): String
+  + getCreateForm(): String
+}
+
+class ReviewService {
+  - reviewRepository: ReviewRepository
+
+  + getReview(reviewId: Integer): Review
+  + addReview(review: Review): Review
+  + getReviews(page: Integer): List<Review>
+  + deleteReview(reviewId: Integer): void
+}
+
+class ReviewRepository {
+  - reviews: List<Review>
+
+  + getReview(reviewId: Integer): Review
+  + addReview(review: Review): Review
+  + getReviews(page: Integer): List<Review>
+  + deleteReview(reviewId: Integer): void
+}
+
+class PaymentController{
+  - paymentService: PaymentService
+
+  + getPaymentForm(): String
+  + processPayment(userId: Integer, amount: BigDecimal, parkingLotId: Integer): String
+}
+
+class PaymentService {
+  + processPayment(userId: Integer, amount: BigDecimal, parkingLotId: Integer): boolean
+}
+
+ProfileController "1" --o "1" ProfileService
+ProfileController "1" --o "1" RegistrationAndAuthorizationService
+ProfileService "1" --o "1" ProfileRepository
+RegistrationAndAuthorizationService "1" --o "1" ProfileRepository
+
+ReviewController "1" --o "1" ReviewService
+ReviewService "1" --o "1" ReviewRepository
+
+ZoneController "1" --o "1" ZoneService
+ZoneService "1" --o "1" ZoneRepository
+
+ParkingLotController "1" --o "1" ParkingLotService
+ParkingLotService "1" --o "1" ParkingLotRepository
+
+PaymentController "1" --o "1" PaymentService
+
+ParkingLotType "1" --* "1" ParkingLot
+ParkingLotStatus "1" --* "1" ParkingLot
+Role "1" --* "1" User
+
+
+
+
+@enduml

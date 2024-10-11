@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Feed Type Details</title>
+</head>
+<body>
+<h1>Feeding ration details</h1>
+
+<!-- Информация о типе рациона -->
+<div th:if="${feedingRation}">
+    <p><strong>ID:</strong> <span th:text="${feedingRation.feedRationId}"></span></p>
+    <p><strong>Name:</strong> <span th:text="${feedingRation.feedRationName}"></span></p>
+    <p><strong>Feed type id:</strong> <span th:text="${feedingRation.feedTypeReadDto.id}"></span></p>
+    <p><strong>Feed type name:</strong> <span th:text="${feedingRation.feedTypeReadDto.name}"></span></p>
+
+    <!-- Кнопка для удаления зоны -->
+    <form th:action="@{/feeding-ration/delete/{id}(id=${feedingRation.feedRationId})}" method="post">
+        <input type="hidden" name="_method" value="delete"/>
+        <button type="submit">Delete feeding ration</button>
+    </form>
+
+    <!-- Кнопка для обновления зоны -->
+    <form th:action="@{/feeding-ration/update/{id}(id=${feedingRation.feedRationId})}" method="get">
+        <button type="submit">Update feeding ration</button>
+    </form>
+
+    <!-- Если зона не найдена -->
+    <div th:if="${feedingRation == null}">
+        <p>Feeding ration not found!</p>
+    </div>
+
+    <!-- Кнопка для создания новой зоны -->
+    <form th:action="@{/feeding-ration/create}" method="get">
+        <button type="submit">Create new feeding ration</button>
+    </form>
+
+</div>
+
+
+</body>
+</html>

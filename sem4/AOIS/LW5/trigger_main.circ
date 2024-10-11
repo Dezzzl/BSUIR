@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project source="2.7.1" version="1.0">
+This file is intended to be loaded by Logisim (http://www.cburch.com/logisim/).
+<lib desc="#Wiring" name="0"/>
+  <lib desc="#Gates" name="1"/>
+  <lib desc="#Plexers" name="2"/>
+  <lib desc="#Arithmetic" name="3"/>
+  <lib desc="#Memory" name="4">
+    <tool name="ROM">
+      <a name="contents">addr/data: 8 8
+0
+</a>
+    </tool>
+  </lib>
+  <lib desc="#I/O" name="5"/>
+  <lib desc="#Base" name="6">
+    <tool name="Text Tool">
+      <a name="text" val=""/>
+      <a name="font" val="SansSerif plain 12"/>
+      <a name="halign" val="center"/>
+      <a name="valign" val="base"/>
+    </tool>
+  </lib>
+  <main name="main"/>
+  <options>
+    <a name="gateUndefined" val="ignore"/>
+    <a name="simlimit" val="1000"/>
+    <a name="simrand" val="0"/>
+  </options>
+  <mappings>
+    <tool lib="6" map="Button2" name="Menu Tool"/>
+    <tool lib="6" map="Button3" name="Menu Tool"/>
+    <tool lib="6" map="Ctrl Button1" name="Menu Tool"/>
+  </mappings>
+  <toolbar>
+    <tool lib="6" name="Poke Tool"/>
+    <tool lib="6" name="Edit Tool"/>
+    <tool lib="6" name="Text Tool">
+      <a name="text" val=""/>
+      <a name="font" val="SansSerif plain 12"/>
+      <a name="halign" val="center"/>
+      <a name="valign" val="base"/>
+    </tool>
+    <sep/>
+    <tool lib="0" name="Pin">
+      <a name="tristate" val="false"/>
+    </tool>
+    <tool lib="0" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="labelloc" val="east"/>
+    </tool>
+    <tool lib="1" name="NOT Gate"/>
+    <tool lib="1" name="AND Gate"/>
+    <tool lib="1" name="OR Gate"/>
+  </toolbar>
+  <circuit name="main">
+    <a name="circuit" val="main"/>
+    <a name="clabel" val=""/>
+    <a name="clabelup" val="east"/>
+    <a name="clabelfont" val="SansSerif plain 12"/>
+    <wire from="(410,400)" to="(410,470)"/>
+    <wire from="(870,330)" to="(870,470)"/>
+    <wire from="(370,530)" to="(560,530)"/>
+    <wire from="(500,400)" to="(550,400)"/>
+    <wire from="(590,380)" to="(910,380)"/>
+    <wire from="(380,770)" to="(560,770)"/>
+    <wire from="(430,620)" to="(870,620)"/>
+    <wire from="(560,770)" to="(600,770)"/>
+    <wire from="(640,750)" to="(870,750)"/>
+    <wire from="(900,820)" to="(900,850)"/>
+    <wire from="(930,870)" to="(930,900)"/>
+    <wire from="(880,820)" to="(880,850)"/>
+    <wire from="(420,660)" to="(850,660)"/>
+    <wire from="(530,350)" to="(530,380)"/>
+    <wire from="(560,800)" to="(850,800)"/>
+    <wire from="(430,590)" to="(430,620)"/>
+    <wire from="(850,330)" to="(850,480)"/>
+    <wire from="(870,470)" to="(870,620)"/>
+    <wire from="(420,570)" to="(420,660)"/>
+    <wire from="(410,400)" to="(450,400)"/>
+    <wire from="(930,940)" to="(950,940)"/>
+    <wire from="(530,380)" to="(550,380)"/>
+    <wire from="(430,410)" to="(430,450)"/>
+    <wire from="(370,350)" to="(370,530)"/>
+    <wire from="(410,470)" to="(870,470)"/>
+    <wire from="(430,450)" to="(890,450)"/>
+    <wire from="(370,530)" to="(370,580)"/>
+    <wire from="(500,580)" to="(580,580)"/>
+    <wire from="(900,820)" to="(910,820)"/>
+    <wire from="(620,560)" to="(890,560)"/>
+    <wire from="(910,330)" to="(910,380)"/>
+    <wire from="(930,900)" to="(980,900)"/>
+    <wire from="(850,660)" to="(850,800)"/>
+    <wire from="(390,390)" to="(450,390)"/>
+    <wire from="(870,750)" to="(870,820)"/>
+    <wire from="(870,620)" to="(870,750)"/>
+    <wire from="(560,530)" to="(560,560)"/>
+    <wire from="(560,770)" to="(560,800)"/>
+    <wire from="(270,580)" to="(370,580)"/>
+    <wire from="(370,750)" to="(600,750)"/>
+    <wire from="(390,390)" to="(390,480)"/>
+    <wire from="(910,870)" to="(930,870)"/>
+    <wire from="(890,450)" to="(890,560)"/>
+    <wire from="(560,560)" to="(580,560)"/>
+    <wire from="(420,570)" to="(450,570)"/>
+    <wire from="(370,350)" to="(530,350)"/>
+    <wire from="(930,900)" to="(930,940)"/>
+    <wire from="(430,590)" to="(450,590)"/>
+    <wire from="(430,410)" to="(450,410)"/>
+    <wire from="(370,580)" to="(370,750)"/>
+    <wire from="(890,560)" to="(890,850)"/>
+    <wire from="(390,480)" to="(850,480)"/>
+    <wire from="(890,330)" to="(890,450)"/>
+    <wire from="(910,380)" to="(910,820)"/>
+    <wire from="(850,480)" to="(850,660)"/>
+    <wire from="(870,820)" to="(880,820)"/>
+    <comp lib="0" loc="(980,900)" name="Probe">
+      <a name="facing" val="west"/>
+      <a name="radix" val="10unsigned"/>
+    </comp>
+    <comp lib="0" loc="(380,770)" name="Pin">
+      <a name="tristate" val="false"/>
+    </comp>
+    <comp lib="6" loc="(512,388)" name="Text">
+      <a name="text" val="h3"/>
+    </comp>
+    <comp lib="4" loc="(640,750)" name="T Flip-Flop"/>
+    <comp lib="6" loc="(529,568)" name="Text">
+      <a name="text" val="h2"/>
+    </comp>
+    <comp lib="6" loc="(888,313)" name="Text">
+      <a name="text" val="q2"/>
+    </comp>
+    <comp lib="4" loc="(590,380)" name="T Flip-Flop"/>
+    <comp lib="0" loc="(270,580)" name="Clock"/>
+    <comp lib="6" loc="(849,313)" name="Text">
+      <a name="text" val="V"/>
+    </comp>
+    <comp lib="1" loc="(500,580)" name="AND Gate"/>
+    <comp lib="6" loc="(871,313)" name="Text">
+      <a name="text" val="q1"/>
+    </comp>
+    <comp lib="0" loc="(950,940)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="width" val="3"/>
+      <a name="labelloc" val="east"/>
+    </comp>
+    <comp lib="6" loc="(908,313)" name="Text">
+      <a name="text" val="q3"/>
+    </comp>
+    <comp lib="4" loc="(620,560)" name="T Flip-Flop"/>
+    <comp lib="0" loc="(910,870)" name="Splitter">
+      <a name="facing" val="north"/>
+      <a name="fanout" val="3"/>
+      <a name="incoming" val="3"/>
+      <a name="bit0" val="2"/>
+      <a name="bit2" val="0"/>
+    </comp>
+    <comp lib="6" loc="(577,763)" name="Text">
+      <a name="text" val="h1"/>
+    </comp>
+    <comp lib="1" loc="(500,400)" name="AND Gate"/>
+  </circuit>
+</project>

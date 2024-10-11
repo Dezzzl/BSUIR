@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Habitat Zone</title>
+</head>
+<body>
+<h1>Update Habitat Zone</h1>
+
+<form th:action="@{/zones/update/{id}(id=${zone.id})}" th:object="${zone}" method="post">
+    <label for="name">Name:</label>
+    <input type="text" id="name" th:field="*{name}" />
+
+    <label for="description">Description:</label>
+    <input type="text" id="description" th:field="*{description}" />
+
+    <button type="submit">Update Zone</button>
+</form>
+
+<a href="/zones" th:href="@{/zones}">Back to Zones List</a>
+</body>
+</html>

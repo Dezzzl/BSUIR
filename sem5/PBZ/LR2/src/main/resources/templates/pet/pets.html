@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Pet List</title>
+</head>
+<body>
+
+<h1>Available Pets</h1>
+<ol>
+    <li th:each="pet : ${pets}">
+        <a th:href="@{'/pet/' + ${pet.id}(petType=${pet.petType})}" th:text="|${pet.name}|">Pet</a>
+        <p>
+            <strong>Birthdate:</strong> <span th:text="${pet.birthdate}"></span><br>
+            <strong>Sex:</strong> <span th:text="${pet.sex}"></span>
+        </p>
+    </li>
+</ol>
+
+<!-- Кнопка для добавления нового питомца -->
+<a href="/pet/create">Create New Pet</a>
+
+</body>
+</html>

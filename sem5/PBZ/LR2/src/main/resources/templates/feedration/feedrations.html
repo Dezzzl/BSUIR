@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Feed Type List</title>
+</head>
+<body>
+
+<!-- Таблица с типами рационов -->
+<h1>Available feed types</h1>
+<ol>
+    <li th:each="feedingRation : ${feedingRations}">
+        <a th:href="@{'/feeding-ration/' + ${feedingRation.feedRationId}}" th:text="|${feedingRation.feedRationName}|">Feed
+            ration</a>
+    </li>
+</ol>
+
+<!-- Кнопка для добавления нового типа рациона -->
+<a href="/feeding-ration/create">Create new feeding ration</a>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Feed Type Details</title>
+</head>
+<body>
+<h1>Feed Type Details</h1>
+
+<!-- Информация о типе рациона -->
+<div th:if="${feedType}">
+    <p><strong>ID:</strong> <span th:text="${feedType.id}"></span></p>
+    <p><strong>Name:</strong> <span th:text="${feedType.name}"></span></p>
+
+    <!-- Кнопка для удаления зоны -->
+    <form th:action="@{/feed-type/delete/{id}(id=${feedType.id})}" method="post">
+        <input type="hidden" name="_method" value="delete"/>
+        <button type="submit">Delete feed type</button>
+    </form>
+
+    <!-- Кнопка для обновления зоны -->
+    <form th:action="@{/feed-type/update/{id}(id=${feedType.id})}" method="get">
+        <button type="submit">Update feed type</button>
+    </form>
+
+    <!-- Если зона не найдена -->
+    <div th:if="${feedType == null}">
+        <p>Feed type not found!</p>
+    </div>
+
+    <!-- Кнопка для создания новой зоны -->
+    <form th:action="@{/feed-type/create}" method="get">
+        <button type="submit">Create new feed type</button>
+    </form>
+
+</div>
+
+
+</body>
+</html>

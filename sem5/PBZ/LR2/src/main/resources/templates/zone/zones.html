@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Zones List</title>
+</head>
+<body>
+<h1>Available Zones</h1>
+<ol>
+    <li th:each="zone : ${zones}">
+        <a th:href="@{'/zones/' + ${zone.id}}" th:text="|${zone.name}|">Zone</a>
+    </li>
+</ol>
+</body>
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Pet</title>
+    <script>
+        function showAdditionalFields() {
+            const petType = document.getElementById("petType").value;
+            document.getElementById("birdFields").style.display = (petType === "bird") ? "block" : "none";
+            document.getElementById("reptileFields").style.display = (petType === "reptile") ? "block" : "none";
+        }
+    </script>
+</head>
+<body>
+
+<h1>Add New Pet</h1>
+
+<form th:action="@{/pet}" method="post" th:object="${pet}">
+    <label for="name">Name:
+        <input id="name" type="text" name="name" th:value="*{name}" required>
+    </label><br>
+
+    <label for="birthdate">Birthdate:
+        <input id="birthdate" type="date" name="birthdate" th:value="*{birthdate}" required>
+    </label><br>
+
+    <label for="sex">Sex:
+        <select id="sex" name="sex" required>
+            <option value="M">Male</option>
+            <option value="F">Female</option>
+        </select>
+    </label><br>
+
+    <label for="petType">Pet Type:
+        <select id="petType" name="petType" onchange="showAdditionalFields()" required>
+            <option value="pet">Select Pet Type</option>
+            <option value="bird">Bird</option>
+            <option value="reptile">Reptile</option>
+        </select>
+    </label><br>
+
+    <label for="feedingRation">Feeding ration name:
+        <input id="feedingRation" type="text" name="feedingRationCreateEditDto.feedRationName"
+               th:value="*{feedingRationCreateEditDto.feedRationName}" required>
+    </label><br>
+
+    <div>
+        <label for="feedingType">Feeding type:
+            <select id="feedingType" name="feedingRationCreateEditDto.feedingRationId">
+                <option th:each="feedingType : ${feedingTypes.content}"
+                        th:value="${feedingType.id}"
+                        th:text="${feedingType.name}">Feeding Type</option>
+            </select>
+        </label>
+    </div>
+
+
+    <!-- Пагинация для Feeding Types -->
+    <div>
+        <a th:href="@{/pets/create(feedingTypePage=${feedingTypes.number - 1}, zookeeperPage=${zookeepers.number}, veterinarianPage=${veterinarians.number}, habitatZonePage=${habitatZones.number})}" th:if="${feedingTypes.hasPrevious()}">Previous</a>
+        <span th:text="'Page ' + (${feedingTypes.number} + 1) + ' of ' + ${feedingTypes.totalPages}"></span>
+        <a th:href="@{/pets/create(feedingTypePage=${feedingTypes.number + 1}, zookeeperPage=${zookeepers.number}, veterinarianPage=${veterinarians.number}, habitatZonePage=${habitatZones.number})}" th:if="${feedingTypes.hasNext()}">Next</a>
+    </div>
+
+
+    <div>
+        <label for="zone">Habitat zone:
+            <select id="zone" name="habitatZoneId">
+                <option th:each="zone : ${habitatZones.content}"
+                        th:value="${zone.id}"
+                        th:text="${zone.name}">Habitat Zone</option>
+            </select>
+        </label>
+    </div>
+
+    <!-- Пагинация для Habitat Zones -->
+    <div>
+        <a th:href="@{/pets/create(habitatZonePage=${habitatZones.number - 1}, zookeeperPage=${zookeepers.number}, veterinarianPage=${veterinarians.number}, feedingTypePage=${feedingTypes.number})}" th:if="${habitatZones.hasPrevious()}">Previous</a>
+        <span th:text="'Page ' + (${habitatZones.number} + 1) + ' of ' + ${habitatZones.totalPages}"></span>
+        <a th:href="@{/pets/create(habitatZonePage=${habitatZones.number + 1}, zookeeperPage=${zookeepers.number}, veterinarianPage=${veterinarians.number}, feedingTypePage=${feedingTypes.number})}" th:if="${habitatZones.hasNext()}">Next</a>
+    </div>
+
+
+    <div>
+        <label for="zookeeper">Zookeeper:
+            <select id="zookeeper" name="zookeeperId">
+                <option th:each="zookeeper : ${zookeepers.content}"
+                        th:value="${zookeeper.id}"
+                        th:text="${zookeeper.name}">Zookeeper</option>
+            </select>
+        </label>
+    </div>
+
+    <!-- Пагинация для Zookeepers -->
+    <div>
+        <a th:href="@{/pets/create(zookeeperPage=${zookeepers.number - 1}, veterinarianPage=${veterinarians.number}, feedingTypePage=${feedingTypes.number}, habitatZonePage=${habitatZones.number})}" th:if="${zookeepers.hasPrevious()}">Previous</a>
+        <span th:text="'Page ' + (${zookeepers.number} + 1) + ' of ' + ${zookeepers.totalPages}"></span>
+        <a th:href="@{/pets/create(zookeeperPage=${zookeepers.number + 1}, veterinarianPage=${veterinarians.number}, feedingTypePage=${feedingTypes.number}, habitatZonePage=${habitatZones.number})}" th:if="${zookeepers.hasNext()}">Next</a>
+    </div>
+
+    <div>
+        <label for="veterinarian">Veterinarian:
+            <select id="veterinarian" name="veterinarianId">
+                <option th:each="veterinarian : ${veterinarians.content}"
+                        th:value="${veterinarian.id}"
+                        th:text="${veterinarian.name}">Veterinarian</option>
+            </select>
+        </label>
+    </div>
+
+    <!-- Пагинация для Veterinarians -->
+    <div>
+        <a th:href="@{/pets/create(veterinarianPage=${veterinarians.number - 1}, zookeeperPage=${zookeepers.number}, feedingTypePage=${feedingTypes.number}, habitatZonePage=${habitatZones.number})}" th:if="${veterinarians.hasPrevious()}">Previous</a>
+        <span th:text="'Page ' + (${veterinarians.number} + 1) + ' of ' + ${veterinarians.totalPages}"></span>
+        <a th:href="@{/pets/create(veterinarianPage=${veterinarians.number + 1}, zookeeperPage=${zookeepers.number}, feedingTypePage=${feedingTypes.number}, habitatZonePage=${habitatZones.number})}" th:if="${veterinarians.hasNext()}">Next</a>
+    </div>
+
+
+    <!-- Дополнительные поля для птиц -->
+    <div id="birdFields" style="display: none;">
+        <h3>Bird Wintering Information</h3>
+
+        <label for="winteringCode">Wintering Code:
+            <input id="winteringCode" type="text" name="winteringPlace.code" th:value="*{winteringPlace.code}">
+        </label><br>
+
+        <label for="country">Country:
+            <input id="country" type="text" name="winteringPlace.country" th:value="*{winteringPlace.country}">
+        </label><br>
+
+        <label for="departureDate">Departure Date:
+            <input id="departureDate" type="date" name="winteringPlace.departureDate" th:value="*{winteringPlace.departureDate}">
+        </label><br>
+
+        <label for="returnDate">Return Date:
+            <input id="returnDate" type="date" name="winteringPlace.arrivalDate" th:value="*{winteringPlace.arrivalDate}">
+        </label><br>
+    </div>
+    <!-- Дополнительные поля для рептилий -->
+    <div id="reptileFields" style="display: none;">
+        <h3>Reptile Information</h3>
+
+        <label for="normalTemperature">Normal Temperature:
+            <input id="normalTemperature" type="number" step="0.1" name="reptileCreateEditDto.normalTemperature" th:value="*{reptileCreateEditDto.normalTemperature}">
+        </label><br>
+
+        <label for="hibernationPeriod">Hibernation Period (e.g., 3 months 10 days):</label>
+        <input type="text" name="reptileCreateEditDto.sleepPeriod" id="hibernationPeriod" placeholder="e.g., 3 months 10 days">
+
+    </div>
+
+
+
+    <button type="submit">Add Pet</button>
+</form>
+
+</body>
+</html>

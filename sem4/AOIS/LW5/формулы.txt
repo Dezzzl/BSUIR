@@ -1,0 +1,3 @@
+h3 : (!A∧!B∧C∧D)∨(!A∧B∧!C∧D)∨(!A∧B∧C∧D)∨(A∧!B∧!C∧D)∨(A∧!B∧C∧D)∨(A∧B∧!C∧D)∨(A∧B∧C∧D)∨(!A∧!B∧!C∧D)
+h2 : (!A∧B∧!C∧D)∨(A∧!B∧!C∧D)∨(A∧B∧!C∧D)∨(!A∧!B∧!C∧D)
+h1 : (A∧!B∧!C∧D)∨(!A∧!B∧!C∧D)

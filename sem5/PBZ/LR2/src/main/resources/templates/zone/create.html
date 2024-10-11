@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create New Habitat Zone</title>
+</head>
+<body>
+<h1>Create New Habitat Zone</h1>
+
+<form th:action="@{/zones}" method="post" th:object="${zone}">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" th:value="*{name}" required>
+    <br><br>
+
+    <label for="description">Description:</label>
+    <textarea id="description" name="description" th:value="*{description}" required></textarea>
+    <br><br>
+
+    <button type="submit">Create Zone</button>
+</form>
+
+<a href="/zones">Back to Zone List</a>
+</body>
+</html>
