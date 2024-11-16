@@ -23,5 +23,20 @@ public class PeriodToStringConverter implements AttributeConverter<Period, Strin
         }
         return Period.parse(dbData);
     }
+
+    public static String convert(Period period) {
+        int months = period.getMonths();
+        int days = period.getDays();
+
+        StringBuilder result = new StringBuilder();
+        if (months > 0) {
+            result.append(months).append(" month").append(months > 1 ? "s" : "").append(" ");
+        }
+        if (days > 0) {
+            result.append(days).append(" day").append(days > 1 ? "s" : "");
+        }
+
+        return result.toString().trim();
+    }
 }
 

@@ -18,7 +18,7 @@ public class BirdReadMapper extends PetReadMapper {
 
     @Override
     public PetReadDto map(Pet object) {
-        Bird bird = (Bird) object;
+            Bird bird = (Bird) object;
         return new PetReadDto(
                 bird.getId(),
                 bird.getName(),

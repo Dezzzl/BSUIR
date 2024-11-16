@@ -1,0 +1,105 @@
+@startuml
+
+left to right direction
+
+state "Окно логина"       as login    {
+    "login()": do / LoginController
+}
+
+state "Окно регистрации"       as registration    {
+    "register()": do / RegistrationController
+}
+
+state "Окно изменения пароля"       as resetPassword    {
+    "resetPassword()": do / LoginController
+}
+
+state "Окно профиля" as mainWindow {
+    "getUserDetails()": do / ProfileController
+}
+
+state "Окно истории бронирования" as bookingHistory{
+        "getBookingHistory()": do / ProfileController
+}
+
+state "Окно активных броней" as activeLots{
+       "getCurrentParkingLots()": do / ProfileController
+}
+
+state "Окно редактировния профиля" as profileChange{
+    "updateUserInfo()": do / ProfileController
+}
+
+state "Окон выбора парковочной зоны" as zone{
+    "getParkingZone()": do / ZoneController
+}
+
+state "Окно выбора места" as parkingLot{
+    "getParkingLot()": do / ParkingLotController
+}
+
+state "Окно выбора времени брони" as lotTime{
+    "setTimeToLot()": do / ParkingLotController
+}
+
+state "Окно оплаты" as payment {
+    "processPayment()": do / PaymentController
+}
+
+state  "Окно просмотра отзывов" as review {
+    "getReviews()": do / ReviewController
+}
+
+state "Окно добавления отзыва" as addReview {
+    "addReview()": do / ReviewController
+}
+
+
+
+
+
+[*] --> login: Приложение для бронирования: run()
+login --> login: Окно логина: неудачный логин
+login --> registration: Окно регистрации: register()
+login --> resetPassword: Окно изменения пароля: resetPassword()
+login --> mainWindow: Окно профиля: showUserInfo()
+
+registration --> registration: Окно регистрации: неудачная регистрация
+registration --> login: Окно логина: login()
+
+resetPassword --> login: Окно логина: login()
+
+mainWindow --> bookingHistory: Окно истории бронирования: getBookingHistory()
+bookingHistory --> mainWindow: Окно профиля: getUserDetails()
+
+mainWindow --> activeLots: Окно активных броней: getCurrentParkingLots()
+activeLots --> mainWindow: Окно профиля: getUserDetails()
+
+mainWindow --> profileChange: Окно редактировния профиля: updateUserInfo()
+profileChange --> mainWindow: Окно профиля: getUserDetails()
+
+mainWindow --> zone: Окно выбора парковочной зоны: getParkingZone()
+
+zone --> parkingLot: Окно выбора места: getParkingLot()
+parkingLot --> zone: Окно выбора парковочной зоны: getParkingZone()
+
+parkingLot --> lotTime: Окно выбора времени брони: setTimeToLot()
+
+lotTime --> parkingLot: Место занято по этому времени: getParkingLot()
+
+lotTime --> payment: Окно оплаты: processPayment()
+
+payment --> payment: Оплата не прошла
+
+payment --> mainWindow: Окно профиля: getUserDetails()
+payment --> lotTime: Окно выбора времени брони: setTimeToLot()
+
+mainWindow --> review: Окно просмотра отзывов: getReviews()
+review --> mainWindow: Окно профиля: getUserDetails()
+
+review --> addReview: Окно добавления отзыва: addReview()
+addReview --> mainWindow: Окно профиля: getUserDetails()
+
+mainWindow --> [*]: Вид: выход()
+
+@enduml

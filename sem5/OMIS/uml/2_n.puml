@@ -1,0 +1,71 @@
+@startuml
+
+class Main<<main>> {
+    - context: ApplicationContext
+}
+
+Main "1"-->"1" ApplicationContext : starts
+ApplicationContext "1"..>"1" DispatcherServlet : initializes
+
+class ApplicationContext<<injector>>{
+    - container:
+}
+
+class DispatcherServlet<<singleton>> {
+    +doDispatch(HttpServletRequest, HttpServletResponse)
+}
+
+ApplicationContext "1" ..> "1" MapIntegrationControllerImpl: <<create>>
+ApplicationContext "1" ..> "1" MapIntegrationServiceImpl: <<create>>
+ApplicationContext "1" ..> "1" MapIntegrationRepositoryImpl: <<create>>
+DispatcherServlet "1" ..> "1" MapIntegrationControllerImpl: <<call>>
+
+
+interface MapIntegrationController{
+  + getMap(): String
+  + getAddZoneForm(): String
+  + addNewZone(zoneId: Integer, address: String): String
+}
+
+class MapIntegrationControllerImpl{
+   + getMap(): String
+   + getAddZoneForm(): String
+   + addNewZone(zoneId: Integer, address: String): String
+}
+
+interface MapIntegrationService{
+  + getMap(): String
+  + addNewZone(zoneId: Integer, address: String): void
+}
+
+interface MapIntegrationServiceImpl{
+  + getMap(): String
+  + addNewZone(zoneId: Integer, address: String): void
+}
+
+interface MapIntegrationRepository{
+  + getMap(): String
+  + addNewZone(zoneId: Integer, address: String): void
+}
+
+class MapIntegrationRepositoryImpl{
+  + getMap(): String
+  + addNewZone(zoneId: Integer, address: String): void
+}
+
+class ParkingZone {
+  + id: Integer
+  + address: String
+  + parkingLots: List<ParkingLot>
+}
+
+MapIntegrationControllerImpl "1" o-- "1" MapIntegrationService: - mapIntegrationService
+MapIntegrationServiceImpl "1" o-- "1" MapIntegrationRepository: - mapIntegrationRepository
+
+MapIntegrationRepository <|.. MapIntegrationRepositoryImpl
+MapIntegrationService <|.. MapIntegrationServiceImpl
+MapIntegrationController <|.. MapIntegrationControllerImpl
+
+MapIntegrationRepositoryImpl "1" o-- "0..*" ParkingZone: - parkingZones_list
+
+@enduml

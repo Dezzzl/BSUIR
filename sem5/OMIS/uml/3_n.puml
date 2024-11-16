@@ -1,0 +1,76 @@
+@startuml
+
+class Main<<main>> {
+    - context: ApplicationContext
+}
+
+Main "1"-->"1" ApplicationContext : starts
+ApplicationContext "1"..>"1" DispatcherServlet : initializes
+
+class ApplicationContext<<injector>>{
+    - container:
+}
+
+class DispatcherServlet<<singleton>> {
+    +doDispatch(HttpServletRequest, HttpServletResponse)
+}
+
+ApplicationContext "1" ..> "1" LoyaltyControllerImpl: <<create>>
+ApplicationContext "1" ..> "1" LoyaltyServiceImpl: <<create>>
+ApplicationContext "1" ..> "1" LoyaltyRepositoryImpl: <<create>>
+DispatcherServlet "1" ..> "1" LoyaltyControllerImpl: <<call>>
+
+
+interface LoyaltyController{
+  + addDiscount(userId: Integer): String
+  + getAddDiscountForm(): String
+  + giveTheUserBonus(userId: Integer): String
+  + getAddBonusForm(): String
+}
+
+class LoyaltyControllerImpl{
+  + addDiscount(userId: Integer): String
+  + getAddDiscountForm(): String
+  + giveTheUserBonus(userId: Integer): String
+  + getAddBonusForm(): String
+}
+
+interface LoyaltyService{
+  + addDiscount(userId: Integer): void
+  + giveTheUserBonus(userId: Integer): void
+}
+
+interface LoyaltyServiceImpl{
+    + addDiscount(userId: Integer): void
+    + giveTheUserBonus(userId: Integer): void
+}
+
+interface LoyaltyRepository{
+  + addDiscount(userId: Integer): void
+  + giveTheUserBonus(userId: Integer): void
+}
+
+class LoyaltyRepositoryImpl{
+  + addDiscount(userId: Integer): void
+  + giveTheUserBonus(userId: Integer): void
+}
+
+class User {
+  + id: Integer
+  + fullName: String
+  + email: String
+  + password: String
+  + personalPhoto: byte[]
+  + telephoneNumber: String
+}
+
+LoyaltyControllerImpl "1" o-- "1" LoyaltyService: - mapIntegrationService
+LoyaltyServiceImpl "1" o-- "1" LoyaltyRepository: - mapIntegrationRepository
+
+LoyaltyRepository <|.. LoyaltyRepositoryImpl
+LoyaltyService <|.. LoyaltyServiceImpl
+LoyaltyController <|.. LoyaltyControllerImpl
+
+LoyaltyRepositoryImpl "1" --> "1" User: <<add bonuses>>
+
+@enduml

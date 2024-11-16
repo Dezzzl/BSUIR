@@ -17,11 +17,11 @@ public class PetCreateEditDto {
 
     String petType;
 
-    WinteringPlaceCreateEditDto winteringPlace = new WinteringPlaceCreateEditDto();
-
     ReptileCreateEditDto reptileCreateEditDto = new ReptileCreateEditDto();
 
-    FeedingRationCreateEditDto feedingRationCreateEditDto = new FeedingRationCreateEditDto();
+    Integer winteringPlaceId;
+
+    Integer feedingRationId;
 
     Integer habitatZoneId;
 

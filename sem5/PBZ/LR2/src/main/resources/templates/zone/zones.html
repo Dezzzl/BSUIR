@@ -2,14 +2,30 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Zones List</title>
+    <title>Habitat Zones List</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}">
 </head>
 <body>
-<h1>Available Zones</h1>
-<ol>
-    <li th:each="zone : ${zones}">
-        <a th:href="@{'/zones/' + ${zone.id}}" th:text="|${zone.name}|">Zone</a>
-    </li>
-</ol>
+<div class="container">
+    <h1>Available Zones</h1>
+    <ol>
+        <li th:each="zone : ${zones}">
+            <a th:href="@{'/zones/' + ${zone.id}}" th:text="|${zone.name}|">Zone</a>
+        </li>
+    </ol>
+
+    <!-- Кнопка для добавления новой зоны -->
+    <div class="main-page-link">
+        <form th:action="@{/zones/create}" method="get">
+            <button type="submit">Create New Habitat Zone</button>
+        </form>
+    </div>
+
+    <div class="main-page-link">
+        <form th:action="@{/}" method="get">
+            <button type="submit">Main page</button>
+        </form>
+    </div>
+</div>
 </body>
 </html>

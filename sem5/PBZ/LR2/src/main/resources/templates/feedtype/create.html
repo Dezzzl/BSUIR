@@ -3,18 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <title>Create New Feed Type</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
 </head>
 <body>
-<h1>Create New Feed Type</h1>
 
-<form th:action="@{/feed-type}" method="post" th:object="${feedType}">
-    <label for="name">Feed Type Name:</label>
-    <input type="text" id="name" name="name" th:value="*{name}" required>
-    <br><br>
+<div class="container">
+    <h1>Create New Feed Type</h1>
 
-    <button type="submit">Create Feed Type</button>
-</form>
+    <form th:action="@{/feed-type}" method="post" th:object="${feedType}">
+        <label for="name">Feed Type Name:</label>
+        <input type="text" id="name" name="name" th:value="*{name}" required>
+        <br><br>
 
-<a href="/feed-type">Back to Feed Type List</a>
+        <button type="submit">Create Feed Type</button>
+    </form>
+
+    <div class="navigation">
+        <a href="/feed-type">Back to Feed Type List</a>
+        <form th:action="@{/}" method="get" style="display:inline;">
+            <button type="submit">Main Page</button>
+        </form>
+    </div>
+</div>
+
 </body>
 </html>

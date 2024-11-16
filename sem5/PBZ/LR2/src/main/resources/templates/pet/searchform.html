@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Search for Pets</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}">
+</head>
+<body>
+<div class="container">
+    <h1>Search for Pets</h1>
+
+    <form th:action="@{/pet/search}" th:object="${petSearchDto}" method="post" class="search-form">
+        <!-- Поле для ввода имени питомца -->
+        <div class="form-group">
+            <label for="name">Pet Name:</label>
+            <input type="text" id="name" th:field="*{name}" placeholder="Enter pet name" class="input-field"/>
+        </div>
+
+        <!-- Выпадающий список для выбора типа питомца -->
+        <div class="form-group">
+            <label for="type">Pet Type:</label>
+            <select id="type" th:field="*{type}" class="select-field">
+                <option value="Pet">Pet</option>
+                <option value="Bird">Bird</option>
+                <option value="Reptile">Reptile</option>
+            </select>
+        </div>
+
+        <!-- Кнопка отправки формы -->
+        <div class="form-group">
+            <button type="submit" class="btn">Search</button>
+        </div>
+    </form>
+
+    <!-- Кнопка для перехода на главную страницу -->
+    <form th:action="@{/}" method="get" class="main-page-form">
+        <button type="submit" class="btn">Main Page</button>
+    </form>
+</div>
+</body>
+</html>

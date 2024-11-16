@@ -1,0 +1,62 @@
+@startuml
+
+class User {
+  + id: Integer
+  + fullName: String
+  + email: String
+  + password: String
+  + personalPhoto: byte[]
+  + telephoneNumber: String
+}
+
+class ParkingZone {
+  + id: Integer
+  + address: String
+  + parkingLots: List<ParkingLot>
+}
+
+class ParkingLot {
+  + id: Integer
+  + status: ParkingLotStatus
+  + type: ParkingLotType
+  + isForHandicapped: boolean
+  + cost: double
+  + arrivalTime: LocalDateTime
+  + departureTime: LocalDateTime
+}
+
+class Review {
+  + id: Integer
+  + content: String
+  + rating: Integer
+  + createdAt: LocalDateTime
+}
+
+enum ParkingLotType {
+  REGULAR,
+  TRUCK,
+  MOTORCYCLE
+}
+
+enum ParkingLotStatus {
+  AVAILABLE,
+  RESERVED,
+  OCCUPIED
+}
+
+enum Role {
+  USER,
+  ADMIN
+}
+
+User "1" o-- "0..*" ParkingLot: + bookingHistory
+User "1" o-- "0..*" ParkingLot: + currentParkingLots
+User "1" o-- "1" Role: + role
+User "1" o-- "1" ParkingLotStatus: + parkingLotStatus
+User "1" o-- "1" ParkingLotType: + parkingLotType
+User "1" o-- "1" Review: + review
+
+ParkingZone "1" o-- "0..*" ParkingLot: + list_parkingLots
+
+
+@enduml

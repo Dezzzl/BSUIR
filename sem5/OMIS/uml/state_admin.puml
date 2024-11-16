@@ -1,0 +1,141 @@
+@startuml
+
+left to right direction
+
+state "Окно логина"       as login    {
+    "login()": do / LoginController
+}
+
+state "Окно регистрации"       as registration    {
+    "register()": do / RegistrationController
+}
+
+state "Окно изменения пароля"       as resetPassword    {
+    "resetPassword()": do / LoginController
+}
+
+state "Окно управления"  as managementWindow    {
+    "getAdminForm()": do / ProfileController
+}
+
+state "Окно управления парковочными зонами"  as zones    {
+    "getZones": do / ZonesController
+}
+
+state "Окно управления парковочными местами"  as parkingLots    {
+    "getLotsWithFilter()": do / ParkingLotController
+}
+
+state "Окно управления пользователями"  as users    {
+    "getUsers()": do / ProfileController
+}
+
+state "Окно получения зоны"  as getZone    {
+    "getParkingZone()": do / ZonesController
+}
+
+state "Окно редактирования зоны"  as updateZone    {
+    "updateParkingZone()": do / ZonesController
+}
+
+state "Окно создания зоны"  as addZone    {
+    "addParkingZone()": do / ZonesController
+}
+
+
+
+
+state "Окно поиска парковочных мест"  as parkingLotsSearch   {
+    "getFilterForm()": do / ParkingLotController
+}
+
+state "Окно получения парковочного места"  as getParkingLot    {
+    "getParkingLot()": do / ParkingLotController
+}
+
+state "Окно создания парковочного места"  as addParkingLot    {
+    "createParkingLot()": do / ParkingLotController
+}
+
+state "Окно добавления места к зоне"  as addParkingLotToZone    {
+    "addParkingLotToZone()": do / ZonesController
+}
+
+state "Окно редактирования парковочного места"  as updateParkingLot    {
+    "updateParkingLot()": do / ParkingLotController
+}
+
+
+
+
+
+
+state "Окно получения пользователя"  as getUser    {
+    "getUser()": do / ProfileController
+}
+
+state "Окно отмены бронирования"  as deleteParkingLotFromCurrentLots    {
+    "deleteParkingLotFromCurrentLots()": do / ProfileController
+}
+
+state "Окно изменения роли"  as updateRole    {
+    "updateRole()": do / ProfileController
+}
+
+
+
+
+[*] --> login: Приложение для бронирования: run()
+login --> login: Окно логина: неудачный логин
+login --> registration: Окно регистрации: register()
+login --> resetPassword: Окно изменения пароля: resetPassword()
+login --> managementWindow: Окно управления: getAdminForm()
+
+registration --> registration: Окно регистрации: неудачная регистрация
+registration --> login: Окно логина: login()
+
+resetPassword --> login: Окно логина: login()
+
+managementWindow --> zones: Окно зон: getZones()
+zones --> managementWindow: Окно управления: getAdminForm()
+zones --> getZone: Окно получения зоны: getParkingZone()
+getZone --> updateZone: Окно редактирования зоны: updateParkingZone()
+zones --> addZone: Окно создания зоны: addParkingZone()
+getZone --> zones: Окно зон: getZones()
+getZone --> zones: Удаление зоны
+updateZone --> getZone: Окно получения зоны: getParkingZone()
+addZone --> zones: Окно зон: getZones()
+
+
+
+managementWindow --> parkingLotsSearch: Окно поиска парковочных мест: getFilterForm()
+parkingLotsSearch --> managementWindow: Окно управления: getAdminForm()
+parkingLotsSearch --> parkingLots: Окно управления парковочными местами: getLotsWithFilter()
+parkingLots --> parkingLotsSearch: Окно поиска парковочных мест: getFilterForm()
+parkingLots --> getParkingLot: Окно получения парковочного места: getParkingLot()
+parkingLots --> addParkingLot: Окно создания парковочного места: addParkingLot()
+getParkingLot --> addParkingLotToZone: Окно добавления места к зоне: addParkingLotToZone()
+getParkingLot --> updateParkingLot: Окно редактирования парковочного места: updateParkingLot()
+
+getParkingLot --> parkingLots: Окно управления парковочными местами: getLotsWithFilter()
+getParkingLot --> parkingLots: Удаление парковочного места
+getParkingLot --> parkingLots: Удаление парковочного места из зоны
+addParkingLot --> parkingLots: Окно управления парковочными местами: getLotsWithFilter()
+addParkingLotToZone --> getParkingLot: Окно получения парковочного места: getParkingLot()
+updateParkingLot --> getParkingLot: Окно получения парковочного места: getParkingLot()
+
+
+
+managementWindow --> users: Окно управления пользователями: getUsers()
+users --> managementWindow: Окно управления: getAdminForm()
+users --> getUser: Окно получения пользователя: getUser()
+getUser -> deleteParkingLotFromCurrentLots: Окно отмены бронирования: deleteParkingLotFromCurrentLots()
+getUser -> updateRole: Окно изменения роли: updateRole()
+getUser --> users: Окно управления пользователями: getUsers()
+deleteParkingLotFromCurrentLots --> getUser: Окно получения пользователя: getUser()
+updateRole --> getUser: Окно получения пользователя: getUser()
+
+
+managementWindow --> [*]: Вид: выход()
+
+@enduml

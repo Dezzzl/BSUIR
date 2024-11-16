@@ -3,38 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <title>Feed Type Details</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
 </head>
 <body>
-<h1>Feed Type Details</h1>
 
-<!-- Информация о типе рациона -->
-<div th:if="${feedType}">
-    <p><strong>ID:</strong> <span th:text="${feedType.id}"></span></p>
-    <p><strong>Name:</strong> <span th:text="${feedType.name}"></span></p>
+<div class="container">
+    <h1>Feed Type Details</h1>
 
-    <!-- Кнопка для удаления зоны -->
-    <form th:action="@{/feed-type/delete/{id}(id=${feedType.id})}" method="post">
-        <input type="hidden" name="_method" value="delete"/>
-        <button type="submit">Delete feed type</button>
-    </form>
+    <div th:if="${feedType}">
+        <p><strong>ID:</strong> <span th:text="${feedType.id}"></span></p>
+        <p><strong>Name:</strong> <span th:text="${feedType.name}"></span></p>
 
-    <!-- Кнопка для обновления зоны -->
-    <form th:action="@{/feed-type/update/{id}(id=${feedType.id})}" method="get">
-        <button type="submit">Update feed type</button>
-    </form>
+        <!-- Кнопка для удаления типа корма -->
+        <form th:action="@{/feed-type/delete/{id}(id=${feedType.id})}" method="post" style="display:inline;">
+            <input type="hidden" name="_method" value="delete"/>
+            <button type="submit">Delete Feed Type</button>
+        </form>
 
-    <!-- Если зона не найдена -->
+        <!-- Кнопка для обновления типа корма -->
+        <form th:action="@{/feed-type/update/{id}(id=${feedType.id})}" method="get" style="display:inline;">
+            <button type="submit">Update Feed Type</button>
+        </form>
+    </div>
+
     <div th:if="${feedType == null}">
         <p>Feed type not found!</p>
     </div>
 
-    <!-- Кнопка для создания новой зоны -->
+    <!-- Кнопка для создания нового типа корма -->
     <form th:action="@{/feed-type/create}" method="get">
-        <button type="submit">Create new feed type</button>
+        <button type="submit">Create New Feed Type</button>
     </form>
 
+    <div class="navigation">
+        <form th:action="@{/}" method="get" style="display:inline;">
+            <button type="submit">Main Page</button>
+        </form>
+    </div>
 </div>
-
 
 </body>
 </html>

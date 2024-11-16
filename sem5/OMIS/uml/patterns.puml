@@ -1,0 +1,20 @@
+@startuml
+
+interface Adapter {
+
+}
+
+class DefaultAdapter{
+ - A_int
+}
+
+interface A_int{}
+class A{
+}
+
+
+DefaultAdapter ..|> Adapter
+A ..|> A_int
+DefaultAdapter o-- A_int
+
+@enduml

@@ -1,0 +1,28 @@
+services:
+
+  postgresql:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: postgres
+    ports:
+      - 5432:5432
+
+  minio:
+    image: minio/minio:latest
+    restart: always
+    environment:
+      - MINIO_ROOT_USER=minioadmin
+      - MINIO_ROOT_PASSWORD=minioadmin
+    command: server ~/minio --console-address :9090
+    ports:
+      - 9090:9090
+      - 9000:9000
+    volumes:
+      - minio-data:/minio
+
+volumes:
+  minio-data:
+    driver: local

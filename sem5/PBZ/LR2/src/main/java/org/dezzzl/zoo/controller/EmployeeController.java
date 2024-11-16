@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.dezzzl.zoo.dto.employee.EmployeeCreateEditDto;
 import org.dezzzl.zoo.dto.employee.EmployeeReadDto;
 import org.dezzzl.zoo.dto.employee.EmployeeReferenceReadDto;
-import org.dezzzl.zoo.dto.feedtype.FeedTypeCreateEditDto;
 import org.dezzzl.zoo.entity.employee.EmployeeType;
 import org.dezzzl.zoo.entity.employee.MaritalStatus;
 import org.dezzzl.zoo.service.EmployeeService;
@@ -17,7 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Optional;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -27,6 +26,7 @@ public class EmployeeController {
     private final EmployeeService employeeService;
 
     private final SpousesService spousesService;
+
 
     @GetMapping
     public String findAll(Model model) {
@@ -58,11 +58,11 @@ public class EmployeeController {
                     model.addAttribute("employee", employee);
                     return "employee/employee";
                 })
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "there is no employee with that id"));
     }
 
     @GetMapping("/update/{id}")
-    public String showUpdateForm(@PathVariable("id") Integer id, Model model, Pageable pageable){
+    public String showUpdateForm(@PathVariable("id") Integer id, Model model, Pageable pageable) {
         return employeeService.findById(id)
                 .map(employee -> {
                     model.addAttribute("employeeTypes", EmployeeType.values());
@@ -91,13 +91,20 @@ public class EmployeeController {
     }
 
     @GetMapping("/spouses/{id}")
-    public String getSpouse(@PathVariable Integer id, Model model){
-       return  spousesService.findSpouseForEmployee(id)
+    public String getSpouse(@PathVariable Integer id, Model model) {
+        return spousesService.findSpouseForEmployee(id)
                 .map(employee -> {
                     model.addAttribute("employee", employee);
                     return "employee/employee";
                 })
-               .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    }
+
+    @GetMapping("/spouses")
+    public String getAllSpouses(Model model) {
+        List<EmployeeReadDto> employees = spousesService.findAllSpouses();
+        model.addAttribute("employees", employees);
+        return "employee/spouses";
     }
 
 

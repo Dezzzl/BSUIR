@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -50,5 +51,11 @@ public class ReptileService {
 
     public List<PetReferencesReadDto> findAll() {
         return reptileRepository.findAllReptilesBasicInfo();
+    }
+
+    public List<PetReadDto> findByName(String name) {
+        return reptileRepository.findByName(name)
+                .stream().map(reptileReadMapper::map)
+                .collect(Collectors.toList());
     }
 }

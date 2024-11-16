@@ -4,13 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.dezzzl.zoo.dto.employee.EmployeeCreateEditDto;
 import org.dezzzl.zoo.dto.employee.EmployeeReadDto;
 import org.dezzzl.zoo.dto.employee.EmployeeReferenceReadDto;
-import org.dezzzl.zoo.dto.feedtype.FeedTypeCreateEditDto;
-import org.dezzzl.zoo.dto.feedtype.FeedTypeReadDto;
 import org.dezzzl.zoo.entity.employee.Employee;
 import org.dezzzl.zoo.entity.employee.EmployeeType;
-import org.dezzzl.zoo.entity.employee.MaritalStatus;
-import org.dezzzl.zoo.entity.employee.Spouses;
-import org.dezzzl.zoo.entity.pet.FeedType;
 import org.dezzzl.zoo.mapper.employee.EmployeeCreateEditMapper;
 import org.dezzzl.zoo.mapper.employee.EmployeeReadMapper;
 import org.dezzzl.zoo.mapper.employee.EmployeeReferenceReadMapper;
@@ -47,18 +42,14 @@ public class EmployeeService {
     public Integer create(EmployeeCreateEditDto employeeCreateEditDto) {
         Employee employee = Optional.of(employeeCreateEditDto)
                 .map(employeeCreateEditMapper::map)
-                .map(employeeRepository::save)
+                .map(employeeRepository::saveAndFlush)
                 .orElseThrow();
 
-        if (employeeCreateEditDto.getSpouseId() != null &&
-            employeeCreateEditDto.getMaritalStatus() != MaritalStatus.MARRIED) {
+        if (employeeCreateEditDto.getSpouseId() != null) {
             Integer spouseId = employeeCreateEditDto.getSpouseId();
             Employee spouse = employeeRepository.findById(spouseId)
                     .orElseThrow(() -> new IllegalArgumentException("Spouse with id " + spouseId + " not found"));
-            Spouses spouses = new Spouses();
-            spouses.setFirstSpouse(employee);
-            spouses.setSecondSpouse(spouse);
-            spousesRepository.save(spouses);
+            spousesRepository.callAddSpouse(employee.getId(), spouse.getId());
         }
         return employee.getId();
     }
@@ -111,10 +102,11 @@ public class EmployeeService {
                                             spousesRepository.save(spouses);
                                         },
                                         () -> {
-                                            Spouses newSpouses = new Spouses();
-                                            newSpouses.setFirstSpouse(employee);
-                                            newSpouses.setSecondSpouse(employeeRepository.findById(employeeCreateEditDto.getSpouseId()).orElseThrow());
-                                            spousesRepository.save(newSpouses);
+//                                            Spouses newSpouses = new Spouses();
+//                                            newSpouses.setFirstSpouse(employee);
+//                                            newSpouses.setSecondSpouse(employeeRepository.findById(employeeCreateEditDto.getSpouseId()).orElseThrow());
+//                                            spousesRepository.save(newSpouses);
+                                            spousesRepository.callAddSpouse(employee.getId(), employeeCreateEditDto.getSpouseId());
                                         });
                     } else {
                         spousesRepository.findSpouseForEmployeeById(id).ifPresent(spousesRepository::delete);

@@ -4,22 +4,25 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.dezzzl.zoo.repository.id.SpouseId;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 public class Spouses {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @EmbeddedId
+    private SpouseId id;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "first_spouse_id")
+    @MapsId("firstSpouseId") // Связывает id первого супруга с составным ключом
+    @JoinColumn(name = "first_spouse_id", nullable = false)
     private Employee firstSpouse;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "second_spouse_id")
+    @MapsId("secondSpouseId") // Связывает id второго супруга с составным ключом
+    @JoinColumn(name = "second_spouse_id", nullable = false)
     private Employee secondSpouse;
 }
+
 

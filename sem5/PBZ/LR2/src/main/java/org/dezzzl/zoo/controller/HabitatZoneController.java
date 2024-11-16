@@ -68,7 +68,7 @@ public class HabitatZoneController {
 
     @PostMapping("/update/{id}")
     public String updateZone(@PathVariable Integer id, @ModelAttribute HabitatZoneCreateEditDto habitatZoneCreateEditDto) {
-        habitatZoneService.updateZone(id, habitatZoneCreateEditDto);
+        habitatZoneService.update(id, habitatZoneCreateEditDto);
         return "redirect:/zones/" + id;
     }
 }

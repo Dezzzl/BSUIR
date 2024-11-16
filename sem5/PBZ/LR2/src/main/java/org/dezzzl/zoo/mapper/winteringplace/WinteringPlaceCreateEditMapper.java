@@ -18,4 +18,13 @@ public class WinteringPlaceCreateEditMapper implements Mapper<WinteringPlaceCrea
                 .arrivalDate(object.getArrivalDate())
                 .build();
     }
+
+    public WinteringPlace map(WinteringPlaceCreateEditDto object, WinteringPlace winteringPlace) {
+        winteringPlace.setId(object.getId());
+        winteringPlace.setCode(object.getCode());
+        winteringPlace.setCountry(object.getCountry());
+        winteringPlace.setArrivalDate(object.getArrivalDate());
+        winteringPlace.setDepartureDate(object.getDepartureDate());
+        return winteringPlace;
+    }
 }

@@ -60,7 +60,7 @@ public class HabitatZoneService {
     }
 
     @Transactional
-    public Optional<HabitatZoneReadDto> updateZone(Integer id, HabitatZoneCreateEditDto habitatZoneCreateEditDto) {
+    public Optional<HabitatZoneReadDto> update(Integer id, HabitatZoneCreateEditDto habitatZoneCreateEditDto) {
         return habitatZoneRepository.findById(id)
                 .map(zone -> habitatZoneCreateEditMapper.map(habitatZoneCreateEditDto, zone))
                 .map(habitatZoneRepository::saveAndFlush)

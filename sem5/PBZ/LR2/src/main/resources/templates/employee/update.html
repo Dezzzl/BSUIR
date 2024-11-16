@@ -2,54 +2,71 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>User</title>
+    <title>Employee</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
 </head>
 <body>
-<form th:action="@{/employee/update/{id}(id=${employee.id})}" method="post" th:object="${employee}">
-    <label for="name">Name:
-        <input id="name" type="text" name="name" th:value="*{name}">
-    </label><br>
-    <label for="birthdate">BirthDate:
-        <input id="birthdate" type="date" name="birthdate" th:value="*{birthdate}">
-    </label><br>
-    <label for="phoneNumber">Phone Number:
-        <input id="phoneNumber" type="text" name="phoneNumber" th:value="*{phoneNumber}">
-    </label><br>
-    <h3>Employee Type</h3>
-    <div th:each="employeeType : ${employeeTypes}">
-        <input th:id="${employeeType}" type="radio" name="employeeType" th:value="${employeeType}">
-        <label th:for="${employeeType}" th:text="${employeeType}">Employee type</label>
-    </div>
-    <h3>Marital Status</h3>
-    <div th:each="maritalStatus : ${maritalStatuses}">
-        <input th:id="${maritalStatus}" type="radio" name="maritalStatus" th:value="${maritalStatus}">
-        <label th:for="${maritalStatus}" th:text="${maritalStatus}">Marital Status</label>
-    </div>
-    <!-- Выбор супруга из списка сотрудников без пары -->
-    <h3>Select Spouse (Optional)</h3>
-    <label for="spouse">Spouse:
-        <select id="spouse" name="spouseId">
-            <option value="" disabled selected>Select Spouse</option> <!-- Пустой выбор по умолчанию -->
-            <option th:each="spouse : ${employeesWithoutSpouses}"
-                    th:value="${spouse.id}"
-                    th:text="${spouse.name}">Spouse</option>
-        </select>
-    </label><br>
 
-    <!-- Кнопка отправки формы -->
-    <button type="submit">Create</button>
-</form>
+<div class="container">
+    <h1>Edit Employee Details</h1>
 
-<div>
-    <span th:if="${page.hasPrevious()}">
-        <a th:href="@{/employee/create(page=${page.number - 1})}">Previous</a>
-    </span>
-    <span th:each="i : ${#numbers.sequence(1, page.totalPages)}">
-        <a th:href="@{/employee/create(page=${i - 1})}" th:text="${i}">Page</a>
-    </span>
-    <span th:if="${page.hasNext()}">
-        <a th:href="@{/employee/create(page=${page.number + 1})}">Next</a>
-    </span>
+    <form th:action="@{/employee/update/{id}(id=${employee.id})}" method="post" th:object="${employee}">
+        <label for="name">Name:
+            <input id="name" type="text" name="name" th:value="*{name}" required>
+        </label><br>
+
+        <label for="birthdate">Birth Date:
+            <input id="birthdate" type="date" name="birthdate" th:value="*{birthdate}" required>
+        </label><br>
+
+        <label for="phoneNumber">Phone Number:
+            <input id="phoneNumber" type="text" name="phoneNumber" th:value="*{phoneNumber}" required>
+        </label><br>
+
+        <h3>Employee Type</h3>
+        <div th:each="employeeType : ${employeeTypes}">
+            <input th:id="${employeeType}" type="radio" name="employeeType" th:value="${employeeType}"
+                   th:checked="${employeeType.equals(employee.employeeType)}" required>
+            <label th:for="${employeeType}" th:text="${employeeType}">Employee type</label>
+        </div>
+
+        <h3>Marital Status</h3>
+        <div th:each="maritalStatus : ${maritalStatuses}">
+            <input th:id="${maritalStatus}" type="radio" name="maritalStatus" th:value="${maritalStatus}"
+                   th:checked="${maritalStatus.equals(employee.maritalStatus)}" required>
+            <label th:for="${maritalStatus}" th:text="${maritalStatus}">Marital Status</label>
+        </div>
+
+        <!-- Selecting spouse from employees without partners -->
+        <h3>Select Spouse (Optional)</h3>
+        <label for="spouse">Spouse:
+            <select id="spouse" name="spouseId">
+                <option value="" disabled selected>Select Spouse</option>
+                <option th:each="spouse : ${employeesWithoutSpouses}"
+                        th:value="${spouse.id}"
+                        th:text="${spouse.name}">Spouse</option>
+            </select>
+        </label><br>
+
+        <button type="submit">Update Employee</button>
+    </form>
+
+    <div class="pagination">
+        <span th:if="${page.hasPrevious()}">
+            <a th:href="@{/employee/create(page=${page.number - 1})}">Previous</a>
+        </span>
+        <span th:each="i : ${#numbers.sequence(1, page.totalPages)}">
+            <a th:href="@{/employee/create(page=${i - 1})}" th:text="${i}">Page</a>
+        </span>
+        <span th:if="${page.hasNext()}">
+            <a th:href="@{/employee/create(page=${page.number + 1})}">Next</a>
+        </span>
+    </div>
+
+    <form th:action="@{/}" method="get">
+        <button type="submit">Main Page</button>
+    </form>
 </div>
+
 </body>
 </html>

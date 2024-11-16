@@ -26,7 +26,7 @@ public class ReptileCreateEditMapper extends PetCreateEditMapper {
                 .sex(object.getSex())
                 .birthdate(object.getBirthdate())
                 .habitatZone(getHabitatZone(object.getHabitatZoneId()))
-                .feedingRation(getFeedingRation(object.getFeedingRationCreateEditDto().getFeedTypeId()))
+                .feedingRation(getFeedingRation(object.getFeedingRationId()))
                 .normalTemperature(object.getReptileCreateEditDto().getNormalTemperature())
                 .sleepPeriod(stringToPeriodConverter.convert(object.getReptileCreateEditDto().getSleepPeriod()))
                 .build();
@@ -41,7 +41,7 @@ public class ReptileCreateEditMapper extends PetCreateEditMapper {
         pet.setNormalTemperature(object.getReptileCreateEditDto().getNormalTemperature());
         pet.setBirthdate(object.getBirthdate());
         pet.setHabitatZone(getHabitatZone(object.getHabitatZoneId()));
-        pet.setFeedingRation(getFeedingRation(object.getFeedingRationCreateEditDto().getFeedTypeId()));
+        pet.setFeedingRation(getFeedingRation(object.getFeedingRationId()));
         pet.setName(object.getName());
         setEmployeePet(object, pet);
         return pet;

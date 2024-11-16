@@ -1,0 +1,78 @@
+@startuml
+
+class Main<<main>> {
+    - context: ApplicationContext
+}
+
+Main "1"-->"1" ApplicationContext : starts
+ApplicationContext "1"..>"1" DispatcherServlet : initializes
+
+class ApplicationContext<<injector>>{
+    - container:
+}
+
+class DispatcherServlet<<singleton>> {
+    +doDispatch(HttpServletRequest, HttpServletResponse)
+}
+
+interface AutomationController{
+  + setCostUsingTheZone(zoneId: Integer, parkingLotId: Integer): String
+  + setCostUsingSpecificParkingLot(parkingLotId: Integer): String
+}
+
+class AutomationControllerImpl{
+  + setCostUsingTheZone(zoneId: Integer, parkingLotId: Integer): String
+  + setCostUsingSpecificParkingLot(parkingLotId: Integer): String
+}
+
+interface AutomationService{
+  + setCostUsingTheZone(zoneId: Integer, parkingLotId: Integer): BigDecimal
+  + setCostUsingSpecificParkingLot(parkingLotId: Integer): BigDecimal
+}
+
+class AutomationServiceImpl{
+  + setCostUsingTheZone(zoneId: Integer, parkingLotId: Integer): BigDecimal
+  + setCostUsingSpecificParkingLot(parkingLotId: Integer): BigDecimal
+}
+
+interface AutomationRepository{
+  + setCostUsingTheZone(zoneId: Integer, parkingLotId: Integer): BigDecimal
+  + setCostUsingSpecificParkingLot(parkingLotId: Integer): BigDecimal
+}
+
+class AutomationRepositoryImpl{
+  + setCostUsingTheZone(zoneId: Integer, parkingLotId: Integer): BigDecimal
+  + setCostUsingSpecificParkingLot(parkingLotId: Integer): BigDecimal
+}
+
+class ParkingZone {
+  + id: Integer
+  + address: String
+  + parkingLots: List<ParkingLot>
+}
+
+class ParkingLot {
+  + id: Integer
+  + status: ParkingLotStatus
+  + type: ParkingLotType
+  + isForHandicapped: boolean
+  + cost: double
+  + arrivalTime: LocalDateTime
+  + departureTime: LocalDateTime
+}
+
+ApplicationContext "1" ..> "1" AutomationControllerImpl: <<create>>
+ApplicationContext "1" ..> "1" AutomationRepositoryImpl: <<create>>
+ApplicationContext "1" ..> "1" AutomationServiceImpl: <<create>>
+DispatcherServlet "1" ..> "1" AutomationControllerImpl: <<call>>
+
+AutomationControllerImpl "1" o-- "1" AutomationService: - automationService
+AutomationServiceImpl "1" o-- "1" AutomationRepository: - automationRepository
+
+AutomationRepository <|.. AutomationRepositoryImpl
+AutomationService <|.. AutomationServiceImpl
+AutomationController <|.. AutomationControllerImpl
+
+AutomationRepositoryImpl "1" o-- "0..*" ParkingLot: - parkingLots_list
+AutomationRepositoryImpl "1" o-- "0..*" ParkingZone: - parkingZones_list
+@enduml

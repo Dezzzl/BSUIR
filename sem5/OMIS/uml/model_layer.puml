@@ -1,0 +1,193 @@
+@startuml
+
+class Main<<main>> {
+    - context: ApplicationContext
+}
+
+Main "1"-->"1" ApplicationContext : starts
+
+class ApplicationContext<<injector>>{
+    - container:
+}
+
+class User {
+  + id: Integer
+  + fullName: String
+  + email: String
+  + password: String
+  + personalPhoto: byte[]
+  + telephoneNumber: String
+  + bookingHistory: List<ParkingLot>
+  + currentParkingLots: List<ParkingLot>
+  + role: Role
+}
+
+class ParkingZone {
+  + id: Integer
+  + address: String
+  + parkingLots: List<ParkingLot>
+}
+
+class ParkingLot {
+  + id: Integer
+  + status: ParkingLotStatus
+  + type: ParkingLotType
+  + isForHandicapped: boolean
+  + cost: double
+  + arrivalTime: LocalDateTime
+  + departureTime: LocalDateTime
+}
+
+class Filter {
+  + parkingLotStatus: ParkingLotStatus
+  + type: ParkingLotType
+  + cost: double
+  + arrivalTime: LocalDateTime
+}
+
+class Review {
+  + id: Integer
+  + content: String
+  + rating: Integer
+  + createdAt: LocalDateTime
+}
+
+interface RegisterRepository{
+  + saveUser(email: String, password: String, phoneNumber: String, fullName: String): User
+}
+
+interface LoginRepository{
+  + resetPassword(oldPassword: String, newPassword: String): User
+  + login(email: String, password: String): User
+}
+
+interface ProfileRepository{
+  + getUser(userId: Integer): User
+  + getUsers(): List<User>
+  + getBookingHistory(user: User): List<ParkingLot>
+  + getCurrentParkingLots(user: User): List<ParkingLot>
+  + addParkingLotToHistory(user: User, parkingLot: ParkingLot): void
+  + addParkingLotToCurrentLots(user: User, parkingLot: ParkingLot): void
+  + deleteParkingLotFromCurrentLots(user: User, parkingLot: ParkingLot): void
+  + loadPersonalPhoto(user: User, personalPhoto: byte[]): void
+  + updateUserInfo(user: User): User
+  + updateRole(User: user, Role: role): void
+  + getUserDetails(User: user): User
+}
+
+
+interface ZoneRepository {
+  + getZones(): List<ParkingZone>
+  + getParkingZone(parkingZoneId: Integer): ParkingZone
+  + addParkingZone(parkingZone: ParkingZone): void
+  + deleteParkingZone(parkingZoneId: Integer): void
+  + updateParkingZone(parkingZoneId: Integer): ParkingZone
+  + addParkingLotToZone(parkingZoneId: Integer, parkingLot: ParkingLot): void
+  + deleteParkingLotFromZone(parkingZoneId: Integer, parkingLot: ParkingLot): void
+  + searchZoneByParkingLot(parkingLotId: Integer): ParkingZone
+}
+
+interface ParkingLotRepository {
+  + createParkingLot(): ParkingLot
+  + deleteParkingLot(): void
+  + getParkingLot(parkingLotId: Integer): ParkingLot
+  + getLotsWithFilter(filter: Filter, parkingZoneId: Integer): List<ParkingLot>
+  + updateParkingLot(parkingLotId: Integer): ParkingLot
+  + addLotToUser(parkingLotId: Integer, userId: Integer): boolean
+  + setTimeToLot(parkingLotId: Integer, userId: Integer, startTime: LocalDateTime, endTime: LocalDateTime): boolean
+}
+
+interface ReviewRepository {
+  + getReview(reviewId: Integer): Review
+  + addReview(review: Review): Review
+  + getReviews(page: Integer): List<Review>
+  + deleteReview(reviewId: Integer): void
+}
+
+interface PaymentRepository {
+  + processPayment(userId: Integer, amount: BigDecimal, parkingLotId: Integer): void
+}
+
+class RegisterRepositoryImpl{
+  + saveUser(email: String, password: String, phoneNumber: String, fullName: String): User
+}
+
+class LoginRepositoryImpl{
+  + resetPassword(oldPassword: String, newPassword: String): User
+  + login(email: String, password: String): User
+}
+
+class ProfileRepositoryImpl{
+  + getUser(userId: Integer): User
+  + getUsers(): List<User>
+  + getBookingHistory(user: User): List<ParkingLot>
+  + getCurrentParkingLots(user: User): List<ParkingLot>
+  + addParkingLotToHistory(user: User, parkingLot: ParkingLot): void
+  + addParkingLotToCurrentLots(user: User, parkingLot: ParkingLot): void
+  + deleteParkingLotFromCurrentLots(user: User, parkingLot: ParkingLot): void
+  + loadPersonalPhoto(user: User, personalPhoto: byte[]): void
+  + updateUserInfo(user: User): User
+  + updateRole(User: user, Role: role): void
+  + getUserDetails(User: user): User
+}
+
+
+class ZoneRepositoryImpl {
+  + getZones(): List<ParkingZone>
+  + getParkingZone(parkingZoneId: Integer): ParkingZone
+  + addParkingZone(parkingZone: ParkingZone): void
+  + deleteParkingZone(parkingZoneId: Integer): void
+  + updateParkingZone(parkingZoneId: Integer): ParkingZone
+  + addParkingLotToZone(parkingZoneId: Integer, parkingLot: ParkingLot): void
+  + deleteParkingLotFromZone(parkingZoneId: Integer, parkingLot: ParkingLot): void
+  + searchZoneByParkingLot(parkingLotId: Integer): ParkingZone
+}
+
+class ParkingLotRepositoryImpl {
+  + createParkingLot(): ParkingLot
+  + deleteParkingLot(): void
+  + getParkingLot(parkingLotId: Integer): ParkingLot
+  + getLotsWithFilter(filter: Filter, parkingZoneId: Integer): List<ParkingLot>
+  + updateParkingLot(parkingLotId: Integer): ParkingLot
+  + addLotToUser(parkingLotId: Integer, userId: Integer): boolean
+  + setTimeToLot(parkingLotId: Integer, userId: Integer, startTime: LocalDateTime, endTime: LocalDateTime): boolean
+}
+
+class ReviewRepositoryImpl {
+  + getReview(reviewId: Integer): Review
+  + addReview(review: Review): Review
+  + getReviews(page: Integer): List<Review>
+  + deleteReview(reviewId: Integer): void
+}
+
+class PaymentRepositoryImpl {
+  + processPayment(userId: Integer, amount: BigDecimal, parkingLotId: Integer): void
+}
+
+ApplicationContext "1" ..> "1" ProfileRepositoryImpl: <<create>>
+ApplicationContext "1" ..> "1" ZoneRepositoryImpl: <<create>>
+ApplicationContext "1" ..> "1" ParkingLotRepositoryImpl: <<create>>
+ApplicationContext "1" ..> "1" ReviewRepositoryImpl: <<create>>
+ApplicationContext "1" ..> "1" RegisterRepositoryImpl: <<create>>
+ApplicationContext "1" ..> "1" LoginRepositoryImpl: <<create>>
+ApplicationContext "1" ..> "1" PaymentRepositoryImpl: <<create>>
+
+
+ProfileRepository <|.. ProfileRepositoryImpl
+ZoneRepository <|.. ZoneRepositoryImpl
+ParkingLotRepository <|.. ParkingLotRepositoryImpl
+ReviewRepository <|.. ReviewRepositoryImpl
+RegisterRepository <|.. RegisterRepositoryImpl
+LoginRepository <|.. LoginRepositoryImpl
+PaymentRepository <|.. PaymentRepositoryImpl
+
+ProfileRepositoryImpl "1" o-- "0..*" User: + users_list
+ZoneRepositoryImpl "1" o-- "0..*" ParkingZone: + zones_list
+ParkingLotRepositoryImpl "1" ..> "1*" Filter: <<use>>
+ParkingLotRepositoryImpl "1" o-- "0..*" ParkingLot: + parkingLots_list
+ReviewRepositoryImpl "1" o-- "0..*" Review: + reviews_list
+LoginRepositoryImpl "1" o-- "0..*" User: + users_list
+RegisterRepositoryImpl "1" ..> "1" User: <<create user>>
+PaymentRepositoryImpl "1" --> "1" User: <<use>>
+
+@enduml

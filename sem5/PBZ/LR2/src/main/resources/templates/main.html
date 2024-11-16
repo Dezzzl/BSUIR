@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Zoo Management Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin: 10px 0;
+        }
+
+        a {
+            text-decoration: none;
+            color: #007bff;
+            font-size: 18px;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .error-message {
+            color: red;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Zoo Management Dashboard</h1>
+
+    <h2>Actions</h2>
+    <ul>
+        <!-- Просмотр данных -->
+        <li><a th:href="@{/zones}">View All Habitat Zones</a></li>
+        <li><a th:href="@{/employee}">View All Employees</a></li>
+        <li><a th:href="@{/pet}">View All Pets</a></li>
+        <li><a th:href="@{/feeding-ration}">View All Feeding Rations</a></li>
+        <li><a th:href="@{/feed-type}">View All Feed Types</a></li>
+        <li><a th:href="@{/wintering-place}">View All Wintering Places</a></li>
+
+        <!-- Создание данных -->
+        <li><a th:href="@{/zones/create}">Create New Habitat Zone</a></li>
+        <li><a th:href="@{/employee/create}">Create New Employee</a></li>
+        <li><a th:href="@{/pet/create}">Create New Pet</a></li>
+        <li><a th:href="@{/feeding-ration/create}">Create New Feeding Ration</a></li>
+        <li><a th:href="@{/feed-type/create}">Create New Feed Type</a></li>
+        <li><a th:href="@{/wintering-place/create}">Create New Wintering Place</a></li>
+
+        <!-- Просмотр пар сотрудников -->
+        <li><a th:href="@{/employee/spouses}">View Employee Couples</a></li>
+        <li><a th:href="@{/pet/search}">Search Pet By Name And Type</a></li>
+
+    </ul>
+
+    <!-- Сообщение об ошибке, если оно есть -->
+    <div th:if="${errorMessage}" class="error-message" th:text="${errorMessage}"></div>
+
+</div>
+
+</body>
+</html>

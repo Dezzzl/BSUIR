@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Wintering Places List</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+</head>
+<body>
+<div class="container">
+    <h1>Available Wintering Places</h1>
+
+    <ol>
+        <li th:each="winteringPlace : ${winteringPlaces}">
+            <a th:href="@{'/wintering-place/' + ${winteringPlace.id}}"
+               th:text="|${winteringPlace.code} - ${winteringPlace.country}|">Wintering Place</a>
+        </li>
+    </ol>
+
+    <div class="actions">
+        <!-- Кнопка для добавления нового зимовья -->
+        <a href="/wintering-place/create">Create New Wintering Place</a>
+    </div>
+
+    <div class="navigation">
+        <form th:action="@{/}" method="get">
+            <button type="submit">Main Page</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

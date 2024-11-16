@@ -1,52 +1,45 @@
 @startuml
 
 class User {
-  - id: Integer
-  - fullName: String
-  - email: String
-  - password: String
-  - personalPhoto: byte[]
-  - telephoneNumber: String
-  - bookingHistory: List<ParkingLot>
-  - currentParkingLots: List<ParkingLot>
-  - role: Role
-
-  + getRole(): Role
-  + getCurrentParkingLots(): List<ParkingLot>
-  + getBookingHistory(): List<ParkingLot>
+  + id: Integer
+  + fullName: String
+  + email: String
+  + password: String
+  + personalPhoto: byte[]
+  + telephoneNumber: String
+  + bookingHistory: List<ParkingLot>
+  + currentParkingLots: List<ParkingLot>
+  + role: Role
 }
 
 class ParkingZone {
-  - id: Integer
-  - address: String
-  - parkingLots: List<ParkingLot>
-
-  + getParkingLots(): List<ParkingLot>
+  + id: Integer
+  + address: String
+  + parkingLots: List<ParkingLot>
 }
 
 class ParkingLot {
-  - id: Integer
-  - status: ParkingLotStatus
-  - type: ParkingLotType
-  - isForHandicapped: boolean
-  - cost: BigDecimal
-  - arrivalTime: LocalDateTime
-  - departureTime: LocalDateTime
+  + id: Integer
+  + status: ParkingLotStatus
+  + type: ParkingLotType
+  + isForHandicapped: boolean
+  + cost: double
+  + arrivalTime: LocalDateTime
+  + departureTime: LocalDateTime
 }
 
 class Filter {
-  - parkingLotStatus: ParkingLotStatus
-  - type: ParkingLotType
-  - cost: BigDecimal
-  - arrivalTime: LocalDateTime
+  + parkingLotStatus: ParkingLotStatus
+  + type: ParkingLotType
+  + cost: double
+  + arrivalTime: LocalDateTime
 }
 
 class Review {
-  - id: Integer
-  - author: User
-  - content: String
-  - rating: Integer
-  - createdAt: LocalDateTime
+  + id: Integer
+  + content: String
+  + rating: Integer
+  + createdAt: LocalDateTime
 }
 
 enum ParkingLotType {
@@ -67,9 +60,6 @@ enum Role {
 }
 
 class ProfileController {
-  - registrationAndAuthorizationService: RegistrationAndAuthorizationService
-  - profileService: ProfileService
-
   + getRegisterForm(): String
   + getLoginForm(): String
   + getResetPasswordForm(): String
@@ -89,16 +79,12 @@ class ProfileController {
 }
 
 class RegistrationAndAuthorizationService {
-  - profileRepository: ProfileRepository
-
   + register(email: String, password: String, phoneNumber: String, fullName: String): User
   + resetPassword(oldPassword: String, newPassword: String): User
   + login(email: String, password: String): User
 }
 
 class ProfileService {
-  - profileRepository: ProfileRepository
-
   + getBookingHistory(user: User): List<ParkingLot>
   + getCurrentParkingLots(user: User): List<ParkingLot>
   + addParkingLotToHistory(user: User, parkingLot: ParkingLot): void
@@ -111,8 +97,6 @@ class ProfileService {
 }
 
 class ProfileRepository{
-  - users: List<User>
-
   + saveUser(email: String, password: String, phoneNumber: String, fullName: String): User
   + resetPassword(oldPassword: String, newPassword: String): User
   + login(email: String, password: String): User
@@ -128,8 +112,6 @@ class ProfileRepository{
 }
 
 class ZoneController {
-  - zoneService: ZoneService
-
   + getParkingZone(parkingZoneId: Integer): String
   + addParkingZone(parkingZone: ParkingZone): String
   + deleteParkingZone(parkingZoneId: Integer): String
@@ -143,8 +125,6 @@ class ZoneController {
 }
 
 class ZoneService {
-  - zoneRepository: ZoneRepository
-
   + getParkingZone(parkingZoneId: Integer): ParkingZone
   + addParkingZone(parkingZone: ParkingZone): void
   + deleteParkingZone(parkingZoneId: Integer): void
@@ -155,8 +135,6 @@ class ZoneService {
 }
 
 class ZoneRepository {
-  - parkingZones: List<ParkingZone>
-
   + getParkingZone(parkingZoneId: Integer): ParkingZone
   + addParkingZone(parkingZone: ParkingZone): void
   + deleteParkingZone(parkingZoneId: Integer): void
@@ -166,8 +144,6 @@ class ZoneRepository {
   + searchZoneByParkingLot(parkingLotId: Integer): ParkingZone
 }
 class ParkingLotController {
-  - parkingLotService: ParkingLotService
-
   + getParkingLot(parkingLotId: Integer): String
   + getLotsWithFilter(filter: Filter, parkingZoneId: Integer): String
   + updateParkingLot(parkingLotId: Integer): String
@@ -177,8 +153,6 @@ class ParkingLotController {
 }
 
 class ParkingLotService {
-  - parkingLotRepository: ParkingLotRepository
-
   + getParkingLot(parkingLotId: Integer): ParkingLot
   + getLotsWithFilter(filter: Filter, parkingZoneId: Integer): List<ParkingLot>
   + updateParkingLot(parkingLotId: Integer): ParkingLot
@@ -186,8 +160,6 @@ class ParkingLotService {
 }
 
 class ParkingLotRepository {
-  - parkingLots: List<ParkingLot>
-
   + getParkingLot(parkingLotId: Integer): ParkingLot
   + getLotsWithFilter(filter: Filter, parkingZoneId: Integer): List<ParkingLot>
   + updateParkingLot(parkingLotId: Integer): ParkingLot
@@ -195,8 +167,6 @@ class ParkingLotRepository {
 }
 
 class ReviewController {
-  - reviewService: ReviewService
-
   + getReview(reviewId: Integer): String
   + addReview(review: Review): String
   + getReviews(page: Integer): String
@@ -205,8 +175,6 @@ class ReviewController {
 }
 
 class ReviewService {
-  - reviewRepository: ReviewRepository
-
   + getReview(reviewId: Integer): Review
   + addReview(review: Review): Review
   + getReviews(page: Integer): List<Review>
@@ -214,8 +182,6 @@ class ReviewService {
 }
 
 class ReviewRepository {
-  - reviews: List<Review>
-
   + getReview(reviewId: Integer): Review
   + addReview(review: Review): Review
   + getReviews(page: Integer): List<Review>
@@ -223,8 +189,6 @@ class ReviewRepository {
 }
 
 class PaymentController{
-  - paymentService: PaymentService
-
   + getPaymentForm(): String
   + processPayment(userId: Integer, amount: BigDecimal, parkingLotId: Integer): String
 }
@@ -233,27 +197,69 @@ class PaymentService {
   + processPayment(userId: Integer, amount: BigDecimal, parkingLotId: Integer): boolean
 }
 
-ProfileController "1" --o "1" ProfileService
-ProfileController "1" --o "1" RegistrationAndAuthorizationService
-ProfileService "1" --o "1" ProfileRepository
-RegistrationAndAuthorizationService "1" --o "1" ProfileRepository
+class MainController {
+  + delegate()
+}
 
-ReviewController "1" --o "1" ReviewService
-ReviewService "1" --o "1" ReviewRepository
+class Main{
 
-ZoneController "1" --o "1" ZoneService
-ZoneService "1" --o "1" ZoneRepository
+}
 
-ParkingLotController "1" --o "1" ParkingLotService
-ParkingLotService "1" --o "1" ParkingLotRepository
+Main "1" *-- "1" MainController
 
-PaymentController "1" --o "1" PaymentService
+
+
+ProfileController "1" o-- "1" ProfileService: - profileService
+ProfileController "1" o-- "1" RegistrationAndAuthorizationService: - registrationAndAuthorizationService
+ProfileService "1" o-- "1" ProfileRepository: - ProfileRepository
+RegistrationAndAuthorizationService "1" o-- "1" ProfileRepository: - ProfileRepository
+
+ReviewController "1" o-- "1" ReviewService: - reviewService
+ReviewService "1" o-- "1" ReviewRepository: - reviewRepository
+
+
+ZoneController "1" o-- "1" ZoneService: - zoneService
+ZoneService "1" o-- "1" ZoneRepository: - zoneRepository
+
+ParkingLotController "1" o-- "1" ParkingLotService: - parkingLotService
+ParkingLotService "1" o-- "1" ParkingLotRepository: - parkingLotService
+
+PaymentController "1" o-- "1" PaymentService: - paymentService
 
 ParkingLotType "1" --* "1" ParkingLot
 ParkingLotStatus "1" --* "1" ParkingLot
 Role "1" --* "1" User
 
 
+ParkingZone "1" ..> "N" ParkingLot
+User "1" ..> "0..*" ParkingLot
 
+ProfileController ..> User: <<create>>
+ProfileRepository "1" o-- "0..*"User: - user
+ProfileService ..> User: <<use>>
+RegistrationAndAuthorizationService ..> User: <<create>>
 
+ReviewController ..> Review: <<create>>
+ReviewRepository "1" o-- "0..*"Review: - review
+ReviewService ..> Review: <<use>>
+Review "1" o-- "1" User: - user
+
+ZoneController ..> ParkingZone: <<create>>
+ZoneRepository "1" o-- "0..*"ParkingZone: - parkingZone
+ZoneService ..> ParkingZone: <<use>>
+
+ZoneController ..> ParkingLot: <<create>>
+ZoneRepository ..> ParkingLot
+ZoneService ..> ParkingLot: <<use>>
+
+ParkingLotController ..> ParkingLot: <<create>>
+ParkingLotRepository "1" o-- "0..*"ParkingLot: - parkingLot
+ParkingLotService ..> ParkingLot: <<use>>
+
+ParkingLotController ..> Filter: <<create>>
+ParkingLotRepository ..> Filter: <<use>>
+ParkingLotService ..> Filter : <<use>>
+
+PaymentService ..> User: <<use>>
+PaymentController ..> User: <<use>>
 @enduml

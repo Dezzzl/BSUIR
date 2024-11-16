@@ -10,6 +10,8 @@ import org.dezzzl.zoo.entity.pet.HabitatZone;
 import org.dezzzl.zoo.mapper.feedration.FeedingRationCreateEditMapper;
 import org.dezzzl.zoo.mapper.feedration.FeedingRationReadMapper;
 import org.dezzzl.zoo.repository.FeedingRationRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -63,6 +65,12 @@ public class FeedingRationService {
                 .map(feedingRation -> feedingRationCreateEditMapper.map(feedingRationCreateEditDto, feedingRation))
                 .map(feedingRationRepository::update)
                 .orElse(null);
+    }
+
+    @Transactional
+    public Page<FeedingRationReadDto> findAll(PageRequest pageRequest) {
+        return feedingRationRepository.findAll(pageRequest)
+                .map(feedingRationReadMapper::map);
     }
 
 

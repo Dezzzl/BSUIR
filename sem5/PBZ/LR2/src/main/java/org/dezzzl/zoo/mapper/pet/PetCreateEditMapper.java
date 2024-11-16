@@ -8,11 +8,13 @@ import org.dezzzl.zoo.entity.pet.FeedingRation;
 import org.dezzzl.zoo.entity.pet.HabitatZone;
 import org.dezzzl.zoo.entity.pet.Pet;
 import org.dezzzl.zoo.mapper.Mapper;
+import org.dezzzl.zoo.repository.id.EmployeePetId;
 import org.dezzzl.zoo.repository.EmployeeRepository;
 import org.dezzzl.zoo.repository.FeedingRationRepository;
 import org.dezzzl.zoo.repository.HabitatZoneRepository;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -30,25 +32,32 @@ public class PetCreateEditMapper implements Mapper<PetCreateEditDto, Pet> {
                 .sex(object.getSex())
                 .birthdate(object.getBirthdate())
                 .habitatZone(getHabitatZone(object.getHabitatZoneId()))
-                .feedingRation(getFeedingRation(object.getFeedingRationCreateEditDto().getFeedTypeId()))
+                .feedingRation(getFeedingRation(object.getFeedingRationId()))
                 .build();
         setEmployeePet(object, pet);
         return pet;
     }
 
     public void setEmployeePet(PetCreateEditDto object, Pet pet) {
+        List<EmployeePet> existingEmployeePets = pet.getEmployeePets();
         Employee veterinarian = getEmployee(object.getVeterinarianId());
-        if (veterinarian != null) {
-            EmployeePet employeePetVeterinarian = new EmployeePet();
-            employeePetVeterinarian.setEmployee(veterinarian);
-            employeePetVeterinarian.setPet(pet);
-        }
-
+        updateEmployeePet(existingEmployeePets, veterinarian, pet);
         Employee zookeeper = getEmployee(object.getZookeeperId());
-        if (zookeeper != null) {
-            EmployeePet employeePetZookeeper = new EmployeePet();
-            employeePetZookeeper.setEmployee(zookeeper);
-            employeePetZookeeper.setPet(pet);
+        updateEmployeePet(existingEmployeePets, zookeeper, pet);
+    }
+
+    private void updateEmployeePet(List<EmployeePet> existingEmployeePets, Employee employee, Pet pet) {
+        if (employee != null) {
+            boolean exists = existingEmployeePets.stream()
+                    .anyMatch(ep -> ep.getEmployee().getId().equals(employee.getId()));
+
+            if (!exists) {
+                EmployeePet employeePet = new EmployeePet();
+                employeePet.setEmployee(employee);
+                employeePet.setPet(pet);
+                employeePet.setEmployeePetId(new EmployeePetId(employee.getId(), pet.getId()));
+                existingEmployeePets.add(employeePet);
+            }
         }
     }
 
@@ -70,14 +79,12 @@ public class PetCreateEditMapper implements Mapper<PetCreateEditDto, Pet> {
                 .orElse(null);
     }
 
-
     public Pet map(PetCreateEditDto object, Pet pet) {
         pet.setName(object.getName());
         pet.setSex(object.getSex());
         pet.setBirthdate(object.getBirthdate());
         pet.setHabitatZone(getHabitatZone(object.getHabitatZoneId()));
-        pet.setFeedingRation(getFeedingRation(object.getFeedingRationCreateEditDto().getFeedTypeId()));
-        pet.setName(object.getName());
+        pet.setFeedingRation(getFeedingRation(object.getFeedingRationId()));
         setEmployeePet(object, pet);
         return pet;
     }

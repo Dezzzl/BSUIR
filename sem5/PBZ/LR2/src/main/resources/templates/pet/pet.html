@@ -3,82 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <title>Pet Details</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}">
 </head>
 <body>
-<h1>Pet Details</h1>
+<div class="container">
+    <h1>Pet Details</h1>
 
-<!-- Информация о питомце -->
-<div th:if="${pet}">
-    <p><strong>Name:</strong> <span th:text="${pet.name}"></span></p>
-    <p><strong>Sex:</strong> <span th:text="${pet.sex}"></span></p>
-    <p><strong>Birthdate:</strong> <span th:text="${pet.birthdate}"></span></p>
+    <!-- Информация о питомце -->
+    <div th:if="${pet}">
+        <p><strong>Name:</strong> <span th:text="${pet.name}"></span></p>
+        <p><strong>Sex:</strong> <span th:text="${pet.sex}"></span></p>
+        <p><strong>Birthdate:</strong> <span th:text="${pet.birthdate}"></span></p>
 
-    <!-- Информация о месте зимовки (если применимо) -->
-    <div th:if="${pet.winteringPlaceReadDto}">
-        <h2>Wintering Place</h2>
-        <p><strong>ID:</strong> <span th:text="${pet.winteringPlaceReadDto.id}"></span></p>
-        <p><strong>Location:</strong> <span th:text="${pet.winteringPlaceReadDto.country}"></span></p>
+        <!-- Информация о месте зимовки (если применимо) -->
+        <div th:if="${pet.winteringPlaceReadDto}">
+            <h2>Wintering Place</h2>
+            <p><strong>ID:</strong> <span th:text="${pet.winteringPlaceReadDto.id}"></span></p>
+            <p><strong>Location:</strong> <span th:text="${pet.winteringPlaceReadDto.country}"></span></p>
+        </div>
+
+        <!-- Информация о рептилии (если применимо) -->
+        <div th:if="${pet.reptileReadDto}">
+            <h2>Reptile Details</h2>
+            <p><strong>Normal temperature:</strong> <span th:text="${pet.reptileReadDto.normalTemperature}"></span></p>
+            <p><strong>Sleep period:</strong> <span th:text="${pet.reptileReadDto.sleepPeriod}"></span></p>
+        </div>
+
+        <!-- Информация о рационе питания -->
+        <div th:if="${pet.feedingRationReadDto}">
+            <h2>Feeding Ration</h2>
+            <p><strong>Ration Name:</strong> <span th:text="${pet.feedingRationReadDto.feedRationName}"></span></p>
+            <p><strong>Feed Type:</strong>
+                <a th:href="@{'/feed-type/' + ${pet.feedingRationReadDto.feedTypeReadDto.id}}"
+                   th:text="${pet.feedingRationReadDto.feedTypeReadDto.name}">Feed Type</a>
+            </p>
+        </div>
+
+        <!-- Информация о зоне обитания -->
+        <div th:if="${pet.habitatZoneReadDto}">
+            <h2>Habitat Zone</h2>
+            <p><strong>Zone Name:</strong>
+                <a th:href="@{'/zones/' + ${pet.habitatZoneReadDto.id}}"
+                   th:text="${pet.habitatZoneReadDto.name}">Habitat Zone</a>
+            </p>
+            <p><strong>Description:</strong> <span th:text="${pet.habitatZoneReadDto.description}"></span></p>
+        </div>
+
+        <!-- Информация о смотрителе -->
+        <div th:if="${pet.zookeeperReadDto}">
+            <h2>Zookeeper</h2>
+            <p><strong>Zookeeper Name:</strong>
+                <a th:href="@{'/employee/' + ${pet.zookeeperReadDto.id}}"
+                   th:text="${pet.zookeeperReadDto.name}">Zookeeper</a>
+            </p>
+        </div>
+
+        <!-- Информация о ветеринаре -->
+        <div th:if="${pet.veterinarianReadDto}">
+            <h2>Veterinarian</h2>
+            <p><strong>Veterinarian Name:</strong>
+                <a th:href="@{'/employee/' + ${pet.veterinarianReadDto.id}}"
+                   th:text="${pet.veterinarianReadDto.name}">Veterinarian</a>
+            </p>
+        </div>
+
+        <!-- Кнопка для удаления питомца -->
+        <form th:action="@{/pet/delete/{id}(id=${pet.id})}" method="post">
+            <input type="hidden" name="_method" value="delete"/>
+            <button type="submit">Delete Pet</button>
+        </form>
+
+        <!-- Ссылка для обновления питомца -->
+        <a th:href="@{/pet/update/{id}(id=${pet.id}, petType=${pet.petType})}" class="update-link">Update Pet</a>
+
     </div>
-
-    <!-- Информация о рептилии (если применимо) -->
-    <div th:if="${pet.reptileReadDto}">
-        <h2>Reptile Details</h2>
-        <p><strong>Normal temperature:</strong> <span th:text="${pet.reptileReadDto.normalTemperature}"></span></p>
-        <p><strong>Sleep period:</strong> <span th:text="${pet.reptileReadDto.sleepPeriod}"></span></p>
-    </div>
-
-    <!-- Информация о рационе питания -->
-    <div th:if="${pet.feedingRationReadDto}">
-        <h2>Feeding Ration</h2>
-        <p><strong>Ration Name:</strong> <span th:text="${pet.feedingRationReadDto.feedRationName}"></span></p>
-        <p><strong>Feed Type:</strong>
-            <!-- Ссылка на страницу типа корма -->
-            <a th:href="@{'/feed-type/' + ${pet.feedingRationReadDto.feedTypeReadDto.id}}"
-               th:text="${pet.feedingRationReadDto.feedTypeReadDto.name}">Feed Type</a>
-        </p>
-    </div>
-
-    <!-- Информация о зоне обитания -->
-    <div th:if="${pet.habitatZoneReadDto}">
-        <h2>Habitat Zone</h2>
-        <p><strong>Zone Name:</strong>
-            <!-- Ссылка на страницу зоны обитания -->
-            <a th:href="@{'/zones/' + ${pet.habitatZoneReadDto.id}}"
-               th:text="${pet.habitatZoneReadDto.name}">Habitat Zone</a>
-        </p>
-        <p><strong>Description:</strong> <span th:text="${pet.habitatZoneReadDto.description}"></span></p>
-    </div>
-
-    <!-- Информация о смотрителе -->
-    <div th:if="${pet.zookeeperReadDto}">
-        <h2>Zookeeper</h2>
-        <p><strong>Zookeeper Name:</strong>
-            <!-- Ссылка на страницу смотрителя -->
-            <a th:href="@{'/employee/' + ${pet.zookeeperReadDto.id}}"
-               th:text="${pet.zookeeperReadDto.name}">Zookeeper</a>
-        </p>
-    </div>
-
-    <!-- Информация о ветеринаре -->
-    <div th:if="${pet.veterinarianReadDto}">
-        <h2>Veterinarian</h2>
-        <p><strong>Veterinarian Name:</strong>
-            <!-- Ссылка на страницу ветеринара -->
-            <a th:href="@{'/employee/' + ${pet.veterinarianReadDto.id}}"
-               th:text="${pet.veterinarianReadDto.name}">Veterinarian</a>
-        </p>
-    </div>
-
-    <!-- Кнопка для удаления питомца -->
-    <form th:action="@{/pet/delete/{id}(id=${pet.id})}" method="post">
-        <input type="hidden" name="_method" value="delete"/>
-        <button type="submit">Delete Pet</button>
-    </form>
-
-    <!-- Кнопка для обновления питомца -->
-    <form th:action="@{/pet/update/{id}(id=${pet.id})}" method="get">
-        <button type="submit">Update Pet</button>
-    </form>
 
     <!-- Если питомец не найден -->
     <div th:if="${pet == null}">
@@ -86,10 +84,17 @@
     </div>
 
     <!-- Кнопка для создания нового питомца -->
-    <form th:action="@{/pet/create}" method="get">
-        <button type="submit">Create New Pet</button>
-    </form>
-</div>
+    <div class="main-page-link">
+        <form th:action="@{/pet/create}" method="get">
+            <button type="submit">Create New Pet</button>
+        </form>
+    </div>
 
+    <div class="main-page-link">
+        <form th:action="@{/}" method="get">
+            <button type="submit">Main page</button>
+        </form>
+    </div>
+</div>
 </body>
 </html>

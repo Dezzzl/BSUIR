@@ -10,15 +10,11 @@ import org.dezzzl.zoo.entity.pet.Pet;
 import org.dezzzl.zoo.entity.pet.Sex;
 import jakarta.persistence.Entity;
 import jakarta.persistence.PrimaryKeyJoinColumn;
-import lombok.Builder;
 import lombok.Data;
-import org.hibernate.annotations.Type;
 
 import java.math.BigDecimal;
-import java.time.Duration;
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.Date;
 import java.util.List;
 
 @Data

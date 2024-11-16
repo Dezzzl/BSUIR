@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Pet Search Results</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+
+        h1 {
+            color: #007bff;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #eaf5ea;
+        }
+
+        button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #007bff;
+        }
+
+        p {
+            text-align: center;
+            color: #666;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Pet Search Results</h1>
+
+<!-- Таблица для отображения найденных питомцев -->
+<div th:if="${pets}">
+    <table>
+        <thead>
+        <tr>
+            <th>Pet ID</th>
+            <th>Name</th>
+            <th>Sex</th>
+            <th>Birthdate</th>
+            <th>Habitat Zone</th>
+            <th>Feeding Ration</th>
+            <th>Veterinarian</th>
+            <th>Zookeeper</th>
+
+            <!-- Специфичные поля для Reptile -->
+            <th th:if="${petType=='Reptile'}">Sleep period</th>
+            <th th:if="${petType=='Reptile'}">Normal temperature</th>
+
+            <!-- Специфичные поля для Bird -->
+            <th th:if="${petType=='Bird'}">Wintering Place country</th>
+            <th th:if="${petType=='Bird'}">Wintering Place code</th>
+            <th th:if="${petType=='Bird'}">Wintering Place arrival date</th>
+            <th th:if="${petType=='Bird'}">Wintering Place departure date</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="pet : ${pets}">
+            <td th:text="${pet.id}">1</td>
+            <td th:text="${pet.name}">Pet Name</td>
+            <td th:text="${pet.sex}">Sex</td>
+            <td th:text="${pet.birthdate}">Birthdate</td>
+            <td th:text="${pet.habitatZoneReadDto.name}">Habitat Zone</td>
+            <td th:text="${pet.feedingRationReadDto.feedRationName}">Feeding Ration</td>
+            <td th:text="${pet.veterinarianReadDto.name}">Veterinarian</td>
+            <td th:text="${pet.zookeeperReadDto.name}">Zookeeper</td>
+            <!-- Для Reptile -->
+            <td th:if="${petType=='Reptile'}" th:text="${pet.reptileReadDto.sleepPeriod}">Shedding Date</td>
+            <td th:if="${petType=='Reptile'}" th:text="${pet.reptileReadDto.normalTemperature}">Normal temperature</td>
+
+            <!-- Для Bird -->
+            <td th:if="${petType=='Bird'}" th:text="${pet.winteringPlaceReadDto.country}">Wintering Place country</td>
+            <td th:if="${petType=='Bird'}" th:text="${pet.winteringPlaceReadDto.code}">Wintering Place code</td>
+            <td th:if="${petType=='Bird'}" th:text="${pet.winteringPlaceReadDto.arrivalDate}">Wintering Place arrival date</td>
+            <td th:if="${petType=='Bird'}" th:text="${pet.winteringPlaceReadDto.departureDate}">Wintering Place departure date</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Сообщение, если питомцы не найдены -->
+<div th:if="${pets.isEmpty()}">
+    <p>No pets found with the given criteria.</p>
+</div>
+
+<form th:action="@{/}" method="get">
+    <button type="submit">Main page</button>
+</form>
+
+</body>
+</html>

@@ -1,0 +1,62 @@
+@startuml
+
+@startuml
+
+class Application<<main>> {
+    - context: ApplicationContext
+
+}
+
+Application "1"-->"1" ApplicationContext : starts
+ApplicationContext "1"-->"1" DispatcherServlet : initializes
+
+class ApplicationContext<<injector>>{
+    - container:
+}
+
+class DispatcherServlet<<singleton>> {
+    +doDispatch(HttpServletRequest, HttpServletResponse)
+}
+
+ApplicationContext --> UserController: create
+ApplicationContext --> JwtServiceImpl: create
+
+DispatcherServlet ..> UserController: calls
+UserController ..> SecurityConfiguration: runs after
+
+class UserController <<controller>> {
+    - securityConfiguration: SecurityConfiguration
+    - userService: UserService
+    + registerNewUser(user: UserCreateEditDto): String
+    + createJwtToken(authUserDto: AuthUserDto)
+    + login(email: String, password: String): String
+    + deleteUserById(id: Integer): String
+    + getUserById(id: Integer): UserReadDto
+    + editUserById(id: Integer, user: UserCreateEditDto): UserReadDto
+}
+
+class SecurityConfiguration {
+    - daoAuthenticationProvider: DaoAuthenticationProvider
+    - jwtService: JwtService
+    + configure(HttpSecurity http): void
+}
+
+JwtServiceImpl --o SecurityConfiguration: + jwtService
+
+class JwtServiceImpl{
+    + getSecretKey(token: Token): Key
+    + validateToken(token: Token): Boolean
+}
+
+interface JwtService {
+    + getSecretKey(token: Token): Key
+    + validateToken(token: Token): Boolean
+}
+
+JwtServiceImpl ..|> JwtService
+
+ApplicationContext --o Application: + applicationContext
+
+@enduml
+
+@enduml

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Employees and Their Spouses</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+</head>
+<body>
+
+<div class="container">
+    <h1>List of Employees and Their Spouses</h1>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Full Name</th>
+            <th>Birthdate</th>
+            <th>Phone Number</th>
+            <th>Spouse Name</th>
+            <th>Details</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="employee : ${employees}">
+            <td th:text="${employee.name}">Employee Name</td>
+            <td th:text="${employee.birthdate}">Birthdate</td>
+            <td th:text="${employee.phoneNumber}">Phone Number</td>
+            <td th:text="${employee.spouse.name}">Spouse Name</td>
+            <td>
+                <a th:href="@{/employee/{id}(id=${employee.id})}">View Details</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <form th:action="@{/}" method="get">
+        <button type="submit">Main page</button>
+    </form>
+</div>
+
+</body>
+</html>

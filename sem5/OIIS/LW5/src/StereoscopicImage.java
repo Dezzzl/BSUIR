@@ -3,6 +3,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.awt.Color;
+import java.util.HashMap;
 
 public class StereoscopicImage {
 
@@ -14,7 +15,7 @@ public class StereoscopicImage {
         int width = Math.min(leftImage.getWidth(), rightImage.getWidth());
         int height = Math.min(leftImage.getHeight(), rightImage.getHeight());
         BufferedImage anaglyph = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-
+        new HashMap<>()
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
                 Color leftColor = new Color(leftImage.getRGB(x, y));

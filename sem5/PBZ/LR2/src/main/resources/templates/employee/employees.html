@@ -2,19 +2,24 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Feed Type List</title>
+    <title>Employees List</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
 </head>
 <body>
+<div class="container">
+    <h1>Available Employees</h1>
+    <ol>
+        <li th:each="employee : ${employees}">
+            <a th:href="@{'/employee/' + ${employee.id}}" th:text="|${employee.name} - ${employee.employeeType}|">Employee</a>
+        </li>
+    </ol>
 
-<!-- Таблица с типами рационов -->
-<h1>Available feed types</h1>
-<ol>
-    <li th:each="employee : ${employees}">
-        <a th:href="@{'/employee/' + ${employee.id}}" th:text="|${employee.name} - ${employee.employeeType}|">Employee</a>
-    </li>
-</ol>
+    <!-- Кнопка для добавления нового сотрудника -->
+    <a class="btn" href="/employee/create">Create New Employee</a>
 
-<!-- Кнопка для добавления нового типа рациона -->
-<a href="/feed-type/create">Create New Feed Type</a>
+    <form th:action="@{/}" method="get">
+        <button type="submit">Main page</button>
+    </form>
+</div>
 </body>
 </html>

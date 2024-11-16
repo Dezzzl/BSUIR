@@ -80,14 +80,6 @@ CREATE TABLE reptile(
     sleep_period INTERVAL NOT NULL
 );
 
--- --changeset dezzzl:13
--- CREATE TABLE bird_wintering_place(
---      id SERIAL PRIMARY KEY ,
---      bird_id INTEGER  REFERENCES bird(id),
---      wintering_place_id INTEGER  REFERENCES wintering_place(id),
---      UNIQUE (bird_id, wintering_place_id)
--- );
-
 --changeset dezzzl:14
 CREATE TABLE employee_pet(
      id SERIAL PRIMARY KEY ,

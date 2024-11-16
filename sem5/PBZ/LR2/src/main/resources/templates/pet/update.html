@@ -2,13 +2,122 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Add Pet</title>
+    <title>Update pet</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Контейнер формы */
+        .container {
+            max-width: 600px;
+            margin: 10px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Заголовок формы */
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        /* Стили для меток и полей ввода */
+        label {
+            font-size: 16px;
+            color: #333;
+            display: block;
+            margin-top: 10px;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            color: #333;
+            box-sizing: border-box;
+        }
+
+        input[type="radio"] {
+            margin-right: 5px;
+        }
+
+        /* Заголовки секций формы */
+        h3 {
+            color: #333;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+
+        /* Кнопка отправки формы */
+        button[type="submit"], .main-page-link button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin-top: 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button[type="submit"]:hover, .main-page-link button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Пагинация */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .pagination a {
+            color: #007bff;
+            text-decoration: none;
+            padding: 10px;
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+
+        .pagination a:hover {
+            color: #0056b3;
+        }
+
+        .pagination span {
+            font-size: 16px;
+            color: #333;
+            margin: 0 10px;
+        }
+
+    </style>
 </head>
 <body>
-
-<h1>Add New Pet</h1>
+<div class="container">
+<h1>Update pet</h1>
 
 <form th:action="@{/pet/update/{id}(id=${pet.id}, petType=${pet.petType})}" method="post" th:object="${pet}">
+
     <label for="name">Name:
         <input id="name" type="text" name="name" th:value="*{name}" required>
     </label><br>
@@ -24,17 +133,28 @@
         </select>
     </label><br>
 
-    <label for="feedingRation">Feeding ration name:
-        <input id="feedingRation" type="text" name="feedingRationCreateEditDto.feedRationName"
-               th:value="*{feedingRationReadDto.feedRationName}" required>
-    </label><br>
+    <!--    <label for="feedingRation">Feeding ration name:-->
+    <!--        <input id="feedingRation" type="text" name="feedingRationCreateEditDto.feedRationName"-->
+    <!--               th:value="*{feedingRationReadDto.feedRationName}" required>-->
+    <!--    </label><br>-->
+
+    <!--    <div>-->
+    <!--        <label for="feedingType">Feeding type:-->
+    <!--            <select id="feedingType" name="feedingRationCreateEditDto.feedingRationId">-->
+    <!--                <option th:each="feedingType : ${feedingTypes.content}"-->
+    <!--                        th:value="${feedingType.id}"-->
+    <!--                        th:text="${feedingType.name}">Feeding Type</option>-->
+    <!--            </select>-->
+    <!--        </label>-->
+    <!--    </div>-->
 
     <div>
-        <label for="feedingType">Feeding type:
-            <select id="feedingType" name="feedingRationCreateEditDto.feedingRationId">
-                <option th:each="feedingType : ${feedingTypes.content}"
-                        th:value="${feedingType.id}"
-                        th:text="${feedingType.name}">Feeding Type</option>
+        <label for="feedingRation">Feeding Ration:
+            <select id="feedingRation" name="feedingRationId">
+                <option th:each="feedingRation : ${feedingRations.content}"
+                        th:value="${feedingRation.feedRationId}"
+                        th:text="'FeedingRation: ' + ${feedingRation.feedRationName} + ', FeedingType: ' + ${feedingRation.feedTypeReadDto.name}">
+                </option>
             </select>
         </label>
     </div>
@@ -42,9 +162,11 @@
 
     <!-- Пагинация для Feeding Types -->
     <div>
-        <a th:href="@{/pet/update{id}(id=${pet.id}, petType = ${pet.petType},feedingTypePage=${feedingTypes.number - 1}, zookeeperPage=${zookeepers.number}, veterinarianPage=${veterinarians.number}, habitatZonePage=${habitatZones.number})}" th:if="${feedingTypes.hasPrevious()}">Previous</a>
-        <span th:text="'Page ' + (${feedingTypes.number} + 1) + ' of ' + ${feedingTypes.totalPages}"></span>
-        <a th:href="@{/pet/update{id}(id=${pet.id}, petType = ${pet.petType},feedingTypePage=${feedingTypes.number + 1}, zookeeperPage=${zookeepers.number}, veterinarianPage=${veterinarians.number}, habitatZonePage=${habitatZones.number})}" th:if="${feedingTypes.hasNext()}">Next</a>
+        <a th:href="@{/pet/update{id}(id=${pet.id}, petType = ${pet.petType},feedingTypePage=${feedingRations.number - 1}, zookeeperPage=${zookeepers.number}, veterinarianPage=${veterinarians.number}, habitatZonePage=${habitatZones.number})}"
+           th:if="${feedingRations.hasPrevious()}">Previous</a>
+        <span th:text="'Page ' + (${feedingRations.number} + 1) + ' of ' + ${feedingRations.totalPages}"></span>
+        <a th:href="@{/pet/update{id}(id=${pet.id}, petType = ${pet.petType},feedingTypePage=${feedingRations.number + 1}, zookeeperPage=${zookeepers.number}, veterinarianPage=${veterinarians.number}, habitatZonePage=${habitatZones.number})}"
+           th:if="${feedingRations.hasNext()}">Next</a>
     </div>
 
 
@@ -53,16 +175,19 @@
             <select id="zone" name="habitatZoneId">
                 <option th:each="zone : ${habitatZones.content}"
                         th:value="${zone.id}"
-                        th:text="${zone.name}">Habitat Zone</option>
+                        th:text="${zone.name}">Habitat Zone
+                </option>
             </select>
         </label>
     </div>
 
     <!-- Пагинация для Habitat Zones -->
     <div>
-        <a th:href="@{/pet/update{id}(id=${pet.id}, petType = ${pet.petType},habitatZonePage=${habitatZones.number - 1}, zookeeperPage=${zookeepers.number}, veterinarianPage=${veterinarians.number}, feedingTypePage=${feedingTypes.number})}" th:if="${habitatZones.hasPrevious()}">Previous</a>
+        <a th:href="@{/pet/update{id}(id=${pet.id}, petType = ${pet.petType},habitatZonePage=${habitatZones.number - 1}, zookeeperPage=${zookeepers.number}, veterinarianPage=${veterinarians.number}, feedingTypePage=${feedingRations.number})}"
+           th:if="${habitatZones.hasPrevious()}">Previous</a>
         <span th:text="'Page ' + (${habitatZones.number} + 1) + ' of ' + ${habitatZones.totalPages}"></span>
-        <a th:href="@{/pet/update{id}(id=${pet.id}, petType = ${pet.petType},habitatZonePage=${habitatZones.number + 1}, zookeeperPage=${zookeepers.number}, veterinarianPage=${veterinarians.number}, feedingTypePage=${feedingTypes.number})}" th:if="${habitatZones.hasNext()}">Next</a>
+        <a th:href="@{/pet/update{id}(id=${pet.id}, petType = ${pet.petType},habitatZonePage=${habitatZones.number + 1}, zookeeperPage=${zookeepers.number}, veterinarianPage=${veterinarians.number}, feedingTypePage=${feedingRations.number})}"
+           th:if="${habitatZones.hasNext()}">Next</a>
     </div>
 
 
@@ -71,16 +196,19 @@
             <select id="zookeeper" name="zookeeperId">
                 <option th:each="zookeeper : ${zookeepers.content}"
                         th:value="${zookeeper.id}"
-                        th:text="${zookeeper.name}">Zookeeper</option>
+                        th:text="${zookeeper.name}">Zookeeper
+                </option>
             </select>
         </label>
     </div>
 
     <!-- Пагинация для Zookeepers -->
     <div>
-        <a th:href="@{/pet/update{id}(id=${pet.id}, petType = ${pet.petType}, zookeeperPage=${zookeepers.number - 1}, veterinarianPage=${veterinarians.number}, feedingTypePage=${feedingTypes.number}, habitatZonePage=${habitatZones.number})}" th:if="${zookeepers.hasPrevious()}">Previous</a>
+        <a th:href="@{/pet/update{id}(id=${pet.id}, petType = ${pet.petType}, zookeeperPage=${zookeepers.number - 1}, veterinarianPage=${veterinarians.number}, feedingTypePage=${feedingRations.number}, habitatZonePage=${habitatZones.number})}"
+           th:if="${zookeepers.hasPrevious()}">Previous</a>
         <span th:text="'Page ' + (${zookeepers.number} + 1) + ' of ' + ${zookeepers.totalPages}"></span>
-        <a th:href="@{/pet/update{id}(id=${pet.id}, petType = ${pet.petType},zookeeperPage=${zookeepers.number + 1}, veterinarianPage=${veterinarians.number}, feedingTypePage=${feedingTypes.number}, habitatZonePage=${habitatZones.number})}" th:if="${zookeepers.hasNext()}">Next</a>
+        <a th:href="@{/pet/update{id}(id=${pet.id}, petType = ${pet.petType},zookeeperPage=${zookeepers.number + 1}, veterinarianPage=${veterinarians.number}, feedingTypePage=${feedingRations.number}, habitatZonePage=${habitatZones.number})}"
+           th:if="${zookeepers.hasNext()}">Next</a>
     </div>
 
     <div>
@@ -88,37 +216,31 @@
             <select id="veterinarian" name="veterinarianId">
                 <option th:each="veterinarian : ${veterinarians.content}"
                         th:value="${veterinarian.id}"
-                        th:text="${veterinarian.name}">Veterinarian</option>
+                        th:text="${veterinarian.name}">Veterinarian
+                </option>
             </select>
         </label>
     </div>
 
     <!-- Пагинация для Veterinarians -->
     <div>
-        <a th:href="@{/pet/update{id}(id=${pet.id}, petType = ${pet.petType}, veterinarianPage=${veterinarians.number - 1}, zookeeperPage=${zookeepers.number}, feedingTypePage=${feedingTypes.number}, habitatZonePage=${habitatZones.number})}" th:if="${veterinarians.hasPrevious()}">Previous</a>
+        <a th:href="@{/pet/update{id}(id=${pet.id}, petType = ${pet.petType}, veterinarianPage=${veterinarians.number - 1}, zookeeperPage=${zookeepers.number}, feedingTypePage=${feedingRations.number}, habitatZonePage=${habitatZones.number})}"
+           th:if="${veterinarians.hasPrevious()}">Previous</a>
         <span th:text="'Page ' + (${veterinarians.number} + 1) + ' of ' + ${veterinarians.totalPages}"></span>
-        <a th:href="@{/pet/update{id}(id=${pet.id}, petType = ${pet.petType}, veterinarianPage=${veterinarians.number + 1}, zookeeperPage=${zookeepers.number}, feedingTypePage=${feedingTypes.number}, habitatZonePage=${habitatZones.number})}" th:if="${veterinarians.hasNext()}">Next</a>
+        <a th:href="@{/pet/update{id}(id=${pet.id}, petType = ${pet.petType}, veterinarianPage=${veterinarians.number + 1}, zookeeperPage=${zookeepers.number}, feedingTypePage=${feedingRations.number}, habitatZonePage=${habitatZones.number})}"
+           th:if="${veterinarians.hasNext()}">Next</a>
     </div>
 
 
     <div th:if="${pet.petType == 'bird'}">
-        <h3>Bird Wintering Information</h3>
-
-        <label for="winteringCode">Wintering Code:
-            <input id="winteringCode" type="text" name="winteringPlace.code" th:value="*{winteringPlaceReadDto.code}">
-        </label><br>
-
-        <label for="country">Country:
-            <input id="country" type="text" name="winteringPlace.country" th:value="*{winteringPlaceReadDto.country}">
-        </label><br>
-
-        <label for="departureDate">Departure Date:
-            <input id="departureDate" type="date" name="winteringPlace.departureDate" th:value="*{winteringPlaceReadDto.departureDate}">
-        </label><br>
-
-        <label for="returnDate">Return Date:
-            <input id="returnDate" type="date" name="winteringPlace.arrivalDate" th:value="*{winteringPlaceReadDto.arrivalDate}">
-        </label><br>
+        <label for="winteringPlace">WinteringPlace:
+            <select id="winteringPlace" name="winteringPlaceId">
+                <option th:each="winteringPlace : ${winteringPlaces}"
+                        th:value="${winteringPlace.id}"
+                        th:text="${winteringPlace.code + '-' + winteringPlace.country + '-' + winteringPlace.arrivalDate + '-' + winteringPlace.departureDate}">WinteringPlace
+                </option>
+            </select>
+        </label>
     </div>
 
     <!-- Поля для рептилий (отображаются только если petType = 'Reptile') -->
@@ -131,13 +253,17 @@
         </label><br>
 
         <label for="hibernationPeriod">Hibernation Period (e.g., 3 months 10 days):</label>
-        <input type="text" name="reptileCreateEditDto.sleepPeriod" id="hibernationPeriod" placeholder="e.g., 3 months 10 days">
+        <input type="text" name="reptileCreateEditDto.sleepPeriod" id="hibernationPeriod"
+               placeholder="e.g., 3 months 10 days">
     </div>
 
 
-
-    <button type="submit">Add Pet</button>
+    <button type="submit">Update pet</button>
 </form>
 
+<form th:action="@{/}" method="get">
+    <button type="submit">Main page</button>
+</form>
+</div>
 </body>
 </html>

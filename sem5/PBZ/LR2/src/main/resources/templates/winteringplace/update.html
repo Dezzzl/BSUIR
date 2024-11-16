@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Wintering Place</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+</head>
+<body>
+<div class="container">
+    <h1>Update Wintering Place</h1>
+
+    <form th:action="@{/wintering-place/update/{id}(id=${winteringPlace.id})}" method="post" th:object="${winteringPlace}">
+        <label for="code">Code:</label>
+        <input type="text" id="code" name="code" th:value="*{code}" required>
+        <br><br>
+
+        <label for="country">Country:</label>
+        <input type="text" id="country" name="country" th:value="*{country}" required>
+        <br><br>
+
+        <label for="arrivalDate">Arrival Date:</label>
+        <input type="date" id="arrivalDate" name="arrivalDate" th:value="*{arrivalDate}" required>
+        <br><br>
+
+        <label for="departureDate">Departure Date:</label>
+        <input type="date" id="departureDate" name="departureDate" th:value="*{departureDate}" required>
+        <br><br>
+
+        <button type="submit">Update Wintering Place</button>
+    </form>
+
+    <div class="navigation">
+        <a href="/wintering-place">Back to Wintering Places List</a>
+        <form th:action="@{/}" method="get">
+            <button type="submit">Main Page</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

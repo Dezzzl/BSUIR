@@ -1,0 +1,100 @@
+@startuml
+class Main {
+  + run(): void
+
+}
+
+class DispatcherServlet <<injector>>{
+
+}
+
+class ViewResolver <<UI>>{
+  + resolveView(viewName: String): void
+  + render(model: Model): void
+}
+
+interface ComponentsFabric{
+  + createLabel(name: String): void
+  + createButton(buttonName: String): void
+  + creteForm(formName: String, formType: String): void
+  + createTable(tableName: String, rowNames: List<String>): void
+  + createOptions(optionsNames: List<String>): void
+}
+
+class HtmlComponentsFabric{
+  + createLabel(name: String): void
+  + createButton(buttonName: String): void
+  + creteForm(formName: String, formType: String): void
+  + createTable(tableName: String, rowNames: List<String>): void
+  + createOptions(optionsNames: List<String>): void
+}
+
+class Model{
+  + attributes: Map<String, Object>
+}
+
+interface Label{
+  - name: String
+}
+
+interface Button{
+  - buttonName: String
+}
+
+interface Form{
+  - formName: String
+  - formType: String
+}
+
+interface Table{
+  - tableName: String
+  - rowNames: List<String>
+}
+
+interface Options{
+  - optionsNames: List<String>
+}
+
+class HtmlLabel{
+  - name: String
+}
+
+class HtmlButton{
+  - buttonName: String
+}
+
+class HtmlForm{
+  - formName: String
+  - formType: String
+}
+
+class HtmlTable{
+  - tableName: String
+  - rowNames: List<String>
+}
+
+class HtmlOptions{
+  - optionsNames: List<String>
+}
+
+Main "1" ..> "1" DispatcherServlet: <<create>>
+
+DispatcherServlet "1" o-- "1" ViewResolver: - viewResolver
+ComponentsFabric <|.. HtmlComponentsFabric
+
+ViewResolver "1" ..> "1" ComponentsFabric: <<delegate>>
+ViewResolver "1" ..> "1" Model: <<use>>
+
+HtmlComponentsFabric "1" ..> "1" HtmlLabel: <<create>>
+HtmlComponentsFabric "1" ..> "1" HtmlButton: <<create>>
+HtmlComponentsFabric "1" ..> "1" HtmlTable: <<create>>
+HtmlComponentsFabric "1" ..> "1" HtmlOptions: <<create>>
+HtmlComponentsFabric "1" ..> "1" HtmlForm: <<create>>
+
+
+Label <|.. HtmlLabel
+Button <|.. HtmlButton
+Table <|.. HtmlTable
+Form <|.. HtmlForm
+Options <|.. HtmlOptions
+@enduml

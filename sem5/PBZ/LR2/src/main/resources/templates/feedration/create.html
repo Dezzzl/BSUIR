@@ -3,28 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <title>Create Feeding Ration</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
 </head>
 <body>
+<div class="container">
+    <h1>Create New Feeding Ration</h1>
 
-<h1>Create New Feeding Ration</h1>
+    <form th:action="@{/feeding-ration}" method="post" th:object="${feedingRation}">
+        <!-- Поле для имени рациона кормления -->
+        <label for="feedRationName">Name:
+            <input id="feedRationName" type="text" name="feedRationName" th:value="*{feedRationName}" required>
+        </label>
 
-<form th:action="@{/feeding-ration}" method="post" th:object="${feedingRation}">
-    <!-- Поле для имени рациона кормления -->
-    <label for="name">Name:
-        <input id="name" type="text" name="name" th:value="*{feedRationName}" required>
-    </label><br>
+        <!-- Выпадающий список для выбора типа корма -->
+        <label for="feedType">Feed Type:
+            <select id="feedType" name="feedTypeId" required>
+                <option value="" disabled selected>Select Feed Type</option>
+                <option th:each="feedType : ${feedTypes}"
+                        th:value="${feedType.id}"
+                        th:text="${feedType.name}">Feed Type
+                </option>
+            </select>
+        </label>
 
-    <!-- Выпадающий список для выбора типа корма -->
-    <label for="feedType">Feed Type:
-        <select id="feedType" name="feedTypeId" required>
-            <option th:each="feedType : ${feedTypes}"
-                    th:value="${feedType.id}"
-                    th:text="${feedType.name}">Feed Type</option>
-        </select>
-    </label><br>
+        <!-- Кнопка для отправки формы -->
+        <button type="submit">Create Feeding Ration</button>
+    </form>
 
-    <button type="submit">Create Feeding Ration</button>
-</form>
-
+    <!-- Ссылка на главную страницу -->
+    <div class="main-page-link">
+        <form th:action="@{/}" method="get">
+            <button type="submit">Main Page</button>
+        </form>
+    </div>
+</div>
 </body>
 </html>

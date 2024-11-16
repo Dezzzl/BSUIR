@@ -2,41 +2,49 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Feed Type Details</title>
+    <title>Feeding Rations Details</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
 </head>
 <body>
-<h1>Feeding ration details</h1>
+<div class="container">
+    <h1>Feeding Ration Details</h1>
 
-<!-- Информация о типе рациона -->
-<div th:if="${feedingRation}">
-    <p><strong>ID:</strong> <span th:text="${feedingRation.feedRationId}"></span></p>
-    <p><strong>Name:</strong> <span th:text="${feedingRation.feedRationName}"></span></p>
-    <p><strong>Feed type id:</strong> <span th:text="${feedingRation.feedTypeReadDto.id}"></span></p>
-    <p><strong>Feed type name:</strong> <span th:text="${feedingRation.feedTypeReadDto.name}"></span></p>
+    <!-- Информация о типе рациона -->
+    <div th:if="${feedingRation}">
+        <p><strong>ID:</strong> <span th:text="${feedingRation.feedRationId}"></span></p>
+        <p><strong>Name:</strong> <span th:text="${feedingRation.feedRationName}"></span></p>
+        <p><strong>Feed Type ID:</strong> <span th:text="${feedingRation.feedTypeReadDto.id}"></span></p>
+        <p><strong>Feed Type Name:</strong> <span th:text="${feedingRation.feedTypeReadDto.name}"></span></p>
 
-    <!-- Кнопка для удаления зоны -->
-    <form th:action="@{/feeding-ration/delete/{id}(id=${feedingRation.feedRationId})}" method="post">
-        <input type="hidden" name="_method" value="delete"/>
-        <button type="submit">Delete feeding ration</button>
-    </form>
+        <!-- Кнопка для удаления рациона -->
+        <form th:action="@{/feeding-ration/delete/{id}(id=${feedingRation.feedRationId})}" method="post">
+            <input type="hidden" name="_method" value="delete"/>
+            <button type="submit">Delete Feeding Ration</button>
+        </form>
 
-    <!-- Кнопка для обновления зоны -->
-    <form th:action="@{/feeding-ration/update/{id}(id=${feedingRation.feedRationId})}" method="get">
-        <button type="submit">Update feeding ration</button>
-    </form>
+        <!-- Кнопка для обновления рациона -->
+        <form th:action="@{/feeding-ration/update/{id}(id=${feedingRation.feedRationId})}" method="get">
+            <button type="submit">Update Feeding Ration</button>
+        </form>
 
-    <!-- Если зона не найдена -->
+    </div>
+
+    <!-- Если рацион не найден -->
     <div th:if="${feedingRation == null}">
         <p>Feeding ration not found!</p>
     </div>
 
-    <!-- Кнопка для создания новой зоны -->
+    <!-- Кнопка для создания нового рациона -->
     <form th:action="@{/feeding-ration/create}" method="get">
-        <button type="submit">Create new feeding ration</button>
+        <button type="submit">Create New Feeding Ration</button>
     </form>
 
+    <!-- Ссылка на главную страницу -->
+    <div class="main-page-link">
+        <form th:action="@{/}" method="get">
+            <button type="submit">Main Page</button>
+        </form>
+    </div>
 </div>
-
-
 </body>
 </html>

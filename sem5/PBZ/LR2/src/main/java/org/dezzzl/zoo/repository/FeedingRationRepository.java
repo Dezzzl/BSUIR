@@ -1,6 +1,8 @@
 package org.dezzzl.zoo.repository;
 
 import org.dezzzl.zoo.entity.pet.FeedingRation;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -18,4 +20,6 @@ public interface FeedingRationRepository {
     Integer update(FeedingRation feedingRation);
 
     Integer delete(Integer id);
+
+    Page<FeedingRation> findAll(PageRequest pageRequest);
 }

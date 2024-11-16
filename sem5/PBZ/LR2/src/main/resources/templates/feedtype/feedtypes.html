@@ -3,18 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <title>Feed Type List</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
 </head>
 <body>
 
-<!-- Таблица с типами рационов -->
-<h1>Available feed types</h1>
-<ol>
-    <li th:each="feedType : ${feedTypes}">
-        <a th:href="@{'/feed-type/' + ${feedType.id}}" th:text="|${feedType.name}|">Feed type</a>
-    </li>
-</ol>
+<div class="container">
+    <h1>Available Feed Types</h1>
 
-<!-- Кнопка для добавления нового типа рациона -->
-<a href="/feed-type/create">Create New Feed Type</a>
+    <ol>
+        <li th:each="feedType : ${feedTypes}">
+            <a th:href="@{'/feed-type/' + ${feedType.id}}" th:text="${feedType.name}">Feed Type</a>
+        </li>
+    </ol>
+
+    <!-- Кнопка для добавления нового типа корма -->
+    <div class="action-buttons">
+        <a href="/feed-type/create" class="btn">Create New Feed Type</a>
+    </div>
+
+    <div class="navigation">
+        <form th:action="@{/}" method="get">
+            <button type="submit">Main Page</button>
+        </form>
+    </div>
+</div>
+
 </body>
 </html>

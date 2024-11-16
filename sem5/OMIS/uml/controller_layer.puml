@@ -1,0 +1,380 @@
+@startuml
+
+class Main<<main>> {
+    - context: ApplicationContext
+}
+
+Main "1"-->"1" ApplicationContext : starts
+ApplicationContext "1"..>"1" DispatcherServlet : initializes
+
+class ApplicationContext<<injector>>{
+    - container:
+}
+
+class DispatcherServlet<<singleton>> {
+    +doDispatch(HttpServletRequest, HttpServletResponse)
+}
+
+interface RegisterController {
+  + getRegisterForm(): String
+  + register(email: String, password: String, phoneNumber: String, fullName: String): String
+}
+
+interface LoginController {
+  + getLoginForm(): String
+  + getResetPasswordForm(): String
+  + resetPassword(oldPassword: String, newPassword: String): String
+  + login(email: String, password: String): String
+}
+
+
+interface ProfileController {
+  + getUser(userId: Integer): String
+  + getUsers(): String
+  + getBookingHistory(user: User): String
+  + getCurrentParkingLots(user: User): String
+  + deleteParkingLotFromCurrentLots(user: User, parkingLot: ParkingLot): String
+  + loadPersonalPhoto(user: User, personalPhoto: byte[]): String
+  + updateUserInfo(user: User): String
+  + updateRole(User: user, Role: role): String
+  + getUserDetails(User: user): String
+  + getUpdateForm(): String
+  + getAdminForm(): String
+}
+
+interface ZoneController {
+  + getZones(): String
+  + getParkingZone(parkingZoneId: Integer): String
+  + addParkingZone(parkingZone: ParkingZone): String
+  + deleteParkingZone(parkingZoneId: Integer): String
+  + updateParkingZone(parkingZoneId: Integer): String
+  + addParkingLotToZone(parkingZoneId: Integer, parkingLot: ParkingLot): String
+  + deleteParkingLotFromZone(parkingZoneId: Integer, parkingLotId: Integer): String
+  + searchZoneByParkingLot(parkingLotId: Integer): String
+  + getUpdateForm(parkingZoneId: Integer): String
+  + getSearchForm(): String
+  + getCreateForm(): String
+}
+
+interface ParkingLotController {
+  + createParkingLot(): String
+  + deleteParkingLot(): String
+  + getParkingLot(parkingLotId: Integer): String
+  + getLotsWithFilter(filter: Filter, parkingZoneId: Integer): String
+  + updateParkingLot(parkingLotId: Integer): String
+  + addLotToUser(parkingLotId: Integer, userId: Integer): String
+  + setTimeToLot(parkingLotId: Integer, userId: Integer): String
+  + getUpdateForm(parkingLotId: Integer): String
+  + getFilterForm(parkingZoneId: Integer): String
+  + getTimeForm(parkingLotId: Integer): String
+}
+
+interface ReviewController {
+  + getReview(reviewId: Integer): String
+  + addReview(review: Review): String
+  + getReviews(page: Integer): String
+  + deleteReview(reviewId: Integer): String
+  + getCreateForm(): String
+}
+
+interface PaymentController{
+  + getPaymentForm(): String
+  + processPayment(userId: Integer, amount: BigDecimal, parkingLotId: Integer): String
+}
+
+class RegisterControllerImpl {
+  + getRegisterForm(): String
+  + register(email: String, password: String, phoneNumber: String, fullName: String): String
+}
+
+class LoginControllerImpl {
+  + getLoginForm(): String
+  + getResetPasswordForm(): String
+  + resetPassword(oldPassword: String, newPassword: String): String
+  + login(email: String, password: String): String
+}
+
+class ProfileControllerImpl {
+  + getUser(userId: Integer): User
+  + getUsers(): String
+  + getBookingHistory(user: User): String
+  + getCurrentParkingLots(user: User): String
+  + deleteParkingLotFromCurrentLots(user: User, parkingLot: ParkingLot): String
+  + loadPersonalPhoto(user: User, personalPhoto: byte[]): String
+  + updateUserInfo(user: User): String
+  + updateRole(User: user, Role: role): String
+  + getUserDetails(User: user): String
+  + getUpdateForm(): String
+  + getAdminForm(): String
+}
+
+class ZoneControllerImpl {
+  + getZones(): String
+  + getParkingZone(parkingZoneId: Integer): String
+  + addParkingZone(parkingZone: ParkingZone): String
+  + deleteParkingZone(parkingZoneId: Integer): String
+  + updateParkingZone(parkingZoneId: Integer): String
+  + addParkingLotToZone(parkingZoneId: Integer, parkingLot: ParkingLot): String
+  + deleteParkingLotFromZone(parkingZoneId: Integer, parkingLotId: Integer): String
+  + searchZoneByParkingLot(parkingLotId: Integer): String
+  + getUpdateForm(parkingZoneId: Integer): String
+  + getSearchForm(): String
+  + getCreateForm(): String
+}
+
+
+class ParkingLotControllerImpl {
+  + createParkingLot(): String
+  + deleteParkingLot(): String
+  + getParkingLot(parkingLotId: Integer): String
+  + getLotsWithFilter(filter: Filter, parkingZoneId: Integer): String
+  + updateParkingLot(parkingLotId: Integer): String
+  + addLotToUser(parkingLotId: Integer, userId: Integer): String
+  + setTimeToLot(parkingLotId: Integer, userId: Integer): String
+  + getUpdateForm(parkingLotId: Integer): String
+  + getFilterForm(parkingZoneId: Integer): String
+  + getTimeForm(parkingLotId: Integer): String
+}
+
+class ReviewControllerImpl {
+  + getReview(reviewId: Integer): String
+  + addReview(review: Review): String
+  + getReviews(page: Integer): String
+  + deleteReview(reviewId: Integer): String
+  + getCreateForm(): String
+}
+
+class PaymentControllerImpl{
+  + getPaymentForm(): String
+  + processPayment(userId: Integer, amount: BigDecimal, parkingLotId: Integer): String
+}
+
+interface RegisterService {
+  + register(email: String, password: String, phoneNumber: String, fullName: String): User
+}
+
+interface LoginService {
+  + resetPassword(oldPassword: String, newPassword: String): User
+  + login(email: String, password: String): User
+}
+
+interface ProfileService {
+  + getUser(userId: Integer): User
+  + getUsers(): List<User>
+  + getBookingHistory(user: User): List<ParkingLot>
+  + getCurrentParkingLots(user: User): List<ParkingLot>
+  + addParkingLotToHistory(user: User, parkingLot: ParkingLot): void
+  + addParkingLotToCurrentLots(user: User, parkingLot: ParkingLot): void
+  + deleteParkingLotFromCurrentLots(user: User, parkingLot: ParkingLot): void
+  + loadPersonalPhoto(user: User, personalPhoto: byte[]): void
+  + updateUserInfo(user: User): User
+  + updateRole(User: user, Role: role): void
+  + getUserDetails(User: user): User
+}
+
+interface ZoneService {
+  + getZones(): List<ParkingZone>
+  + getParkingZone(parkingZoneId: Integer): ParkingZone
+  + addParkingZone(parkingZone: ParkingZone): void
+  + deleteParkingZone(parkingZoneId: Integer): void
+  + updateParkingZone(parkingZoneId: Integer): ParkingZone
+  + addParkingLotToZone(parkingZoneId: Integer, parkingLot: ParkingLot): void
+  + deleteParkingLotFromZone(parkingZoneId: Integer, parkingLot: ParkingLot): void
+  + searchZoneByParkingLot(parkingLotId: Integer): ParkingZone
+}
+
+interface ParkingLotService {
+  + createParkingLot(): ParkingLot
+  + deleteParkingLot(): void
+  + getParkingLot(parkingLotId: Integer): ParkingLot
+  + getLotsWithFilter(filter: Filter, parkingZoneId: Integer): List<ParkingLot>
+  + updateParkingLot(parkingLotId: Integer): ParkingLot
+  + addLotToUser(parkingLotId: Integer, userId: Integer): boolean
+  + setTimeToLot(parkingLotId: Integer, userId: Integer, startTime: LocalDateTime, endTime: LocalDateTime): boolean
+}
+
+interface ReviewService {
+  + getReview(reviewId: Integer): Review
+  + addReview(review: Review): Review
+  + getReviews(page: Integer): List<Review>
+  + deleteReview(reviewId: Integer): void
+}
+
+interface PaymentService {
+  + processPayment(userId: Integer, amount: BigDecimal, parkingLotId: Integer): boolean
+}
+
+class RegisterServiceImpl {
+  + register(email: String, password: String, phoneNumber: String, fullName: String): User
+}
+
+class LoginServiceImpl {
+  + resetPassword(oldPassword: String, newPassword: String): User
+  + login(email: String, password: String): User
+}
+
+class ProfileServiceImpl {
+  + getUser(userId: Integer): User
+  + getUsers(): List<User>
+  + getBookingHistory(user: User): List<ParkingLot>
+  + getCurrentParkingLots(user: User): List<ParkingLot>
+  + addParkingLotToHistory(user: User, parkingLot: ParkingLot): void
+  + addParkingLotToCurrentLots(user: User, parkingLot: ParkingLot): void
+  + deleteParkingLotFromCurrentLots(user: User, parkingLot: ParkingLot): void
+  + loadPersonalPhoto(user: User, personalPhoto: byte[]): void
+  + updateUserInfo(user: User): User
+  + updateRole(User: user, Role: role): void
+  + getUserDetails(User: user): User
+}
+
+class ZoneServiceImpl {
+  + getZones(): List<ParkingZone>
+  + getParkingZone(parkingZoneId: Integer): ParkingZone
+  + addParkingZone(parkingZone: ParkingZone): void
+  + deleteParkingZone(parkingZoneId: Integer): void
+  + updateParkingZone(parkingZoneId: Integer): ParkingZone
+  + addParkingLotToZone(parkingZoneId: Integer, parkingLot: ParkingLot): void
+  + deleteParkingLotFromZone(parkingZoneId: Integer, parkingLot: ParkingLot): void
+  + searchZoneByParkingLot(parkingLotId: Integer): ParkingZone
+}
+
+class ParkingLotServiceImpl {
+  + createParkingLot(): ParkingLot
+  + deleteParkingLot(): void
+  + getParkingLot(parkingLotId: Integer): ParkingLot
+  + getLotsWithFilter(filter: Filter, parkingZoneId: Integer): List<ParkingLot>
+  + updateParkingLot(parkingLotId: Integer): ParkingLot
+  + addLotToUser(parkingLotId: Integer, userId: Integer): boolean
+  + setTimeToLot(parkingLotId: Integer, userId: Integer, startTime: LocalDateTime, endTime: LocalDateTime): boolean
+}
+
+class ReviewServiceImpl {
+  + getReview(reviewId: Integer): Review
+  + addReview(review: Review): Review
+  + getReviews(page: Integer): List<Review>
+  + deleteReview(reviewId: Integer): void
+}
+
+class PaymentServiceImpl {
+  + processPayment(userId: Integer, amount: BigDecimal, parkingLotId: Integer): boolean
+}
+
+interface RegisterRepository{
+  + saveUser(email: String, password: String, phoneNumber: String, fullName: String): User
+}
+
+interface LoginRepository{
+  + resetPassword(oldPassword: String, newPassword: String): User
+  + login(email: String, password: String): User
+}
+
+interface ProfileRepository{
+  + getUser(userId: Integer): User
+  + getUsers(): List<User>
+  + getBookingHistory(user: User): List<ParkingLot>
+  + getCurrentParkingLots(user: User): List<ParkingLot>
+  + addParkingLotToHistory(user: User, parkingLot: ParkingLot): void
+  + addParkingLotToCurrentLots(user: User, parkingLot: ParkingLot): void
+  + deleteParkingLotFromCurrentLots(user: User, parkingLot: ParkingLot): void
+  + loadPersonalPhoto(user: User, personalPhoto: byte[]): void
+  + updateUserInfo(user: User): User
+  + updateRole(User: user, Role: role): void
+  + getUserDetails(User: user): User
+}
+
+
+interface ZoneRepository {
+  + getZones(): List<ParkingZone>
+  + getParkingZone(parkingZoneId: Integer): ParkingZone
+  + addParkingZone(parkingZone: ParkingZone): void
+  + deleteParkingZone(parkingZoneId: Integer): void
+  + updateParkingZone(parkingZoneId: Integer): ParkingZone
+  + addParkingLotToZone(parkingZoneId: Integer, parkingLot: ParkingLot): void
+  + deleteParkingLotFromZone(parkingZoneId: Integer, parkingLot: ParkingLot): void
+  + searchZoneByParkingLot(parkingLotId: Integer): ParkingZone
+}
+
+interface ParkingLotRepository {
+  + createParkingLot(): ParkingLot
+  + deleteParkingLot(): void
+  + getParkingLot(parkingLotId: Integer): ParkingLot
+  + getLotsWithFilter(filter: Filter, parkingZoneId: Integer): List<ParkingLot>
+  + updateParkingLot(parkingLotId: Integer): ParkingLot
+  + addLotToUser(parkingLotId: Integer, userId: Integer): boolean
+  + setTimeToLot(parkingLotId: Integer, userId: Integer, startTime: LocalDateTime, endTime: LocalDateTime): boolean
+}
+
+interface ReviewRepository {
+  + getReview(reviewId: Integer): Review
+  + addReview(review: Review): Review
+  + getReviews(page: Integer): List<Review>
+  + deleteReview(reviewId: Integer): void
+}
+
+interface PaymentRepository {
+  + processPayment(userId: Integer, amount: BigDecimal, parkingLotId: Integer): void
+}
+
+ProfileService <|.. ProfileServiceImpl
+ZoneService <|.. ZoneServiceImpl
+ParkingLotService <|.. ParkingLotServiceImpl
+ReviewService <|.. ReviewServiceImpl
+PaymentService <|.. PaymentServiceImpl
+RegisterService <|.. RegisterServiceImpl
+LoginService <|.. LoginServiceImpl
+
+ProfileControllerImpl "1" o-- "1" ProfileService: - profileService
+ZoneControllerImpl "1" o-- "1" ZoneService: - zoneService
+ParkingLotControllerImpl "1" o-- "1" ParkingLotService: - parkingLotService
+ReviewControllerImpl "1" o-- "1" ReviewService: - reviewService
+PaymentControllerImpl "1" o-- "1" PaymentService: - paymentService
+RegisterControllerImpl "1" o-- "1" RegisterService: - registerService
+LoginControllerImpl "1" o-- "1" LoginService: - loginService
+
+Main "1" ..> "1" DispatcherServlet: <<create>>
+
+ApplicationContext "1" ..> "1" ProfileControllerImpl: <<create>>
+ApplicationContext "1" ..> "1" ZoneControllerImpl: <<create>>
+ApplicationContext "1" ..> "1" ParkingLotControllerImpl: <<create>>
+ApplicationContext "1" ..> "1" ReviewControllerImpl: <<create>>
+ApplicationContext "1" ..> "1" PaymentControllerImpl: <<create>>
+ApplicationContext "1" ..> "1" RegisterControllerImpl: <<create>>
+ApplicationContext "1" ..> "1" LoginControllerImpl: <<create>>
+
+
+ApplicationContext "1" ..> "1" ProfileServiceImpl: <<create>>
+ApplicationContext "1" ..> "1" ZoneServiceImpl: <<create>>
+ApplicationContext "1" ..> "1" ParkingLotServiceImpl: <<create>>
+ApplicationContext "1" ..> "1" ReviewServiceImpl: <<create>>
+ApplicationContext "1" ..> "1" PaymentServiceImpl: <<create>>
+ApplicationContext "1" ..> "1" RegisterServiceImpl: <<create>>
+ApplicationContext "1" ..> "1" LoginServiceImpl: <<create>>
+
+
+DispatcherServlet "1" ..> "1" ProfileControllerImpl: <<call>>
+DispatcherServlet "1" ..> "1" ZoneControllerImpl: <<call>>
+DispatcherServlet "1" ..> "1" ParkingLotControllerImpl: <<call>>
+DispatcherServlet "1" ..> "1" ReviewControllerImpl: <<call>>
+DispatcherServlet "1" ..> "1" PaymentControllerImpl: <<call>>
+DispatcherServlet "1" ..> "1" RegisterControllerImpl: <<call>>
+DispatcherServlet "1" ..> "1" LoginControllerImpl: <<call>>
+
+
+ProfileController <|.. ProfileControllerImpl
+ZoneController <|.. ZoneControllerImpl
+ParkingLotController <|.. ParkingLotControllerImpl
+ReviewController <|.. ReviewControllerImpl
+PaymentController <|.. PaymentControllerImpl
+RegisterController <|.. RegisterControllerImpl
+LoginController <|.. LoginControllerImpl
+
+ProfileServiceImpl "1" o-- "1" ProfileRepository: - profileRepository
+ZoneServiceImpl "1" o-- "1" ZoneRepository: - zoneRepository
+ParkingLotServiceImpl "1" o-- "1" ParkingLotRepository: - parkingLotRepository
+ReviewServiceImpl "1" o-- "1" ReviewRepository: - reviewRepository
+PaymentServiceImpl "1" o-- "1" PaymentRepository: - paymentRepository
+RegisterServiceImpl "1" o-- "1" RegisterRepository: - registerRepository
+LoginServiceImpl "1" o-- "1" LoginRepository: - loginRepository
+
+
+@enduml

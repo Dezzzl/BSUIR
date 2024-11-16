@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Wintering Place Details</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+</head>
+<body>
+<div class="container">
+    <h1>Wintering Place Details</h1>
+
+    <div th:if="${winteringPlace}">
+        <p><strong>ID:</strong> <span th:text="${winteringPlace.id}"></span></p>
+        <p><strong>Code:</strong> <span th:text="${winteringPlace.code}"></span></p>
+        <p><strong>Country:</strong> <span th:text="${winteringPlace.country}"></span></p>
+        <p><strong>Arrival Date:</strong> <span th:text="${winteringPlace.arrivalDate}"></span></p>
+        <p><strong>Departure Date:</strong> <span th:text="${winteringPlace.departureDate}"></span></p>
+
+        <!-- Кнопка для удаления зимовья -->
+        <form th:action="@{/wintering-place/delete/{id}(id=${winteringPlace.id})}" method="post">
+            <input type="hidden" name="_method" value="delete"/>
+            <button type="submit">Delete Wintering Place</button>
+        </form>
+
+        <!-- Кнопка для обновления зимовья -->
+        <form th:action="@{/wintering-place/update/{id}(id=${winteringPlace.id})}" method="get">
+            <button type="submit">Update Wintering Place</button>
+        </form>
+
+        <!-- Если зимовье не найдено -->
+        <div th:if="${winteringPlace == null}">
+            <p>Wintering place not found!</p>
+        </div>
+
+        <!-- Кнопка для создания нового зимовья -->
+        <form th:action="@{/wintering-place/create}" method="get">
+            <button type="submit">Create New Wintering Place</button>
+        </form>
+    </div>
+
+    <div class="navigation">
+        <form th:action="@{/}" method="get">
+            <button type="submit">Main Page</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

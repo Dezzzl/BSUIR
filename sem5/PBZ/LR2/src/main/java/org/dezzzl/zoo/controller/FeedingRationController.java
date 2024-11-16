@@ -68,8 +68,8 @@ public class FeedingRationController {
     }
 
     @PostMapping("/update/{id}")
-    public String update(@PathVariable Integer id, @ModelAttribute FeedingRationCreateEditDto feedingRationCreateEditDto, Model model) {
+    public String update(@PathVariable Integer id, @ModelAttribute FeedingRationCreateEditDto feedingRationCreateEditDto) {
         feedingRationService.update(id, feedingRationCreateEditDto);
-        return "redirect:/feed-ration/" + id;
+        return "redirect:/feeding-ration/" + id;
     }
 }

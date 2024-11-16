@@ -14,4 +14,5 @@ public class PetReferencesReadDto {
     private LocalDate birthdate;
     private Sex sex;
     private String petType;
+    private String feedingRationName;
 }

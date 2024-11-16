@@ -1,13 +1,10 @@
 package org.dezzzl.zoo.mapper.pet;
 
 import org.dezzzl.zoo.converter.PeriodToStringConverter;
-import org.dezzzl.zoo.converter.StringToPeriodConverter;
 import org.dezzzl.zoo.dto.pet.read.PetReadDto;
 import org.dezzzl.zoo.dto.pet.read.ReptileReadDto;
-import org.dezzzl.zoo.dto.pet.read.WinteringPlaceReadDto;
 import org.dezzzl.zoo.entity.employee.EmployeeType;
 import org.dezzzl.zoo.entity.pet.Pet;
-import org.dezzzl.zoo.entity.pet.bird.Bird;
 import org.dezzzl.zoo.entity.pet.reptile.Reptile;
 import org.dezzzl.zoo.mapper.employee.EmployeeReferenceReadMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +39,7 @@ public class ReptileReadMapper extends PetReadMapper {
     private ReptileReadDto mapReptileToDto(Reptile reptile) {
         return new ReptileReadDto(
                 reptile.getNormalTemperature(),
-                reptile.getSleepPeriod().toString()
+                PeriodToStringConverter.convert(reptile.getSleepPeriod())
         );
     }
 

@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -35,13 +36,13 @@ public class PetService {
 
     @Transactional
     public Integer create(PetCreateEditDto petCreateEditDto) {
-        Integer feedingRationId = Optional.of(petCreateEditDto.getFeedingRationCreateEditDto())
-                .map(dto -> feedingRationCreateEditMapper.map(petCreateEditDto.getFeedingRationCreateEditDto()))
-                .map(feedingRationRepository::save)
-                .map(FeedingRation::getId)
-                .orElseThrow();
-
-        petCreateEditDto.getFeedingRationCreateEditDto().setFeedingRationId(feedingRationId);
+//        Integer feedingRationId = Optional.of(petCreateEditDto.getFeedingRationCreateEditDto())
+//                .map(dto -> feedingRationCreateEditMapper.map(petCreateEditDto.getFeedingRationCreateEditDto()))
+//                .map(feedingRationRepository::save)
+//                .map(FeedingRation::getId)
+//                .orElseThrow();
+//
+//        petCreateEditDto.getFeedingRationCreateEditDto().setFeedingRationId(feedingRationId);
 
         return Optional.of(petCreateEditDto)
                 .map(dto -> petCreateEditMapper.map(petCreateEditDto))
@@ -77,5 +78,12 @@ public class PetService {
 
     public List<PetReferencesReadDto> findAll() {
         return petRepository.findAllSimplePetsBasicInfo();
+    }
+
+    public List<PetReadDto> findByName(String name) {
+        return petRepository.findByName(name)
+                .stream().map(petReadMapper::map)
+                .collect(Collectors.toList());
+
     }
 }

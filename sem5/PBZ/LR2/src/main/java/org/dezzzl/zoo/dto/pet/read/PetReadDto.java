@@ -2,6 +2,7 @@ package org.dezzzl.zoo.dto.pet.read;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.dezzzl.zoo.dto.employee.EmployeeReferenceReadDto;
 import org.dezzzl.zoo.dto.habitatzone.HabitatZoneReadDto;
 import org.dezzzl.zoo.entity.pet.Sex;
@@ -11,6 +12,7 @@ import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class PetReadDto {
     Integer id;
     String name;

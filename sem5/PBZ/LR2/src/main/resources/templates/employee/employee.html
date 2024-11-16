@@ -3,49 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <title>Employee Details</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
 </head>
 <body>
-<h1>Employee Details</h1>
+<div class="container">
+    <h1>Employee Details</h1>
 
-<!-- Информация о зоне обитания -->
-<div th:if="${employee}">
-    <p><strong>ID:</strong> <span th:text="${employee.id}"></span></p>
-    <p><strong>Name:</strong> <span th:text="${employee.name}"></span></p>
-    <p><strong>Birthdate:</strong> <span th:text="${employee.birthdate}"></span></p>
-    <p><strong>Phone number:</strong> <span th:text="${employee.phoneNumber}"></span></p>
-    <p><strong>Employee status:</strong> <span th:text="${employee.employeeType}"></span></p>
-    <p><strong>Marital status:</strong> <span th:text="${employee.maritalStatus}"></span></p>
+    <!-- Информация о сотруднике -->
+    <div th:if="${employee}">
+        <p><strong>ID:</strong> <span th:text="${employee.id}"></span></p>
+        <p><strong>Name:</strong> <span th:text="${employee.name}"></span></p>
+        <p><strong>Birthdate:</strong> <span th:text="${employee.birthdate}"></span></p>
+        <p><strong>Phone number:</strong> <span th:text="${employee.phoneNumber}"></span></p>
+        <p><strong>Employee status:</strong> <span th:text="${employee.employeeType}"></span></p>
+        <p><strong>Marital status:</strong> <span th:text="${employee.maritalStatus}"></span></p>
 
-    <div th:if="${employee.spouse}">
-        <h2>Spouse Details</h2>
-        <p>
-            <a th:href="@{'/employee/' + ${employee.spouse.id}}" th:text="|${employee.spouse.name} - ${employee.spouse.employeeType}|">Spouse</a>
-        </p>
+        <div th:if="${employee.spouse}">
+            <h2>Spouse Details</h2>
+            <p>
+                <a th:href="@{'/employee/' + ${employee.spouse.id}}" th:text="|${employee.spouse.name} - ${employee.spouse.employeeType}|">Spouse</a>
+            </p>
+        </div>
+
+        <!-- Кнопка для удаления сотрудника -->
+        <form th:action="@{/employee/delete/{id}(id=${employee.id})}" method="post">
+            <input type="hidden" name="_method" value="delete"/>
+            <button type="submit">Delete employee</button>
+        </form>
+
+        <!-- Кнопка для обновления информации о сотруднике -->
+        <form th:action="@{/employee/update/{id}(id=${employee.id})}" method="get">
+            <button type="submit">Update employee</button>
+        </form>
+
     </div>
-    <!-- Кнопка для удаления зоны -->
-    <form th:action="@{/employee/delete/{id}(id=${employee.id})}" method="post">
-        <input type="hidden" name="_method" value="delete"/>
-        <button type="submit">Delete employee</button>
-    </form>
 
-    <!-- Кнопка для обновления зоны -->
-    <form th:action="@{/employee/update/{id}(id=${employee.id})}" method="get">
-        <button type="submit">Update employee</button>
-    </form>
-
-
-    <!-- Если зона не найдена -->
+    <!-- Если сотрудник не найден -->
     <div th:if="${employee == null}">
         <p>Employee not found!</p>
     </div>
 
-    <!-- Кнопка для создания новой зоны -->
+    <!-- Кнопка для создания нового сотрудника -->
     <form th:action="@{/employee/create}" method="get">
         <button type="submit">Create new employee</button>
     </form>
 
+    <form th:action="@{/}" method="get">
+        <button type="submit">Main page</button>
+    </form>
 </div>
-
 </body>
 </html>
-

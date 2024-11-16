@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -32,13 +33,14 @@ public class BirdService {
 
     private final BirdReadMapper birdReadMapper;
 
+    @Transactional
     public Integer create(PetCreateEditDto petCreateEditDto) {
-        Integer winteringPlaceId = Optional.of(petCreateEditDto.getWinteringPlace())
-                .map(winteringPlaceCreateEditMapper::map)
-                .map(winteringPlaceRepository::save)
-                .map(WinteringPlace::getId)
-                .orElseThrow();
-        petCreateEditDto.getWinteringPlace().setId(winteringPlaceId);
+//        Integer winteringPlaceId = Optional.of(petCreateEditDto.getWinteringPlace())
+//                .map(winteringPlaceCreateEditMapper::map)
+//                .map(winteringPlaceRepository::save)
+//                .map(WinteringPlace::getId)
+//                .orElseThrow();
+//        petCreateEditDto.getWinteringPlace().setId(winteringPlaceId);
         return Optional.of(petCreateEditDto)
                 .map(birdCreateEditMapper::map)
                 .map(birdRepository::save)
@@ -62,5 +64,11 @@ public class BirdService {
                 .map(pet -> birdCreateEditMapper.map(petCreateEditDto, pet))
                 .map(birdRepository::saveAndFlush)
                 .map(birdReadMapper::map);
+    }
+
+    public List<PetReadDto> findByName(String name) {
+        return birdRepository.findByName(name)
+                .stream().map(birdReadMapper::map)
+                .collect(Collectors.toList());
     }
 }

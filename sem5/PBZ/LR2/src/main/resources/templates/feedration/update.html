@@ -3,29 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <title>Update Feed Ration</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
 </head>
 <body>
-<h1>Update Feeding Ration</h1>
+<div class="container">
+    <h1>Update Feeding Ration</h1>
 
-<form th:action="@{/feeding-ration/update/{id}(id=${feedingRation.feedRationId})}" method="post" th:object="${feedingRation}">
+    <form th:action="@{/feeding-ration/update/{id}(id=${feedingRation.feedRationId})}" method="post" th:object="${feedingRation}">
 
-    <!-- Название рациона -->
-    <label for="name">Name:
-        <input id="name" type="text" name="name" th:value="*{feedRationName}">
-    </label><br>
+        <!-- Название рациона -->
+        <label for="name">Name:
+            <input id="name" type="text" name="feedRationName" th:value="*{feedRationName}" required>
+        </label><br>
 
-    <!-- Выбор типа корма -->
-    <h3>Feed Type</h3>
-    <div th:each="feedType : ${feedTypes}">
-        <input th:id="${feedType.id}" type="radio" name="feedType.id" th:value="${feedType.id}" th:checked="*{feedType.id == feedType.id}">
-        <label th:for="${feedType.id}" th:text="${feedType.name}">Feed Type</label>
-    </div>
+        <!-- Выбор типа корма -->
+        <h3>Feed Type</h3>
+        <div th:each="feedType : ${feedTypes}">
+            <input th:id="${feedType.id}" type="radio" name="feedTypeId" th:value="${feedType.id}"
+                   th:checked="${feedType.id} == ${feedingRation.feedTypeReadDto.id}">
+            <label th:for="${feedType.id}" th:text="${feedType.name}">Feed Type</label>
+        </div>
 
-    <!-- Кнопка для отправки формы -->
-    <br>
-    <button type="submit">Update Feeding Ration</button>
+        <!-- Кнопка для отправки формы -->
+        <br>
+        <button type="submit">Update Feeding Ration</button>
+    </form>
 
-</form>
-
+    <form th:action="@{/}" method="get">
+        <button type="submit">Main Page</button>
+    </form>
+</div>
 </body>
 </html>

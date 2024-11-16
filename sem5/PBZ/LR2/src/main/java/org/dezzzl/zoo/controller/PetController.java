@@ -5,8 +5,11 @@ import org.dezzzl.zoo.dto.employee.EmployeeReadDto;
 import org.dezzzl.zoo.dto.feedtype.FeedTypeReadDto;
 import org.dezzzl.zoo.dto.habitatzone.HabitatZoneReadDto;
 import org.dezzzl.zoo.dto.pet.editcreate.PetCreateEditDto;
+import org.dezzzl.zoo.dto.pet.editcreate.PetSearchDto;
+import org.dezzzl.zoo.dto.pet.read.FeedingRationReadDto;
 import org.dezzzl.zoo.dto.pet.read.PetReadDto;
 import org.dezzzl.zoo.dto.pet.read.PetReferencesReadDto;
+import org.dezzzl.zoo.dto.pet.read.WinteringPlaceReadDto;
 import org.dezzzl.zoo.entity.employee.EmployeeType;
 import org.dezzzl.zoo.service.*;
 import org.springframework.data.domain.Page;
@@ -31,7 +34,9 @@ public class PetController {
 
     private final HabitatZoneService habitatZoneService;
 
-    private final FeedTypeService feedTypeService;
+    private final WinteringPlaceService winteringPlaceService;
+
+    private final FeedingRationService feedingRationService;
 
     private final PetService petService;
 
@@ -50,7 +55,7 @@ public class PetController {
                                     @ModelAttribute PetCreateEditDto petCreateEditDto,
                                     @RequestParam(value = "zookeeperPage", defaultValue = "0") int zookeeperPage,
                                     @RequestParam(value = "veterinarianPage", defaultValue = "0") int veterinarianPage,
-                                    @RequestParam(value = "feedingTypePage", defaultValue = "0") int feedingTypePage,
+                                    @RequestParam(value = "feedingRationPage", defaultValue = "0") int feedingRationPage,
                                     @RequestParam(value = "habitatZonePage", defaultValue = "0") int habitatZonePage,
                                     Pageable pageable) {
 
@@ -60,14 +65,17 @@ public class PetController {
         Page<EmployeeReadDto> veterinarians = employeeService.findAllByEmployeeType(
                 PageRequest.of(veterinarianPage, pageable.getPageSize()),
                 EmployeeType.VETERINARIAN);
-        Page<FeedTypeReadDto> feedingTypes = feedTypeService.findAll(PageRequest.of(feedingTypePage, pageable.getPageSize()));
+        Page<FeedingRationReadDto> feedingRations = feedingRationService.findAll(PageRequest.of(feedingRationPage, pageable.getPageSize()));
         Page<HabitatZoneReadDto> habitatZones = habitatZoneService.findAll(PageRequest.of(habitatZonePage, pageable.getPageSize()));
+
+        List<WinteringPlaceReadDto> winteringPlaces = winteringPlaceService.findAll();
 
         model.addAttribute("pet", petCreateEditDto);
         model.addAttribute("zookeepers", zookeepers);
         model.addAttribute("veterinarians", veterinarians);
-        model.addAttribute("feedingTypes", feedingTypes);
+        model.addAttribute("feedingRations", feedingRations);
         model.addAttribute("habitatZones", habitatZones);
+        model.addAttribute("winteringPlaces", winteringPlaces);
 
         return "pet/create";
     }
@@ -96,6 +104,7 @@ public class PetController {
             pet = reptileService.findById(id);
         }
         model.addAttribute("pet", pet);
+        System.out.println(pet.getPetType());
         return "pet/pet";
     }
 
@@ -133,7 +142,7 @@ public class PetController {
     public String showUpdateForm(@PathVariable Integer id, @RequestParam String petType, Model model,
                                  @RequestParam(value = "zookeeperPage", defaultValue = "0") int zookeeperPage,
                                  @RequestParam(value = "veterinarianPage", defaultValue = "0") int veterinarianPage,
-                                 @RequestParam(value = "feedingTypePage", defaultValue = "0") int feedingTypePage,
+                                 @RequestParam(value = "feedingRationPage", defaultValue = "0") int feedingRationPage,
                                  @RequestParam(value = "habitatZonePage", defaultValue = "0") int habitatZonePage,
                                  Pageable pageable) {
         PetReadDto pet = null;
@@ -150,18 +159,44 @@ public class PetController {
         Page<EmployeeReadDto> zookeepers = employeeService.findAllByEmployeeType(
                 PageRequest.of(zookeeperPage, pageable.getPageSize()),
                 EmployeeType.ZOOKEEPER);
-        Page<FeedTypeReadDto> feedingTypes = feedTypeService.findAll(PageRequest.of(feedingTypePage, pageable.getPageSize()));
+        Page<FeedingRationReadDto> feedingRations = feedingRationService.findAll(PageRequest.of(feedingRationPage, pageable.getPageSize()));
         Page<HabitatZoneReadDto> habitatZones = habitatZoneService.findAll(PageRequest.of(habitatZonePage, pageable.getPageSize()));
+
+        List<WinteringPlaceReadDto> winteringPlaces = winteringPlaceService.findAll();
 
         model.addAttribute("pet", pet);
         model.addAttribute("veterinarians", veterinarians);
         model.addAttribute("zookeepers", zookeepers);
-        model.addAttribute("feedingTypes", feedingTypes);
+        model.addAttribute("feedingRations", feedingRations);
         model.addAttribute("habitatZones", habitatZones);
+        model.addAttribute("winteringPlaces", winteringPlaces);
 
         return "pet/update";
     }
 
+    // Метод для отображения формы
+    @GetMapping("/search")
+    public String showSearchForm(Model model) {
+        model.addAttribute("petSearchDto", new PetSearchDto()); // DTO для формы
+        return "pet/searchform";
+    }
+
+    @PostMapping("/search")
+    public String findByTypeAndName(@ModelAttribute PetSearchDto petSearchDto, Model model) {
+        String name = petSearchDto.getName();
+        String type = petSearchDto.getType();
+        List<PetReadDto> pets;
+        if (Objects.equals(type.toLowerCase(), PET)) {
+            pets = petService.findByName(name);
+        } else if (Objects.equals(type.toLowerCase(), BIRD)) {
+            pets = birdService.findByName(name);
+        } else {
+            pets = reptileService.findByName(name);
+        }
+        model.addAttribute("pets", pets);
+        model.addAttribute("petType", type);
+        return "pet/search";
+    }
 
 
 }

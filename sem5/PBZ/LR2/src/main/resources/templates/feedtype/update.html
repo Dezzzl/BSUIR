@@ -3,19 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <title>Update Feed Type</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
 </head>
 <body>
-<h1>Update Feed Type</h1>
+<div class="container">
+    <h1>Update Feed Type</h1>
 
-<form th:action="@{/feed-type/update/{id}(id=${feedType.id})}" method="post" th:object="${feedType}">
-    <label for="name">Feed Type Name:</label>
-    <input type="text" id="name" name="name" th:value="*{name}" required>
-    <br><br>
+    <form th:action="@{/feed-type/update/{id}(id=${feedType.id})}" method="post" th:object="${feedType}">
+        <label for="name">Feed Type Name:</label>
+        <input type="text" id="name" name="name" th:value="*{name}" required>
+        <br><br>
 
+        <button type="submit">Update Feed Type</button>
+    </form>
 
-    <button type="submit">Update Feed Type</button>
-</form>
-
-<a href="/feed-type">Back to Feed Type List</a>
+    <div class="navigation">
+        <a href="/feed-type">Back to Feed Type List</a>
+        <form th:action="@{/}" method="get">
+            <button type="submit">Main Page</button>
+        </form>
+    </div>
+</div>
 </body>
 </html>
