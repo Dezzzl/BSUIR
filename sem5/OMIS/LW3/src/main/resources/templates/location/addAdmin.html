@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OneEvent - Location Administrators</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #1f1f1f;
+            padding: 10px 20px;
+        }
+
+        header a {
+            color: #ffffff;
+            text-decoration: none;
+            margin-right: 20px;
+        }
+
+        header a:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 50px auto;
+            max-width: 600px;
+            background-color: #2a2a2a;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .container h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            display: flex;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .input-group input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #444;
+            border-radius: 4px 0 0 4px;
+            background-color: #1f1f1f;
+            color: #fff;
+        }
+
+        .input-group button {
+            padding: 10px 20px;
+            border: none;
+            background-color: #0066cc;
+            color: #fff;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+        }
+
+        .input-group button:hover {
+            background-color: #0055aa;
+        }
+
+        .admin-list {
+            width: 100%;
+        }
+
+        .admin-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #1f1f1f;
+            border-radius: 4px;
+        }
+
+        .admin-item button {
+            border: none;
+            padding: 8px 16px;
+            color: #fff;
+            background-color: #cc0000;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .admin-item button:hover {
+            background-color: #aa0000;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #1f1f1f;
+        }
+
+        footer p {
+            margin: 0;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div>OneEvent</div>
+    <nav>
+        <a href="getLocations.html" class="active">Locations</a>
+        <a href="../event/getEvents.html">Events</a>
+        <a href="../auth/getProfile.html">My profile</a>
+    </nav>
+</header>
+<div class="container">
+    <h1>Pretty sample location administrators</h1>
+    <div class="input-group">
+        <input type="email" placeholder="Enter new admin email..." />
+        <button onclick="window.location.href='getLocation.html'">Add</button>
+    </div>
+    <div class="admin-list">
+        <div class="admin-item">
+            <span>First admin email</span>
+            <button onclick="window.location.href='getLocation.html'">Remove</button>
+        </div>
+        <div class="admin-item">
+            <span>Second admin email</span>
+            <button onclick="window.location.href='getLocation.html'">Remove</button>
+        </div>
+    </div>
+</div>
+<footer>
+    <p>All rights reserved (c) robilkot</p>
+</footer>
+</body>
+</html>

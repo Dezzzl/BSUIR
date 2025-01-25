@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pretty Sample Location - OneEvent</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #1c1c1c;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 20px;
+        }
+
+        nav {
+            display: flex;
+            gap: 20px;
+        }
+
+        nav a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        nav a.active {
+            font-weight: bold;
+        }
+
+        .container {
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .location-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .location-header h2 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .location-header button {
+            background-color: #3b82f6;
+            color: #ffffff;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .location-header button:hover {
+            background-color: #2563eb;
+        }
+
+        .images {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .images img {
+            width: 100%;
+            max-width: 150px;
+            border-radius: 5px;
+        }
+
+        .info {
+            margin: 10px 0;
+        }
+
+        .info p {
+            margin: 0;
+            color: #aaaaaa;
+        }
+
+        .info button {
+            background-color: #3b82f6;
+            color: #ffffff;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .info button:hover {
+            background-color: #2563eb;
+        }
+
+        .review-section {
+            margin-top: 20px;
+        }
+
+        .review-form input, .review-form textarea {
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 10px;
+            font-size: 14px;
+            background-color: #1c1c1c;
+            border: 1px solid #333;
+            color: #fff;
+            border-radius: 5px;
+        }
+
+        .review-form .rating {
+            display: flex;
+            gap: 5px;
+        }
+
+        .review-form .rating span {
+            cursor: pointer;
+            font-size: 20px;
+            color: #888888;
+        }
+
+        .review-form .rating span.selected {
+            color: #ffd700;
+        }
+
+        .review-form button {
+            background-color: #3b82f6;
+            color: #ffffff;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .review-form button:hover {
+            background-color: #2563eb;
+        }
+
+        .review-list {
+            margin-top: 20px;
+        }
+
+        .review {
+            border-top: 1px solid #333;
+            padding: 10px 0;
+        }
+
+        .review h4 {
+            margin: 0;
+            font-size: 16px;
+        }
+
+        .review .actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 5px;
+        }
+
+        .review .actions span {
+            cursor: pointer;
+            color: #3b82f6;
+            font-size: 14px;
+        }
+
+        .review .actions span:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #1c1c1c;
+            color: #888888;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>OneEvent</h1>
+    <nav>
+        <a href="getLocations.html" class="active">Locations</a>
+        <a href="../event/getEvents.html">Events</a>
+        <a href="../auth/getProfile.html">My profile</a>
+    </nav>
+</header>
+
+<div class="container">
+    <div class="location-header">
+        <h2>Pretty sample location</h2>
+        <div>
+            <button onclick="window.location.href='addAdmin.html'">Edit administrators</button>
+            <button onclick="window.location.href='editLocation.html'">Edit</button>
+        </div>
+    </div>
+
+    <div class="images">
+        <img src="img_3.png" alt="Location">
+        <img src="img_4.png" alt="Location">
+    </div>
+
+    <div class="info">
+        <p>Nearest event: Sample event from pretty sample location, 30.10.24</p>
+        <button onclick="window.location.href='../event/getEvents.html'">View location events</button>
+    </div>
+
+    <div class="review-section">
+        <h3>Location reviews</h3>
+        <form class="review-form">
+            <input type="text" placeholder="Enter review title...">
+            <textarea placeholder="Enter review text..."></textarea>
+            <div class="rating">
+                <span>★</span>
+                <span>★</span>
+                <span>★</span>
+                <span>★</span>
+                <span>★</span>
+            </div>
+            <button  onclick="window.location.href='getLocation.html'" type="submit">Submit review</button>
+        </form>
+        <div class="review-list">
+            <div class="review">
+                <h4>Review title <span>- Review Author Name</span></h4>
+                <p>Lorem ipsum dolor sit amet, I don't remember next words from this fishy text.</p>
+                <div class="actions">
+                    <span><a href="getLocation.html">Edit</a></span>
+                    <span><a href="getLocation.html">Delete</a></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer>
+    All rights reserved (c) roblikot
+</footer>
+</body>
+</html>

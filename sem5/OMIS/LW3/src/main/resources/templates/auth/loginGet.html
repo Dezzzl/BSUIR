@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OneEvent - Login</title>
+    <style>
+        /* Общие стили */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #121212;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Верхняя часть страницы */
+        .header {
+            width: 100%;
+            padding: 20px 0;
+            text-align: center;
+            background-color: #1e1e1e;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            color: #fff;
+        }
+
+        .container {
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+            margin-top: 100px; /* Отступ для фиксации header */
+        }
+
+        p {
+            margin-bottom: 20px;
+        }
+
+        .login-box {
+            background-color: #1e1e1e;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .login-box input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: none;
+            border-radius: 5px;
+            background-color: #333;
+            color: #fff;
+            font-size: 14px;
+        }
+
+        .login-box input:focus {
+            outline: none;
+            box-shadow: 0 0 4px #007bff;
+        }
+
+        .login-box button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .login-box button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Серый стиль кнопки */
+        .login-box .register-button {
+            display: block;
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .login-box .register-button:hover {
+            background-color: #444;
+        }
+
+        footer {
+            width: 100%;
+            text-align: center;
+            font-size: 12px;
+            color: #aaa;
+            position: absolute;
+            bottom: 0;
+        }
+
+        /* Серый разделитель */
+        footer::before {
+            content: "";
+            display: block;
+            width: 100%;
+            height: 1px;
+            background-color: #333;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="header">
+    <h1>OneEvent</h1>
+</div>
+<div class="container">
+    <p>Login to explore events.</p>
+    <div class="login-box">
+        <input type="email" placeholder="Enter email" required>
+        <input type="password" placeholder="Enter password" required>
+        <button onclick="window.location.href='../location/getLocations.html'">Login</button>
+        <a href="registerGet.html" class="register-button">Don't have an account?</a>
+    </div>
+</div>
+<footer>
+    All rights reserved (c) robilkot
+</footer>
+</body>
+</html>

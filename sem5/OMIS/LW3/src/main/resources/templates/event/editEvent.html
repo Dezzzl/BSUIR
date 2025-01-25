@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OneEvent</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #111;
+            color: #fff;
+        }
+        .navbar {
+            display: flex;
+            justify-content: flex-end;
+            background-color: #000;
+            padding: 10px 20px;
+        }
+        .navbar a {
+            margin-left: 20px;
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 90vh;
+        }
+        .event-editor {
+            background-color: #222;
+            padding: 20px;
+            border-radius: 8px;
+            width: 400px;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .event-title {
+            font-size: 24px;
+        }
+        .actions {
+            display: flex;
+            gap: 10px;
+        }
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .btn.save {
+            background-color: #007bff;
+            color: #fff;
+        }
+        .btn.delete {
+            background-color: #dc3545;
+            color: #fff;
+        }
+        .images {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .image-container {
+            position: relative;
+            width: 100px;
+            height: 80px;
+        }
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            border-radius: 4px;
+        }
+        .image-container .close-btn {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: rgba(255, 255, 255, 0.3); /* Белый с 30% непрозрачностью */
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 12px;
+            cursor: pointer;
+        }
+        .add-image {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100px;
+            height: 80px;
+            background-color: #444;
+            color: #fff;
+            font-size: 24px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .form-input {
+            background-color: #1f1e1e;
+            border: none;
+            border-radius: 4px;
+            color: #fff;
+            padding: 10px;
+            width: calc(100% - 20px);
+            margin-bottom: 10px;
+        }
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #000;
+            color: #666;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+<div class="navbar">
+    <a href="../location/getLocations.html">Locations</a>
+    <a href="getEvents.html">Events</a>
+    <a href="../auth/getProfile.html">My profile</a>
+</div>
+<div class="content">
+    <div class="event-editor">
+        <div class="header">
+            <div class="event-title">Super cool event</div>
+            <div class="actions">
+                <button onclick="window.location.href='getEvent.html'" class="btn save">Save</button>
+                <button onclick="window.location.href='getEvents.html'" class="btn delete">Delete</button>
+            </div>
+        </div>
+        <div class="images">
+            <div class="image-container">
+                <img src="img_3.png" alt="Event Image">
+                <button class="close-btn">&times;</button>
+            </div>
+            <div class="image-container">
+                <img src="img_4.png" alt="Event Image">
+                <button class="close-btn">&times;</button>
+            </div>
+            <div class="add-image">+</div>
+        </div>
+        <input type="text" class="form-input" placeholder="Event date">
+        <input type="text" class="form-input" placeholder="Event location">
+    </div>
+</div>
+<footer>
+    All rights reserved (c) robilkot
+</footer>
+</body>
+</html>

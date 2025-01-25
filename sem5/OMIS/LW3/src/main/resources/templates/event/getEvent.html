@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OneEvent - Event Details</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #1f1f1f;
+            padding: 10px 20px;
+        }
+
+        header a {
+            color: #ffffff;
+            text-decoration: none;
+            margin-right: 20px;
+        }
+
+        header a:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            flex: 1;
+            margin: 20px auto;
+            max-width: 800px;
+        }
+
+        .event-details {
+            background-color: #2a2a2a;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .event-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .event-header h1 {
+            font-size: 24px;
+        }
+
+        .event-header button {
+            background-color: #4444ff;
+            color: #ffffff;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .event-header button:hover {
+            background-color: #3333dd;
+        }
+
+        .event-images {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .event-images img {
+            width: 48%;
+            border-radius: 8px;
+        }
+
+        .event-info {
+            margin-bottom: 20px;
+        }
+
+        .event-info p {
+            font-size: 14px;
+            margin: 5px 0;
+        }
+
+        .event-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .event-buttons button {
+            background-color: #4444ff;
+            color: #ffffff;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 48%;
+        }
+
+        .event-buttons button:hover {
+            background-color: #3333dd;
+        }
+
+        .reviews {
+            margin-top: 20px;
+        }
+
+        .reviews h2 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .review-form input,
+        .review-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #1f1f1f;
+            border: 1px solid #444;
+            border-radius: 4px;
+            color: #ffffff;
+        }
+
+        .review-form button {
+            background-color: #4444ff;
+            color: #ffffff;
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .review-form button:hover {
+            background-color: #3333dd;
+        }
+
+        .review-item {
+            background-color: #1f1f1f;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+        }
+
+        .review-item h3 {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .review-item p {
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .review-item .review-actions {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .review-item button {
+            background-color: #4444ff;
+            color: #ffffff;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #1f1f1f;
+        }
+
+        footer p {
+            margin: 0;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div>OneEvent</div>
+    <nav>
+        <a href="../location/getLocations.html">Locations</a>
+        <a href="getEvents.html">Events</a>
+        <a href="../auth/getProfile.html">My profile</a>
+    </nav>
+</header>
+<div class="container">
+    <div class="event-details">
+        <div class="event-header">
+            <h1>Super cool event</h1>
+            <button onclick="window.location.href='editEvent.html'">Edit</button>
+        </div>
+        <div class="event-images">
+            <img src="img_3.png" alt="Event image 1">
+            <img src="img_4.png" alt="Event image 2">
+        </div>
+        <div class="event-info">
+            <p>30.10.24, 14:00 - 22:00, Sample pretty location</p>
+        </div>
+        <div class="event-buttons">
+            <button onclick="window.location.href='../location/getLocation.html'">View event location</button>
+            <button onclick="window.location.href='getEvent.html'">Go to ticket booking page</button>
+        </div>
+        <div class="reviews">
+            <h2>Event reviews</h2>
+            <div class="review-form">
+                <input type="text" placeholder="Enter review title...">
+                <textarea placeholder="Enter review text..."></textarea>
+                <button onclick="window.location.href='getEvent.html'">Submit review</button>
+            </div>
+            <div class="review-item">
+                <h3>Review title</h3>
+                <p>Review Author Name</p>
+                <p>Lorem ipsum dolor sit amet, I don't remember next words from this fishy text</p>
+                <div class="review-actions">
+                    <button onclick="window.location.href='getEvent.html'">Edit</button>
+                    <button onclick="window.location.href='getEvent.html'">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<footer>
+    <p>All rights reserved (c) robilkot</p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #111;
+            color: #fff;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            background-color: #000;
+            padding: 10px 20px;
+            align-items: center;
+        }
+
+        .navbar a {
+            margin-left: 20px;
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .profile-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .profile-header img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+
+        .profile-header h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .profile-form {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .profile-form input {
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 10px;
+            margin: 5px 0;
+            width: 80%;
+        }
+
+        .profile-form button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .reviews {
+            margin-top: 20px;
+        }
+
+        .reviews h2 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .review {
+            background-color: #222;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .review .review-content {
+            flex: 1;
+            margin-right: 10px;
+        }
+
+        .review .review-content h3 {
+            margin: 0;
+            font-size: 16px;
+        }
+
+        .review .review-content p {
+            font-size: 14px;
+            color: #aaa;
+            margin: 5px 0 0;
+        }
+
+        .review .review-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .review .btn {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 5px 10px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .review .btn.delete {
+            background-color: #dc3545;
+        }
+
+        .review .stars {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .review .stars span {
+            color: gold;
+            font-size: 16px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #000;
+            color: #666;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+<div class="navbar">
+    <div class="logo">OneEvent</div>
+    <div class="menu">
+        <a href="../location/getLocations.html">Locations</a>
+        <a href="../event/getEvents.html">Events</a>
+        <a href="getProfile.html">My profile</a>
+    </div>
+</div>
+<div class="content">
+    <div class="profile-header">
+        <img src="img.png" alt="Profile Picture">
+        <h1>My profile</h1>
+        <a href="loginGet.html" style="color: #007bff;">Logout &gt;</a>
+    </div>
+    <div class="profile-form">
+        <input type="text" placeholder="First name Middle name Last name">
+        <input type="date" placeholder="Date of birth">
+        <button onclick="window.location.href='getProfile.html'">Save changes</button>
+    </div>
+    <div class="reviews">
+        <h2>My reviews</h2>
+        <div class="review">
+            <div class="review-content">
+                <h3>Review title</h3>
+                <p>Review Author Name</p>
+                <p>Lorem ipsum dolor sit amet, I don't remember next words from this fishy text</p>
+            </div>
+            <div class="review-actions">
+                <button onclick="window.location.href='getProfile.html'" class="btn edit">Edit</button>
+                <button onclick="window.location.href='getProfile.html'" class="btn delete">Delete</button>
+                <div class="stars">
+                    <span>★</span>
+                    <span>★</span>
+                    <span>★</span>
+                    <span>★</span>
+                    <span>☆</span>
+                </div>
+            </div>
+        </div>
+        <div class="review">
+            <div class="review-content">
+                <h3>Review title</h3>
+                <p>Review Author Name</p>
+                <p>Lorem ipsum dolor sit amet, I don't remember next words from this fishy text</p>
+            </div>
+            <div class="review-actions">
+                <button class="btn edit">Edit</button>
+                <button class="btn delete">Delete</button>
+                <div class="stars">
+                    <span>★</span>
+                    <span>★</span>
+                    <span>★</span>
+                    <span>★</span>
+                    <span>☆</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<footer>
+    All rights reserved (c) robilkot
+</footer>
+</body>
+</html>

@@ -1,0 +1,9 @@
+{\rtf1\ansi\ansicpg1251\deff0
+{\fonttbl{\f0\fnil\fcharset204 Arial;}}
+{\colortbl;\red0\green0\blue0;}
+\viewkind4\uc1\pard\cf1\f0\fs24
+Пример текста на русском языке в формате RTF.\par
+Этот формат используется для хранения текста с простым форматированием.\par
+\par
+Можно добавлять \b жирный текст\b0 , \i курсив\i0  и \ul подчеркивание\ulnone .\par
+}
